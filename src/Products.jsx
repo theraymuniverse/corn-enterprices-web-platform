@@ -1,7 +1,7 @@
 import React from 'react'
 import maize from './assets/maize.jpg'
 import powder1 from './assets/corn_flour.jpg'
-import seed from './assets/white-sesame.jpg'
+import {Link} from 'react-router-dom'
 
 const Products = () => {
   return (
@@ -28,7 +28,7 @@ const Products = () => {
                   </h1>
                 <p className='items-start -ml-[20px] lg:text-[14px] md:text-[20px] md:pb-[40px] lg:pb-[40px] pb-[30px] '>Select from a variety of differnet grains.<br/>
                 The best choice is COR'N enterprises</p>
-                <a className='text-center justify-center mr-[10px] border bg-green-300 text-white border-white rounded-md lg:px-[25px] lg:py-[10px] md:px-[30px] md:py-[20px] px-[25px] py-[10px] hover:bg-green-800 hover:shadow-green-200 hover:shadow-xl mt-[30px]'>View all Products</a>
+                <Link to= '/products' className='text-center justify-center mr-[10px] border bg-green-300 text-white border-white rounded-md lg:px-[25px] lg:py-[10px] md:px-[30px] md:py-[20px] px-[25px] py-[10px] hover:bg-green-800 hover:shadow-green-200 hover:shadow-xl mt-[30px]'>View all Products</Link>
             </li>
         </ul>
         <div className='mt-[760px] pb-[100px] sm:hidden'>
@@ -37,7 +37,7 @@ const Products = () => {
                 </h1>
                 <p className='items-start -ml-[20px] md:text-[14px] pb-[30px] '>Select from a variety of differnet grains.<br/>
                 The best choice is COR'N enterprises</p>
-                <a className='text-center justify-center mr-[10px] border bg-green-300 text-white border-white rounded-md px-[25px] py-[10px] hover:bg-green-800 hover:shadow-green-200 hover:shadow-xl mt-[30px]'>View all Products</a>
+                <Link to ='/products' className='text-center justify-center mr-[10px] border bg-green-300 text-white border-white rounded-md px-[25px] py-[10px] hover:bg-green-800 hover:shadow-green-200 hover:shadow-xl mt-[30px]'>View all Products</Link>
 
         </div>
         <ul className='flex md:flex-row flex-col mt-[20px] h-[300px] px-[50px] max-lg:hidden justify-end' >
