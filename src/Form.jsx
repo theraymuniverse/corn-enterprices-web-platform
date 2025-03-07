@@ -84,7 +84,7 @@ const Form = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-[150px] bg-green-500 text-black py-2 rounded-lg hover:bg-[] transition"
+            className="w-[150px] transition duration-700 hover:bg-green-900 bg-green-500 text-black py-2 rounded-lg hover:bg-[] transition"
           >
             Submit
           </button>

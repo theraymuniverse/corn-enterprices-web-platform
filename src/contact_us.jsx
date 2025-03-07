@@ -16,11 +16,11 @@ const contact_us = () => {
           You can also reach us through our email</p>
            <div className='flex flex-row md:-ml-[100px] ml-[50px] md:mt-[20px] mt-[20px] md:mb-[20px] mb-[20px] md:gap-5'>
            <Mail className='lg:ml-[180px] md:ml-[150px]  flex flex-row' size={40} />
-           <p className='md:mt-[5px] md:text-[20px]'> kjrtvouiiuqbieru.gmail.com</p>
+           <p className='md:mt-[5px] md:text-[20px]'> cornenterprises2709@gmail.com</p>
            </div>
            <div className='flex flex-row md:-ml-[100px]  ml-[50px] md:pt-[20px] md:pb-[20px] pb-[20px] md:gap-5'>
            <Phone className='lg:ml-[180px] md:ml-[150px]  flex flex-row' size={40} />
-           <p className='md:mt-[5px] md:text-[20px]'> kjrtvouiiuqbieru.gmail.com</p>
+           <p className='md:mt-[5px] md:text-[20px]'>+234 8023447314 </p>
            </div>
           <a
             href="#"

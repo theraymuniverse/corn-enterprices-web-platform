@@ -1,22 +1,30 @@
 import React from 'react'
 import Nav from './Nav'
 import Footer from './footer'
+import {products} from './data/data'
+import Cart from './component/cart'
 
 const Page = () => {
   return (
     <div>
         <Nav/>
-        <section className='bg-[#F3FFF1] h-[1400px] px-[70px] py-[60px] conatiner'>
-        <div className='text-center' >
-          <h1 className='text-[35px]'>
-            Get a wide variety for grain products 
+        <section className='bg-white lg:px-[70px] md:px-[40px] py-[50px] conatiner'>
+        <div className='text-center text-green-500' >
+          <h1 className='text-[30px]  md:text-[40px]'>
+            Our Variety of Products
           </h1>
-          <p className='text-[25px] pt-[15px]'>Select the best products the market has to offer.</p>
+          <p className='text-[10px] pt-[10px] '>Select the best products the market has to offer.</p>
+        </div>
+        <div className='grid place-items-center py-20 text-black '>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-start gap-10'>
+                {products?.map((item) => {
+                    return (
+                   <Cart key={item.id} item={item}/>
+                )
+                })}
+            </div>
         </div>
         </section>
-        <li>
-
-        </li>
         <footer>
             <Footer/>
         </footer>

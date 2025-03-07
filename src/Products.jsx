@@ -9,7 +9,7 @@ const Products = () => {
         <h className='text-[35px] font-bold '>
             What we Offer.
         </h>
-        <ul className='justify-start flex lg:flex-row flex-col mt-[20px] h-[300px]' >
+        <ul className='justify-start flex lg:flex-row flex-col justify-self-center mt-[20px] h-[300px]' >
             <li className='p-1 pt-[50px] lg:pl-[20px]  m-5'>
                 <img className='shadow-md hover:shadow-2xl md:justify-self-center rounded-lg w-[350px] rounded-xl h-[200px] md:h-[300px] md:w-[650px] lg:w-[350px] lg:h-[200px]' src={maize}/>
                 <p className='pt-[30px] md:text-[40px] lg:text-[20px]'>Yellow Maize</p>
