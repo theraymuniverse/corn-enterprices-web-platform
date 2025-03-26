@@ -11,15 +11,15 @@ const Products = () => {
         </h>
         <ul className='justify-start flex lg:flex-row flex-col justify-self-center mt-[20px] h-[300px]' >
             <li className='p-1 pt-[50px] lg:pl-[20px]  m-5'>
-                <img className='shadow-md hover:shadow-2xl md:justify-self-center rounded-lg w-[350px] rounded-xl h-[200px] md:h-[300px] md:w-[650px] lg:w-[350px] lg:h-[200px]' src={maize}/>
+                <img loading='lazy' className='shadow-md hover:shadow-2xl md:justify-self-center rounded-lg w-[350px] rounded-xl h-[200px] md:h-[300px] md:w-[650px] lg:w-[350px] lg:h-[200px]' src={maize}/>
                 <p className='pt-[30px] md:text-[40px] lg:text-[20px]'>Yellow Maize</p>
             </li>
             <li className='p-1 pt-[50px] m-5'>
-                <img className=' shadow-2xl  rounded-lg w-[350px] md:justify-self-center rounded-xl h-[200px] md:h-[300px] md:w-[650px] lg:w-[350px] lg:h-[200px]' src={maize}/>
+                <img loading='lazy' className=' shadow-2xl  rounded-lg w-[350px] md:justify-self-center rounded-xl h-[200px] md:h-[300px] md:w-[650px] lg:w-[350px] lg:h-[200px]' src={maize}/>
                 <p className='pt-[30px] md:text-[40px] lg:text-[20px]'>White Millet</p>
             </li>
             <li className='p-1 pt-[50px] m-5'>
-                <img className='shadow-2xl rounded-lg w-[350px] md:justify-self-center rounded-xl h-[200px] md:h-[300px] md:w-[650px] lg:w-[350px] lg:h-[200px]' src={powder1}/>
+                <img loading='lazy' className='shadow-2xl rounded-lg w-[350px] md:justify-self-center rounded-xl h-[200px] md:h-[300px] md:w-[650px] lg:w-[350px] lg:h-[200px]' src={powder1}/>
                 <p className='pt-[30px] md:text-[40px] lg:text-[20px]'>Corn Powder</p>
             </li>
             <li className='pt-[60px] hidden md:block lg:px-[30px] '>
@@ -42,15 +42,15 @@ const Products = () => {
         </div>
         <ul className='flex md:flex-row flex-col mt-[20px] h-[300px] px-[50px] max-lg:hidden justify-end' >
             <li className='p-2 pt-[50px]   m-5'>
-                <img className='shadow-md hover:shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
+                <img loading='lazy' className='shadow-md hover:shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
                 <p className='pt-[20px] lg:text-[20px]'>Yellow Maize</p>
             </li>
             <li className='p-2 pt-[50px] m-5'>
-                <img className=' shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
+                <img  loading='lazy' className=' shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
                 <p className='pt-[20px] lg:text-[20px]'>White Millet</p>
             </li>
             <li className='p-2 pt-[50px] m-5'>
-                <img className='shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={powder1}/>
+                <img loading='lazy' className='shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={powder1}/>
                 <p className='pt-[20px] lg:text-[20px]'>Corn Powder</p>
             </li>
         </ul>

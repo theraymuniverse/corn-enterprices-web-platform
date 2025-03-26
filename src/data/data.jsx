@@ -1,7 +1,11 @@
+import maize from '../assets/maize.jpg'
+import maizepowder from '../assets/corn_flour.jpg'
+
+
 export const products = [{
     id: 1,
     name: "Maize Grains",
-    imageUrl: "src/assets/maize.jpg",
+    imageUrl: maize,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -11,7 +15,7 @@ export const products = [{
 },{
     id: 2,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maizepowder,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -21,7 +25,7 @@ export const products = [{
 },{
     id: 3,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maize,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -31,7 +35,7 @@ export const products = [{
 },{
     id: 4,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maizepowder,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -41,7 +45,7 @@ export const products = [{
 },{
     id: 5,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maize,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -51,7 +55,7 @@ export const products = [{
 },{
     id: 6,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maize,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -61,7 +65,7 @@ export const products = [{
 },{
     id: 7,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maize,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -71,7 +75,7 @@ export const products = [{
 },{
     id: 8,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maizepowder,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,
@@ -82,7 +86,7 @@ export const products = [{
 {
     id: 9,
     name: "Maize Grains",
-    imageUrl: "/src/assets/corn_flour.jpg",
+    imageUrl: maize ,
     description: 
     "This are tijtbgoiut 8wrgyfiwuerhfbouwerbvouwh rfowury iuwiubv wbowiurbw beuybgowr hwbugwiub hbgwubgnwtj tijgpnwuintpgw",
     price: 500,

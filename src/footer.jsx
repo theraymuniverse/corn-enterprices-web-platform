@@ -29,7 +29,7 @@ const footer = () => {
       </div>
       <div className='justify-between flex flex-col md:flex-row'>
         <img src={Logo} className='w-[156px] items-center self-center md:-ml-[30px]'/>
-        <p className='text-center md:mt-[60px] md:text-[15px] lg:mt-[90px]'>
+        <p className='text-center md:mt-[60px] md:text-[15px] lg:mt-[90px] lg:ml-[120px]'>
             Copyright @ COR'N Enterprises
            </p>
         <span className="flex gap-5 md:-mr-[40px]  pt-5 justify-center items-center">
@@ -42,11 +42,12 @@ const footer = () => {
               <a href="#">
                 <img src={frame3} alt="Twitter" />
               </a>
-              <a href="cornenterprises2709@gmail.com">
+              <a href="#">
                 <img src={frame5}  className= 'w-13' alt="Gmail" />
               </a>
            </span>
            </div>
+           <p className='text-center text-[10px] mt-[10px] md:mt-[1px]'>Made by Raym Universe</p>
     </div>
   )
 }

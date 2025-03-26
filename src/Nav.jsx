@@ -1,6 +1,6 @@
 import {Search, UserRoundSearch} from 'lucide-react'
 import slogon from './assets/Logo.jpg'
-import { Menu, X,  } from "lucide-react";
+import { Menu, X, LogIn , ShoppingCart} from "lucide-react";
 import React, { useState } from "react"; 
 import {Link } from 'react-router-dom'
 
@@ -11,16 +11,16 @@ const Nav =() => {
       <div className="p-1 sticky bg-transparent justify-between flex shadow-md md:px-[130px]">
       <img src={slogon} className='w-[80px] max-md:hidden md:-ml-[80px] h-[80px]' />
       <ul className="flex gap-10 text-center  max-sm:hidden text-[20px] pt-[30px]">
-        <Link to ='/' ><li className='hover:text-gray-400 text-black border-b cursor-pointer'>
+        <Link to ='/' ><li className='hover:text-gray-400 text-black hover:border-b cursor-pointer'>
            Home
         </li></Link>
-        <Link to = '/products'><li className='hover:text-gray-400 border-b text-black cursor-pointer'>
+        <Link to = '/products'><li className='hover:text-gray-400 hover:border-b text-black cursor-pointer'>
           Products
         </li></Link>
-        <li className='hover:text-gray-400 text-black border-b h-[30px] cursor-pointer'>
+        <li className='hover:text-gray-400 text-black hover:border-b h-[30px] cursor-pointer'>
           About us
         </li>
-       <li className='hover:text-gray-400 text-black border-b h-[30px] cursor-pointer'>
+       <li className='hover:text-gray-400 text-black hover:border-b h-[30px] cursor-pointer'>
           Contact us 
         </li>
       </ul>
@@ -50,8 +50,9 @@ const Nav =() => {
         </div>
       )}
       <div className='flex flex-row gap-8 pt-[30px] md:-mr-[40px] max-sm:hidden'>
+      <LogIn className=''/>
       <Search className=' w-[25px] h-[25px] rounded-xl md:block hidden'/>
-      <UserRoundSearch className=''/>
+      <Link to='/CartPage'><ShoppingCart className='hover:shadow-xl cursor pointer hover:bg-gray-300 hover:rounded-md '/></Link>
       </div>
     </div>
     )

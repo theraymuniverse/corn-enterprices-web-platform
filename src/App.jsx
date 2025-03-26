@@ -5,6 +5,8 @@ import Product from './Products'
 import Partners from './Partners'
 import Footer from './footer'
 import Contact from './contact_us'
+import Investors from './Investors'
+
 
 const App = () => {
   return (

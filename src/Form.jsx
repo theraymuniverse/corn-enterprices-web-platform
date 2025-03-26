@@ -40,7 +40,7 @@ const Form = () => {
 
   return (
     <div className="lg:flex max-sm:w-[300px] ">
-      <div className="p-10 border-green-300 md:pr-[120px] md:pl-[120px] text-[black]  rounded-lg  border  ">
+      <div className="p-10 border-green-300 md:pr-[120px] md:pl-[130px] text-[black]  rounded-lg  border  ">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-[#0d0d0d] text-[24px]">Name</label>
@@ -49,7 +49,7 @@ const Form = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="p-2 h-[40px]  border-green-500 w-full md:w-[600px] border rounded-lg"
+              className="p-2  h-[40px]  border-green-500 w-full md:w-[400px] lg:w-[500px]  border rounded-lg"
               placeholder="Enter your name"
             />
             {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
