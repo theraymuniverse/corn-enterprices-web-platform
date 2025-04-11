@@ -31,9 +31,9 @@ const cart = ({item}) => {
     return () => listener?.subscription.unsubscribe()
   }, [])
 
-  // 🛒 Handle Add to Cart / DB Insert
+ 
   const handleClick = async () => {
-    if (user) {
+    if (!user) {
       alert('Please log in to make a purchase.')
       navigate('/login') 
       return
@@ -41,20 +41,6 @@ const cart = ({item}) => {
       addToCart(id)
     }
 
-   {/* const { error } = await supabase.from('orders').insert([
-      {
-        user_id: user.id,
-        product_id: id,
-        product_name: name,
-        price: price
-      }
-    ])
-
-    if (error) {
-      console.error('Error inserting order:', error)
-    } else {
-      addToCart(id)
-    }*/}
    }
 
   return (
