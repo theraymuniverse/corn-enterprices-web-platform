@@ -1,41 +1,54 @@
 import { useState } from "react";
+import { supabase } from "./Authenticcation/supabaseClient";
+
 
 const Form = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
     message: "",
   });
-
+  const [loading, setLoading] = useState(false);
+  const [message,setMessage] = useState(null);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData(prev => ({
+      ...prev,[e.target.name]: e.target.value
+    }));
   };
 
   const validate = () => {
-    let newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.email) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-    }
-    if (!formData.message) newErrors.message = "Message is required";
-    return newErrors;
+    const errors = {};
+    if (!formData.name.trim()) errors.name = 'Name is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    if (!formData.message.trim()) errors.message = 'Message cannot be empty';
+    return errors;
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-    } else {
-      alert("Form submitted successfully!");
-      setFormData({ name: "", email: "",subject: "", message: "" });
-      setErrors({});
+    setLoading(true);
+    setMessage(null);
+    const validateErrors = validate();
+    const {name, email, message} = formData;
+    const {data, error } = await supabase.from('contacts').insert([{name, email, message}])
+    if(Object.keys(validateErrors).length > 0){
+      setErrors(validateErrors);
+      return;
     }
+    setErrors({})
+
+    if (error) {
+      setMessage(`Error: ${error.message}`);
+      console.log(error)
+    } else {
+      alert("Form submitted successfully")
+      setMessage("Form submitted successfully!");
+      setFormData({ name: "", email: "",message: "" });
+    }
+    setLoading(false)
   };
 
   return (
@@ -84,9 +97,10 @@ const Form = () => {
           {/* Submit Button */}
           <button
             type="submit"
+            disabled={loading}
             className="w-[150px] transition duration-700 hover:bg-green-900 bg-green-500 text-black py-2 rounded-lg hover:bg-[] transition"
           >
-            Submit
+           {loading ?  "Submitting.." : 'Submit'}
           </button>
         </form>
       </div>

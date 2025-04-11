@@ -3,11 +3,10 @@ import Nav from './Nav'
 import Footer from './footer'
 import {products} from './data/data'
 import Cart from './component/cart'
-import ShopContextProvider from './cartContext'
+
 
 const Page = () => {
   return (
-    <ShopContextProvider>
     <div>
         <Nav/>
         
@@ -16,7 +15,7 @@ const Page = () => {
           <h1 className='text-[30px] lg:text-[50px] font-bold  md:text-[40px]'>
             Our Variety of Products
           </h1>
-          <p className='text-[10px] lg:text-[15px] pt-[10px] '>Select the best products the market has to offer.</p>
+          <p className='text-[10px] md:text-[12px] lg:text-[15px] pt-[10px] '>Select the best products the market has to offer.</p>
         </div>
        
         <div className='grid place-items-center py-15 text-black '>
@@ -34,7 +33,6 @@ const Page = () => {
             <Footer/>
         </footer>
     </div>
-    </ShopContextProvider>
   )
 }
 

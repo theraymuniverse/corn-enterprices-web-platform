@@ -1,27 +1,77 @@
-import React, {useContext } from 'react'
+import React, {useEffect, useContext, useState} from 'react'
 import { ShopContext } from '../cartContext'
 import { ShoppingCart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../Authenticcation/supabaseClient'
+
 
 const cart = ({item}) => {
     const {id, name, imageUrl , price } = item
     const { addToCart, cartItems } = useContext(ShopContext)
     const cartItemAmount = cartItems[id]
+      const navigate = useNavigate()
+     
+      const [user, setUser] = useState(null)
+
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser()
+      setUser(user)
+    }
+
+    getUser()
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+    })
+
+    return () => listener?.subscription.unsubscribe()
+  }, [])
+
+  // 🛒 Handle Add to Cart / DB Insert
+  const handleClick = async () => {
+    if (user) {
+      alert('Please log in to make a purchase.')
+      navigate('/login') 
+      return
+    }else{
+      addToCart(id)
+    }
+
+   {/* const { error } = await supabase.from('orders').insert([
+      {
+        user_id: user.id,
+        product_id: id,
+        product_name: name,
+        price: price
+      }
+    ])
+
+    if (error) {
+      console.error('Error inserting order:', error)
+    } else {
+      addToCart(id)
+    }*/}
+   }
 
   return (
-    <div className='group flex hover:shadow-2xl hover:shadow-green-300 flex-col w-[300px] h-[360px] md:h-[350px] md:w-[330px] lg:w-[400px] lg:h-[400px] gap-y-2 border  border-gray-100 duration-800 ease-out rounded-xl p-4 md:p-13 '>
+    <div className='group flex hover:shadow-2xl hover:shadow-green-300 flex-col items-center  w-[300px] h-[360px] md:h-[350px] md:w-[330px] lg:w-[400px] lg:h-[400px] gap-y-2 border  border-gray-200 duration-800 ease-out rounded-xl p-4 md:p-13 '>
         <img src={imageUrl} 
         alt="Products Image" 
         width={1500} 
         height={500}
         className='group-hover:-translate-y-2 md:mt-[20px] rounded-xl
         transition-all duratioin-500 h-[200px]  w-[300px] md:w-[700px]' loading='lazy'/>
-        <div className=' justify-center text-center '>
+        <div className='text-center '>
            <h1 className='text-black '>{name}</h1>
            <span className='text-red-300 text-lg'>Price: ₦{price}</span>
-           <button onClick={() => addToCart(id)} className='flex border text-[18px] justify-self-center bg-green-500 text-white border-green-300 text-green-300 rounded-lg mt-[10px] hover:bg-green-900 hover:text-white duration-500 transition p-[5px] px-[35px]'>
+           <button onClick={handleClick}  disabled={!user} className='flex border text-[18px]  bg-green-500 text-white border-green-300 text-green-300 rounded-lg mt-[10px] hover:bg-green-900 hover:text-white duration-500 transition p-[5px] px-[35px]'>
              <ShoppingCart className=' w-10 -ml-[30px]' />
-             Buy Now {cartItemAmount > 0 && <> ({cartItemAmount}) </>}
-           </button>
+             {user ? <>Buy Now {cartItemAmount > 0 && <> ({cartItemAmount}) </> }</> : 'Log in to Enable'}
+            </button>
         </div>      
     </div>
   )

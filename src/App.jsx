@@ -5,8 +5,7 @@ import Product from './Products'
 import Partners from './Partners'
 import Footer from './footer'
 import Contact from './contact_us'
-import Investors from './Investors'
-
+import Ceo from './Ceo'
 
 const App = () => {
   return (
@@ -15,6 +14,7 @@ const App = () => {
       <Home/>
       <Chose/>
       <Product/>
+      <Ceo/>
       <Partners/>
       <Contact/>
       <Footer/>

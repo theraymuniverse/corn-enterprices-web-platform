@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from "react";
-import Logo from './assets/logo.jpg'
+import Logo from './assets/Logo2.png'
 import frame1 from './assets/Frame 11.png'
 import frame2 from './assets/Frame 12.png'
 import frame3 from './assets/Frame 14.png'
@@ -8,14 +8,14 @@ import frame5 from './assets/frame 5.png'
 
 const footer = () => {
   return (
-    <div className='bg-white px-[30px]  md:px-40 rounded-lg shadow-2xl py-13'>
+    <div className='bg-white px-[30px]  md:px-24 rounded-lg shadow-2xl py-13'>
         <div className='flex border-b h-[300px] lg:h-[220px] mb-[10px] flex-col lg:flex-row gap-6'>
           <div className='items-center border-[1px] border-[white]  '>
-            <h4 className='pt-[30px] text-[20px] md:text-[30px] font-bold '>SUBSCRIBE TO GET THE LATEST NEWS ABOUT US</h4>
-            <p className='pt-2'>We recommend you to subscribe to our newspaper.</p>
-            <p className='pt-2'>Enter your email to get daily updates about us</p>
+            <h4 className='pt-[30px] text-[20px] md:text-[25px] font-bold '>SUBSCRIBE TO GET THE LATEST NEWS ABOUT US</h4>
+            <p className='pt-2 md:text-[15px]'>We recommend you to subscribe to our newspaper.</p>
+            <p className='pt-2 md:text-[15px]'>Enter your email to get daily updates about us</p>
          </div>
-         <form name="submit-to-database" className='w-full max-w-[500px] border border-green-500 rounded-lg m-auto p-[5px]  flex items-center gap-8 bg-white '>
+         <form name="submit-to-database" className='w-full max-w-[500px] border border-green-500 rounded-lg m-auto p-[5px]  flex items-center gap-5 bg-white '>
             <input
               type="email"
               name="email"
@@ -28,26 +28,26 @@ const footer = () => {
           </form>
       </div>
       <div className='justify-between flex flex-col md:flex-row'>
-        <img src={Logo} className='w-[156px] items-center self-center md:-ml-[30px]'/>
-        <p className='text-center md:mt-[60px] md:text-[15px] lg:mt-[90px] lg:ml-[120px]'>
+        <img src={Logo} loading='lazy' className='md:w-[60px] lg:w-[80px] w-[80px] items-center self-center md:-ml-[30px]'/>
+        <p className='text-center md:mt-[45px] md:text-[13px] lg:mt-[60px] lg:ml-[120px]'>
             Copyright @ COR'N Enterprises
            </p>
         <span className="flex gap-5 md:-mr-[40px]  pt-5 justify-center items-center">
              <a href="#">
-               <img src={frame1} alt="Instagram" />
+               <img src={frame1} alt="Twitter" className='md:w-[35px] lg:w-[50px]'/>
              </a>
-             <a href="#">
-                <img src={frame2} alt="Raym Universe" />
+             <a href="https://www.facebook.com/profile.php?id=61574547677212">
+                <img src={frame2} alt="Facebook" className='md:w-[35px] lg:w-[50px]' />
               </a>
-              <a href="#">
-                <img src={frame3} alt="Twitter" />
+              <a href="https://www.instagram.com/corne_nterprises?igsh=MWc3YWZyd3c3NG1kbQ==">
+                <img src={frame3} alt="Instgram" className='md:w-[35px] lg:w-[50px]' />
               </a>
-              <a href="#">
-                <img src={frame5}  className= 'w-13' alt="Gmail" />
+              <a href="mailto:cornenterprises2709@gmail.com">
+                <img src={frame5}  className= 'lg:w-12 w-12 md:w-[30px]' alt="Gmail" />
               </a>
            </span>
            </div>
-           <p className='text-center text-[10px] mt-[10px] md:mt-[1px]'>Made by Raym Universe</p>
+           <p className='text-center text-[10px] mt-[10px] md:mt-[10px]'>Made with  Raym Universe</p>
     </div>
   )
 }

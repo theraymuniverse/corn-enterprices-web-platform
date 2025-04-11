@@ -2,21 +2,25 @@ import React from 'react'
 import fourth from './assets/pp.jpg'
 import partner from './assets/partner.png'
 import Marquee from "react-fast-marquee";
+import {Link} from 'react-router-dom'
 
 const Partners = () => {
+  const handleClick = () => {
+    window.scrollTo(0, 0);
+} 
   return (
-    <div className='mt-[30px] py-[100px] justify-center items-center lg:px-[200px] md:p-[5px]'>
+    <div className=' mt-[30px] py-[100px] justify-self-center items-center lg:px-[200px] md:p-[5px]'>
         <div className='flex md:flex-row flex-col gap-30 lg:gap-50'>
         <span className='md:w-[500px] px-[30px] w-[300px]'>
-        <h1 className='text-[40px] md:text-[50px] font-bold ' >
-            Partner with <br/> COR'N Enterprises.
+        <h1 className='text-[40px] md:text-[40px] lg:text-[50px] font-bold ' >
+            Partner/Invest in <br/> COR'N Enterprises.
         </h1>
         <p className='md:text-[20px] mt-[20px]'>
                 Join forces with our company trusted by over 1000+ customers.
-                Become an accredited partner to our services today. 
+                Become an accredited partner or noble investor to our services today. 
             </p>
-            <button className='border hover:bg-green-900 duration-500 hover:text-white border-green-500 rounded-md cursor-pointer text-center justify-center space-y-[20px] text-green-500 mt-[20px] px-[30px] py-[15px]'>
-            Join Now</button>
+            <Link to='/partner'> <button onClick={handleClick} className='border hover:bg-green-900 duration-500 hover:text-white border-green-500 rounded-md cursor-pointer text-center justify-center space-y-[20px] text-green-500 mt-[20px] px-[30px] py-[15px]'>
+            Join Now</button></Link>
          </span>
         <img loading='lazy' className= 'w-[450px] h-[550px] rounded-2xl shadow-2xl ' src={fourth} />
         </div>
@@ -24,7 +28,7 @@ const Partners = () => {
         <div className='pt-[20px] text-[16px] md:text-[]'>
            
         </div>
-        <div className='text-center pt-[60px]'>
+        <div className='text-center pt-[60px] bg-white'>
         <h1 className='md:text-[50px] text-[30px] font-bold'> Our Partners</h1>
         <Marquee>
           <div className='flex flex-row  md:gap-10 gap-5 mt-[50px]  md:pb-[50px] justify-center'>
