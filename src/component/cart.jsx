@@ -32,7 +32,7 @@ const cart = ({item}) => {
   }, [])
 
  
-  const handleClick = async () => {
+  const handleClick =  () => {
     if (!user) {
       alert('Please log in to make a purchase.')
       navigate('/login') 

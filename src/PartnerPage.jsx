@@ -50,7 +50,7 @@ import {supabase} from './Authenticcation/supabaseClient'
       <div className="flex gap-[40px] flex-col pb-[50px] justify-center items-center lg:items-center">
           <h2 className="text-xl font-bold text-center text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or Investor</h2>
           <div className="justify-center  items-center">
-          <form onSubmit={handleSubmit} className="space-y-8 w-auto">
+          <form onSubmit={handleSubmit} method="POST" className="space-y-8 w-auto">
              <div className="flex md:flex-row flex-col  ">
             <label className="text-[20px] ml-[10px] lg:ml-[0px]  mt-[10px] ">Firstname:</label>
             <input
@@ -113,8 +113,8 @@ import {supabase} from './Authenticcation/supabaseClient'
             <div className="flex  flex-col">
             <label for="cars" className="lg:ml-[160px] md:ml-[100px]  ml-[10px] mt-[20px] mb:mt-[4px] lg:mt-[0px]  pb-[10px] text-[20px]">Partner or Investor:</label>
                 <select className= "border lg:ml-[150px] md:ml-[100px] ml-[10px] border-green-500 w-[300px] text-[18px]" id="cars" name="part">
-                  <option value="Partner">Partner</option>
-                  <option value="Investor">Investor</option>
+                  <option value={formData.partner}>Partner</option>
+                  <option value={formData.investor}>Investor</option>
                 </select>
                 </div>
             </div>
