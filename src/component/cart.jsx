@@ -34,9 +34,7 @@ const cart = ({item}) => {
  
   const handleClick =  () => {
     if (!user) {
-      alert('Please log in to make a purchase.')
-      navigate('/login') 
-      return
+      navigate('/login')
     }else{
       addToCart(id)
     }
@@ -56,7 +54,7 @@ const cart = ({item}) => {
            <span className='text-red-300 text-lg'>Price: ₦{price}</span>
            <button onClick={handleClick}  disabled={!user} className='flex border text-[18px]  bg-green-500 text-white border-green-300 text-green-300 rounded-lg mt-[10px] hover:bg-green-900 hover:text-white duration-500 transition p-[5px] px-[35px]'>
              <ShoppingCart className=' w-10 -ml-[30px]' />
-             {user ? <>Buy Now {cartItemAmount > 0 && <> ({cartItemAmount}) </> }</> : 'Log in to Enable'}
+             {user ? <>Buy Now {cartItemAmount > 0 && <> ({cartItemAmount}) </> }</> : 'Log in to Buy'}
             </button>
         </div>      
     </div>
