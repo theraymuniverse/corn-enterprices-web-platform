@@ -28,8 +28,12 @@ const home = () => {
         we approach food production.
         </p>
   
-        <HashLink><ChevronsDown className='max-sm:hidden 
-         animate-bounce  md:mt-[80px] border  rounded-full ' size={70} /></HashLink>    
+        <HashLink>
+        <div  className="items-center justify-center justify-items-center" >
+        <ChevronsDown className='max-sm:hidden 
+         animate-bounce  md:mt-[80px] border  rounded-full ' size={70} />
+        </div>
+        </HashLink>    
     </motion.div>    
     </div>
   )
