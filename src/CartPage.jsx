@@ -54,7 +54,7 @@ const CartPage = () => {
                 }, 0)}
              </p>
              <div className='flex justify-center flex-row gap-6 pt-[40px]'>
-             <button className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 pointer cursor'><Link to='/products'>Countine Shopping</Link></button>
+             <button className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 pointer cursor'><Link to='/products'>Continue Shopping</Link></button>
              <button onClick={handleeClick} className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 poniter cursor'>Cash Out</button>
              </div>
              </div>
