@@ -13,8 +13,7 @@ import {supabase} from './Authenticcation/supabaseClient'
     businessName: "",
     website: "",
     message: "",
-    partner: "",
-    investor: "",
+    role: "",
   });
    const [loading, setLoading] = useState(false);
     const [message,setMessage] = useState(null);
@@ -30,8 +29,8 @@ import {supabase} from './Authenticcation/supabaseClient'
     e.preventDefault();
     setLoading(true);
     setMessage(null)
-    const {firstname, email, message,phone, surname, businessName, website,partner,investor} = formData;
-     const {data, error } = await supabase.from('Partner/Investor').insert([{firstname, email, message,phone, surname, businessName, website,partner,investor}])
+    const {firstname, email, message,phone, surname, businessName, website, role} = formData;
+     const {data, error } = await supabase.from('Partner_Investor').insert([{firstname, email, message,phone, surname, businessName, website,role}])
      if (error) {
       setMessage(`Error: ${error.message}`);
       console.log(error)
@@ -111,10 +110,15 @@ import {supabase} from './Authenticcation/supabaseClient'
             />
             </div>
             <div className="flex  flex-col">
-            <label for="cars" className="lg:ml-[160px] md:ml-[100px]  ml-[10px] mt-[20px] mb:mt-[4px] lg:mt-[0px]  pb-[10px] text-[20px]">Partner or Investor:</label>
-                <select className= "border lg:ml-[150px] md:ml-[100px] ml-[10px] border-green-500 w-[300px] text-[18px]" id="cars" name="part">
-                  <option value={formData.partner}>Partner</option>
-                  <option value={formData.investor}>Investor</option>
+            <label  className="lg:ml-[160px] md:ml-[100px]  ml-[10px] mt-[20px] mb:mt-[4px] lg:mt-[0px]  pb-[10px] text-[20px]">Partner or Investor:</label>
+                <select 
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className= "border lg:ml-[150px] md:ml-[100px] ml-[10px] border-green-500 w-[300px] text-[18px]" >
+                  <option value="">Select Role</option>
+                  <option value="partner">Partner</option>
+                  <option value="investor">Investor</option>
                 </select>
                 </div>
             </div>
