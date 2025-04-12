@@ -33,9 +33,11 @@ const cart = ({item}) => {
   }, [])
 
  
-  const handleClick =  () => {
+  const handleClick =  async () => {
     if (!user) {
+      alert("Login to add to cart")
       navigate('/login')
+      return 
     }else{
       addToCart(id)
     }
@@ -53,11 +55,9 @@ const cart = ({item}) => {
         <div className='text-center '>
            <h1 className='text-black '>{name}</h1>
            <span className='text-red-300 text-lg'>Price: ₦{price}</span>
-           <button onClick={handleClick}  disabled={!user} className='flex border text-[18px]  bg-green-500 text-white border-green-300 text-green-300 rounded-lg mt-[10px] hover:bg-green-900 hover:text-white duration-500 transition p-[5px] px-[35px]'>
+           <button onClick={handleClick}   className='flex border text-[18px]  bg-green-500 text-white border-green-300 text-green-300 rounded-lg mt-[10px] hover:bg-green-900 hover:text-white duration-500 transition p-[5px] px-[35px]'>
              <ShoppingCart className=' w-10 -ml-[30px]' />
-             {user ? <>Buy Now {cartItemAmount > 0 && <> ({cartItemAmount}) </> }</> : (
-  <button onClick={() => navigate('/login')}>Log in to Enable</button>
-)}
+             {user ? <>Buy Now {cartItemAmount > 0 && <> ({cartItemAmount}) </> }</> : 'Login to Buy'}
             </button>
         </div>      
     </div>
