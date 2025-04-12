@@ -10,12 +10,14 @@ const CartPage = () => {
     const { cartItems } = useContext(ShopContext)
 
     const handleeClick  = () => {
+      alert("Redirecting to WhatsApp for payment")
+  // Create the message for WhatsApp
       const cartDetails = products
     .filter((item) => cartItems[item.id] > 0)
     .map((item) => {
       return `${item.name} x ${cartItems[item.id]} = ₦${item.price * cartItems[item.id]}`;
     })
-    .join('%0A'); // %0A = line break in URL
+    .join('%0A');
 
   const total = products.reduce((acc, item) => {
     return acc + item.price * cartItems[item.id];
@@ -23,8 +25,7 @@ const CartPage = () => {
 
   const message = `Hello! I would like to order:%0A${cartDetails}%0A%0ATotal: ₦${total}`;
 
-  // Replace with your WhatsApp number (with country code, no "+" or dashes)
-  const phoneNumber = '237080136945';
+  const phoneNumber = '2348131906385';
 
   const url = `https://wa.me/${phoneNumber}?text=${message}`;
 
