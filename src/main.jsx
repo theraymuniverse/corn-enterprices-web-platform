@@ -15,6 +15,7 @@ import AuthContextProvider from './Authenticcation/AuthContext.jsx'
 import Signup from './Authenticcation/Signup.jsx'
 import Verify from './Authenticcation/Verify.jsx'
 import Chose from './chose.jsx'
+import Password from './Authenticcation/password.jsx'
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,9 @@ const router = createBrowserRouter([
   },{
     path: 'chose',
     element: <Chose/>
+  }, {
+    path: 'password',
+    element: <Password/>
   }
 ])
 

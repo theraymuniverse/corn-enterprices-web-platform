@@ -34,7 +34,11 @@ const Nav =() => {
         <div className='md:hidden container flex flex-row justify-between '>
         <img src={slogon} className='w-[50px] sm:ml-[30px] h-[60px]'/>
         <div className='flex gap-5'>
-        <Link to='/CartPage'><ShoppingCart size={28} className='hover:shadow-xl mt-[15px] cursor pointer hover:bg-gray-300 hover:rounded-sm '/></Link>
+        <Link to='/CartPage' className='text-black flex'><ShoppingCart size={28} className='hover:shadow-xl mt-[18px] cursor pointer hover:bg-gray-300 hover:rounded-sm '/>{totalItems > 0 && (
+        <span className="bg-red-500 text-white text-xs px-2 ml-[5px] py-1 h-[25px] mt-[18px] rounded-full">
+          {totalItems}
+        </span>
+      )}</Link>
       <button className="md:hidden  text-black  " onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28}  /> : <Menu size={28} />}
         </button>

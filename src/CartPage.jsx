@@ -9,6 +9,29 @@ import { Link } from 'react-router-dom'
 const CartPage = () => {
     const { cartItems } = useContext(ShopContext)
 
+    const handleeClick  = () => {
+      const cartDetails = products
+    .filter((item) => cartItems[item.id] > 0)
+    .map((item) => {
+      return `${item.name} x ${cartItems[item.id]} = ₦${item.price * cartItems[item.id]}`;
+    })
+    .join('%0A'); // %0A = line break in URL
+
+  const total = products.reduce((acc, item) => {
+    return acc + item.price * cartItems[item.id];
+  }, 0);
+
+  const message = `Hello! I would like to order:%0A${cartDetails}%0A%0ATotal: ₦${total}`;
+
+  // Replace with your WhatsApp number (with country code, no "+" or dashes)
+  const phoneNumber = '237080136945';
+
+  const url = `https://wa.me/${phoneNumber}?text=${message}`;
+
+  window.open(url, '_blank');
+};
+    
+
   return (
     <div>
               <Nav/>
@@ -31,7 +54,7 @@ const CartPage = () => {
              </p>
              <div className='flex justify-center flex-row gap-6 pt-[40px]'>
              <button className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 pointer cursor'><Link to='/products'>Countine Shopping</Link></button>
-             <button className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 poniter cursor'>Cash Out</button>
+             <button onClick={handleeClick} className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 poniter cursor'>Cash Out</button>
              </div>
              </div>
           </div>

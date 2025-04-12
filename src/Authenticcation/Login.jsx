@@ -4,7 +4,7 @@ import Nav from '../Nav'
 import { UserAuth } from './AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import {Link} from 'react-router-dom'
-
+import { Eye, EyeOff } from 'lucide-react';
 
 
 
@@ -13,7 +13,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
-  
+  const [showPassword, setShowPassword] = useState(false);
+
   const { session, signUpNewuser ,signInUser} = UserAuth();
   const navigate = useNavigate()
   console.log(session)
@@ -85,22 +86,30 @@ const Login = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-green-600 hover:text-green-500">
+                  <Link to="/password" className="font-semibold text-green-600 hover:text-green-500">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 flex gap-2">
                 <input
                 onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   autoComplete="current-password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
                 />
+                <button
+                   type="button"
+                     onClick={() => setShowPassword((prev) => !prev)}
+                     className="text-gray-600"
+                     aria-label={showPassword ? 'Hide password' : 'Show password'}
+                   >
+                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                   </button>
               </div>
             </div>
             {error && <p className="text-red-500 text-center">{error}</p>}
