@@ -8,6 +8,8 @@ import { ShopContext } from './cartContext'
 
 const Nav =() => {
   const [isOpen, setIsOpen] = useState(false);
+  const { getTotalCartItemCount } = useContext(ShopContext);
+  const totalItems = getTotalCartItemCount();
 
     return (
       <div className="p-1 sticky bg-transparent justify-between flex shadow-md md:px-[130px]">
@@ -65,7 +67,11 @@ const Nav =() => {
       )}
       <div className='flex flex-row gap-8 pt-[30px] md:-mr-[40px] max-md:hidden'>
       <Link to='/login'><LogIn className='hover:shadow-xl  cursor pointer hover:bg-gray-300 hover:rounded-sm'/></Link>
-      <Link to='/CartPage' className='text-black flex'><ShoppingCart className='hover:shadow-xl cursor pointer hover:bg-gray-300 hover:rounded-sm '/></Link>
+      <Link to='/CartPage' className='text-black flex'><ShoppingCart className='hover:shadow-xl cursor pointer hover:bg-gray-300 hover:rounded-sm '/>{totalItems > 0 && (
+        <span className="bg-red-500 text-white text-xs px-2 ml-[5px] py-1 h-[25px] rounded-full">
+          {totalItems}
+        </span>
+      )}</Link>
       </div>
     </div>
     )
