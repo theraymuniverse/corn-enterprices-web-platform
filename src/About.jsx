@@ -25,10 +25,10 @@ const About = () => {
         <img src={Logo} alt='form' loading='lazy' className='xl:w-[300px] w-[150px] lg:w-[250px] md:w-[150px] lg:mt-[50px] md:mt-[60px]  p-[30px] '/>
         </div>
      </div>
-     <div className='pt-[80px] bg-[#F3FFF1]  text-[18px] pb-[50px] flex flex-col items-center md:flex-row md:gap-10 gap-5 t-[60px]'>
+     <div className='pt-[80px] bg-[#F3FFF1]  text-[18px] pb-[50px] flex flex-col items-center md:flex-row md:gap-10 gap-5 '>
      <img src={light} alt='form' loading='lazy' className='xl:w-[400px] w-[150px] ml-[15px] lg:w-[250px] md:w-[150px] lg:ml-[110px] xl:ml-[150px] md:ml-[50px] rounded-full'/>
-     <div className=' lg:ml-[20px]'>
-      <h2 className='xl:ml-[130px] lg:ml-[90px] justify-self-center  lg:text-[40px] md:text-[30px] md:ml-[10px] lg:pt-[20px]   pb-[10px] text-[25px] font-bold'>
+     <div className=' lg:ml-[20px] items-center'>
+      <h2 className='xl:ml-[130px] lg:ml-[90px] text-center  lg:text-[40px] md:text-[30px] md:ml-[10px] lg:pt-[20px]   pb-[10px] text-[25px] font-bold'>
         Our Vision
       </h2>
       <p className='xl:w-[500px] text-center w-[200px] text-[12px] lg:w-[450px] md:w-[400px]  text-center md:text-[14px] lg:text-[17px] lg:ml-[70px] xl:ml-[140px]  '>

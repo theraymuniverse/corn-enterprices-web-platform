@@ -29,7 +29,7 @@ const home = () => {
         </p>
   
         <HashLink>
-        <div  className="items-center justify-center justify-items-center" >
+        <div  className="" >
         <ChevronsDown className='max-sm:hidden 
          animate-bounce  md:mt-[80px] border  rounded-full ' size={70} />
         </div>
