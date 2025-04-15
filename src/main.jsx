@@ -8,7 +8,7 @@ import Contact from './contact_us.jsx'
 import CartPage from './CartPage.jsx'
 import ShopContextProvider from './cartContext'
 import About from './About.jsx'
-import ContactPage from './contactPage.jsx'
+import ContactPage from "./ContactPage.jsx"
 import PartnerPage from './PartnerPage.jsx'
 import Login from './Authenticcation/Login.jsx'
 import AuthContextProvider from './Authenticcation/AuthContext.jsx'
