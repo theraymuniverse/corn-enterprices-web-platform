@@ -31,7 +31,7 @@ const Testimonials = () => {
     <div className="md:w-full px-5 md:px-[0px] md:p-15 bg-[#F3FFF1] md:mb-[100px] mt-[20px] lg:h-[460px] text-center ">
       <h2 className="text-[30px] md:text-[40px] font-bold pt-[30px] mb-6">What Our Customers Say</h2>
       <div className='lg:px-[300px] transition duration-500 ease-in-out'>
-      <div className=" py-15 items-center   ">
+      <div className=" py-7 md:py-15 items-center   ">
         <p className="text-[18px] md:text-[25px] italic mb-4">"{testimonials[currentIndex].text}"</p>
         <h4 className="text-[20px] font-semibold text-gray-600">
           — {testimonials[currentIndex].name}
