@@ -19,11 +19,11 @@ const Products = () => {
                 <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>Yellow Maize</p>
             </li>
             <li className='p-1 pt-[50px] m-5'>
-                <img loading='lazy' alt='form' className=' shadow-2xl  rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={maize}/>
+                <img loading='lazy' alt='form' className=' shadow-md hover:shadow-2xl rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={maize}/>
                 <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>White Millet</p>
             </li>
             <li className='p-1 pt-[50px] m-5'>
-                <img loading='lazy'  alt='form' className='shadow-2xl rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={powder1}/>
+                <img loading='lazy'  alt='form' className='shadow-md hover:shadow-2xl rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={powder1}/>
                 <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>Corn Powder</p>
             </li>
             <li className='pt-[60px] hidden md:block lg:px-[30px] '>
@@ -50,11 +50,11 @@ const Products = () => {
                 <p className='pt-[20px] lg:text-[20px]'>Yellow Maize</p>
             </li>
             <li className='p-2 pt-[50px] m-5'>
-                <img  loading='lazy' alt='form' className=' shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
+                <img  loading='lazy' alt='form' className=' shadow-md hover:shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
                 <p className='pt-[20px] lg:text-[20px]'>White Millet</p>
             </li>
             <li className='p-2 pt-[50px] m-5'>
-                <img loading='lazy' alt='form' className='shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={powder1}/>
+                <img loading='lazy' alt='form' className='shadow-md hover:shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={powder1}/>
                 <p className='pt-[20px] lg:text-[20px]'>Corn Powder</p>
             </li>
         </ul>
