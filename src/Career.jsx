@@ -21,7 +21,6 @@ const Career = () => {
         }));
       };
     
-  
     
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,7 +39,6 @@ const Career = () => {
         setLoading(false)
       };
     
-
   return (
     <div>
      <Nav/>
