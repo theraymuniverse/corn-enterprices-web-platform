@@ -5,6 +5,7 @@ import frame1 from './assets/Frame 11.png'
 import frame2 from './assets/Frame 12.png'
 import frame3 from './assets/Frame 14.png'
 import frame5 from './assets/frame 5.png'
+import frame6 from './assets/frame 6.png'
 import {supabase} from './Authenticcation/supabaseClient'
 
 const footer = () => {
@@ -30,7 +31,7 @@ const footer = () => {
     }
   }
   return (
-    <div className='bg-white px-[30px]  md:px-24 rounded-lg shadow-2xl py-13'>
+    <div className='bg-white px-[30px]  md:px-24 rounded-lg py-13'>
         <div className='flex border-b h-[300px] lg:h-[220px] mb-[10px] flex-col lg:flex-row gap-6'>
           <div className='items-center border-[1px] border-[white]  '>
             <h4 className='pt-[30px] text-[20px] md:text-[25px] font-bold '>SUBSCRIBE TO GET THE LATEST NEWS ABOUT US</h4>
@@ -50,14 +51,14 @@ const footer = () => {
             <button className='py-[10px] px-[30px] hover:bg-green-900 transition cursor-pointer duration-700 border-0 bg-green-500 rounded-lg gap-2'>Subscribe</button>
           </form>
       </div>
-      <div className='justify-evenly flex flex-col md:flex-row'>
+      <div className='justify-between flex flex-col md:flex-row'>
         <img src={Logo} loading='lazy' className='md:w-[60px] lg:w-[80px] w-[80px] items-center self-center md:-ml-[30px]'/>
         <p className='text-center md:mt-[45px] md:text-[13px] lg:mt-[60px] lg:ml-[120px]'>
             Copyright @ COR'N Enterprises
            </p>
         <span className="flex gap-5 md:-mr-[40px]  pt-5 justify-center items-center">
-             <a href="#">
-               <img src={frame1} alt="Twitter" className='md:w-[35px] lg:w-[50px]'/>
+             <a href="https://wa.me/2348131906385">
+               <img src={frame1} alt="Whatsapp" className='md:w-[35px] w-12 lg:w-[50px]'/>
              </a>
              <a href="https://www.facebook.com/profile.php?id=61574547677212">
                 <img src={frame2} alt="Facebook" className='md:w-[35px] lg:w-[50px]' />
@@ -65,8 +66,11 @@ const footer = () => {
               <a href="https://www.instagram.com/corne_nterprises?igsh=MWc3YWZyd3c3NG1kbQ==">
                 <img src={frame3} alt="Instgram" className='md:w-[35px] lg:w-[50px]' />
               </a>
-              <a href="mailto:cornenterprises2709@gmail.com">
-                <img src={frame5}  className= 'lg:w-12 w-12 md:w-[30px]' alt="Gmail" />
+              <a href="https://www.youtube.com/@CornEnterprises">
+                <img src={frame5}  className= 'lg:w-15 w-14 md:w-[40px]' alt="Youtube" />
+              </a>
+              <a href="https://x.com/EnterprisesCorn?t=Oeh5Vn28HSKbeQVuAZowQQ&s=09">
+                <img src={frame6}  className= 'lg:w-13 w-12 md:w-[35px]' alt="x" />
               </a>
            </span>
            </div>

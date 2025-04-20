@@ -9,7 +9,7 @@ const Products = () => {
     }
 
   return (
-    <div className='text-center bg-[#F3FFF1] md:h-[2050px] lg:h-[850px]  pt-[40px]'>
+    <div className='text-center bg-[#F3FFF1] md:h-[2000px] lg:h-[850px]  pt-[40px]'>
         <h className='text-[35px] font-bold '>
             What we Offer.
         </h>

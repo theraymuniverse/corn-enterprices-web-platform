@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Nav from './Nav'
 import {supabase} from './Authenticcation/supabaseClient' 
+import Footer from "./footer"
 
 
 
  const  PartnerPage = () => {
+  const [role, setRole] = useState("");
   const [formData, setFormData] = useState({
     firstname: "",
     surname: "",
@@ -14,10 +16,17 @@ import {supabase} from './Authenticcation/supabaseClient'
     website: "",
     message: "",
     role: "",
+    product: "",
   });
    const [loading, setLoading] = useState(false);
     const [message,setMessage] = useState(null);
     const [errors, setErrors] = useState({});
+
+    const handleRoleChange = (e) => {
+      const selected = e.target.value;
+      setFormData(prev => ({ ...prev, role: selected }));
+      setRole(selected);
+    };
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -29,15 +38,15 @@ import {supabase} from './Authenticcation/supabaseClient'
     e.preventDefault();
     setLoading(true);
     setMessage(null)
-    const {firstname, email, message,phone, surname, businessName, website, role} = formData;
-     const {data, error } = await supabase.from('Partner_Investor').insert([{firstname, email, message,phone, surname, businessName, website,role}])
+    const {firstname, email, message,phone, surname, businessName, website, role, product} = formData;
+     const {data, error } = await supabase.from('Partner_Investor').insert([{firstname, email, message,phone, surname, businessName, website, role, product}])
      if (error) {
       setMessage(`Error: ${error.message}`);
       console.log(error)
     } else {
       alert("Form submitted successfully")
       setMessage("Form submitted successfully!");
-      setFormData({ firstname: "", email: "",message: "",phone: "", surname: "", businessName: "", website: "",partner: " ",investor: ""  });
+      setFormData({ firstname: "", email: "",message: "",phone: "", surname: "", businessName: "", website: "",role: "", product: "" });
     }
     setLoading(false)
   };
@@ -47,7 +56,7 @@ import {supabase} from './Authenticcation/supabaseClient'
        <Nav/>
        
       <div className="flex gap-[40px] flex-col pb-[50px] justify-center items-center lg:items-center">
-          <h2 className="text-xl font-bold text-center text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or Investor</h2>
+          <h2 className="text-xl font-bold text-center text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or <span className="text-green-500">Investor</span></h2>
           <div className="justify-center  items-center">
           <form onSubmit={handleSubmit} method="POST" className="space-y-8 w-auto">
              <div className="flex md:flex-row flex-col  ">
@@ -114,14 +123,43 @@ import {supabase} from './Authenticcation/supabaseClient'
                 <select 
                 name="role"
                 value={formData.role}
-                onChange={handleChange}
+                onChange={handleRoleChange}
                 className= "border lg:ml-[150px] md:ml-[100px] ml-[10px] border-green-500 w-[300px] text-[18px]" >
                   <option value="">Select Role</option>
-                  <option value="partner">Partner</option>
+                  <option value="Buyer">Buyer</option>
+                  <option value="Seller">Seller</option>
                   <option value="investor">Investor</option>
                 </select>
                 </div>
             </div>
+            {role === "Buyer" && (
+                 <div className="mt-4">
+                   <label  className=" ml-[5px] md:ml-[0px] pb-[10px] text-[20px]">Number of Bags, Kg or Tonnes</label>
+                   <input
+                         type="text"
+                         name="product"
+                         placeholder="Product needed"
+                         value={formData.product}
+                         onChange={handleChange}
+                         required
+                         className="block mt-[10px] border w-[350px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[900px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
+                       />
+                  </div>
+                  )}
+                  {role === "Seller" && (
+                 <div className="mt-4">
+                   <label  className=" ml-[5px] md:ml-[0px] pb-[10px] text-[20px]">Number of Bags, Kg or Tonnes</label>
+                   <input
+                         type="text"
+                         name="product"
+                         placeholder="Product needed"
+                         value={formData.product}
+                         onChange={handleChange}
+                         required
+                         className="block mt-[10px] border w-[350px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[900px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
+                       />
+                  </div>
+                  )}
             <label className="text-[20px] ml-[10px] lg:ml-[0px] mt-[10px]">Bussiness Website</label>
             <input
               type="url"
@@ -149,6 +187,7 @@ import {supabase} from './Authenticcation/supabaseClient'
           </form>
      </div>
      </div>
+     <Footer/>
     </div>
   );
 }

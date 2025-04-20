@@ -16,6 +16,8 @@ import Signup from './Authenticcation/Signup.jsx'
 import Verify from './Authenticcation/Verify.jsx'
 import Chose from './chose.jsx'
 import Password from './Authenticcation/password.jsx'
+import Career from './Career.jsx'
+import SignOut from './Authenticcation/signout.jsx'
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,12 @@ const router = createBrowserRouter([
   }, {
     path: 'password',
     element: <Password/>
+  },{
+    path: 'career',
+    element: <Career/>
+  }, {
+    path: "signout",
+    element: <SignOut/>
   }
 ])
 
