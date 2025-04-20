@@ -49,7 +49,7 @@ const Career = () => {
         <h1 className='justify-center text-center md:text-start pt-[70px] md:pt-[30px] lg:text-[40px] xl:text-[50px] text-[31px] md:text-[30px]'>
            Start your Career in one leap<br/> <span className='text-green-500'>with COR'N </span>
         </h1>
-        <p className='pt-5 text-[13px] md:text-[15px] text-center md:text-start px-[20px] md:px-[0px] '>Want to be a part of the graet work we do at COR'N?<br/>
+        <p className='pt-5 text-[13px] md:text-[15px] text-center md:text-start px-[20px] md:px-[0px] '>Want to be a part of the great work we do at COR'N?<br/>
         Fill the the form below or contact us via whatsapp and we will get back to you as soon as possible.
         </p>
         </div>
