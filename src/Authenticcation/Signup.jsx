@@ -5,7 +5,7 @@ import { UserAuth } from './AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 
-const Login = () => {
+const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -31,6 +31,7 @@ const Login = () => {
       setLoading(false);
     }
   }
+
   return (
     <div>
     <Nav/>
@@ -130,4 +131,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Signup
