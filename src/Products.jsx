@@ -1,6 +1,11 @@
 import React from 'react'
 import maize from './assets/maize.jpg'
-import powder1 from './assets/corn_flour.jpg'
+import groundnut from './assets/images_1.jpg'
+import beene from './assets/image_3.jpg'
+import soya from './assets/image_6.jpg'
+import powder1 from './assets/image_7.jpg'
+import powder2 from './assets/image_10.jpg'
+import powder3 from './assets/image_2.jpg'
 import {Link} from 'react-router-dom'
 
 const Products = () => {
@@ -15,16 +20,16 @@ const Products = () => {
         </h>
         <ul className='items-center flex lg:flex-row flex-col  mt-[20px] h-auto' >
             <li className='p-1 pt-[50px] lg:pl-[20px]  m-5'>
-                <img loading='eager' alt='form'  className='shadow-md hover:shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={maize}/>
-                <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>Yellow Maize</p>
+                <img loading='eager' alt='form'  className='shadow-md hover:shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={groundnut}/>
+                <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>Groundnut</p>
             </li>
             <li className='p-1 pt-[50px] m-5'>
-                <img loading='lazy' alt='form' className=' shadow-md hover:shadow-2xl rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={maize}/>
-                <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>White Millet</p>
+                <img loading='lazy' alt='form' className=' shadow-md hover:shadow-2xl rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={beene}/>
+                <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>Beene Seeds</p>
             </li>
             <li className='p-1 pt-[50px] m-5'>
-                <img loading='lazy'  alt='form' className='shadow-md hover:shadow-2xl rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={powder1}/>
-                <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>Corn Powder</p>
+                <img loading='lazy'  alt='form' className='shadow-md hover:shadow-2xl rounded-lg w-[350px]  rounded-xl h-[200px] md:h-[300px] md:w-[450px] lg:w-[350px] lg:h-[200px]' src={soya}/>
+                <p className='pt-[30px] md:text-[20px] lg:text-[20px]'>Soya Beans</p>
             </li>
             <li className='pt-[60px] hidden md:block lg:px-[30px] '>
                 <h1 className = 'lg:text-[45px] text-[45px] md:text-[60px] ' >
@@ -46,16 +51,16 @@ const Products = () => {
         </div>
         <ul className='flex md:flex-row flex-col mt-[20px] h-[300px] px-[50px] max-lg:hidden justify-end' >
             <li className='p-2 pt-[50px]   m-5'>
-                <img loading='lazy' alt='form' className='shadow-md hover:shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
-                <p className='pt-[20px] lg:text-[20px]'>Yellow Maize</p>
+                <img loading='lazy' alt='form' className='shadow-md hover:shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={powder3}/>
+                <p className='pt-[20px] lg:text-[20px]'>Paddy Rice</p>
             </li>
             <li className='p-2 pt-[50px] m-5'>
-                <img  loading='lazy' alt='form' className=' shadow-md hover:shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={maize}/>
-                <p className='pt-[20px] lg:text-[20px]'>White Millet</p>
+                <img  loading='lazy' alt='form' className=' shadow-md hover:shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={powder2}/>
+                <p className='pt-[20px] lg:text-[20px]'>Processed Rice</p>
             </li>
             <li className='p-2 pt-[50px] m-5'>
                 <img loading='lazy' alt='form' className='shadow-md hover:shadow-2xl rounded-lg w-[350px] rounded-xl h-[200px]' src={powder1}/>
-                <p className='pt-[20px] lg:text-[20px]'>Corn Powder</p>
+                <p className='pt-[20px] lg:text-[20px]'>Maize</p>
             </li>
         </ul>
     </div>

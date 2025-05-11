@@ -13,13 +13,13 @@ const Ceo = () => {
             Our CEO
         </h1>
     </div>
-    <div className='flex lg:flex-row md:flex-row justify-center items-center flex-col gap-9'>
+    <div className='flex lg:flex-row md:flex-row justify-center mb-10 items-center flex-col gap-9'>
     <div>
     <img src={boss} alt='Pic of CEO' className='xl:w-[550px]  w-[230px]  md:w-[400px] md:h-[400px] lg:h-[500px] m lg:pl-[150px]' loading='lazy'/>
        </div>
        <div className='flex flex-col '>
         <span className='lg:pt-[30px] md:pt-[30px] px-[15px] md:text-[13px] lg:text-[14px] text-[11px]  md:w-[400px] lg:w-[500px] xl:w-[650px] 2xl:w-[800px]'>
-        <span className="font-bold text-[12px] md:text-[14px] lg:text-[15px]" ><span className='text-[14px] md:text-[16px] lg:text-[17px] '> Mr. CHINEDU NWOBODO</span>  <span className="text-[10px] md:text-[11px]  ">ACA, DCP, MBA.</span> </span> <br/>
+        <span className="font-bold text-[12px] md:text-[14px] lg:text-[15px]" ><span className='text-[15px] md:text-[17px] lg:text-[20px] '> Mr. CHINEDU NWOBODO</span>  <span className="text-[10px] md:text-[11px]  ">ACA, DCP, MBA.</span> </span> <br/>
         Mr. Chinedu Nwobodo is the Founder and CEO of COR'N Enterprises. A graduate of the Enugu State University of Science and Technology with a B.Eng. in Chemical engineering. A professional banker and astute Entrepreneur with half a decade's experience in the financial industry. With over 4 years’ experience within the Agricultural value chain as a primary producer and grain trader, Mr. Chinedu leads a great team of experts as they work together to make COR'N Enterprises a household name in the industry within the shortest of time.
         Chinedu is an Associate Chartered Accountant with the Institute of Chartered Accountants of Nigeria, A designate Compliance Professional, A Chartered Management Professional and holds an MBA in Finance.
         </span>
@@ -31,7 +31,20 @@ const Ceo = () => {
         </button>
          </div>
      </div>   
+     <div className="p-5 md:p-15 lg:px-40 lg:pt-30 ">
+     <iframe
+     className='w-full h-[450px] rounded-lg' 
+     loading='lazy'
+     width="1060" 
+     height="596" 
+     src="https://www.youtube.com/embed/DJdVRke5Mf0" 
+     title="Welcome to another class on Crop Production(Cont&#39;d) #farmtowealth #investing #ricecultivation" 
+     frameBorder="0" 
+     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+     referrerPolicy="strict-origin-when-cross-origin" 
+     allowFullScreen></iframe>
     </div>
+  </div>
   )
 }
 

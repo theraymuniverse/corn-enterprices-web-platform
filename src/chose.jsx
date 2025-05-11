@@ -1,6 +1,5 @@
 import React from 'react'
 import third from './assets/corn.jpg'
-import { motion } from 'framer-motion'
 import {Link} from 'react-router-dom'
 
 const chose = () => {

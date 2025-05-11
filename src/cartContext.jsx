@@ -30,8 +30,6 @@ const ShopContextProvider = (props) => {
     }
      
     const contextValue = {cartItems, getTotalCartItemCount ,addToCart, removeFromCart, updateCartItemCount}
-
-     console.log(cartItems);
   return (
         <ShopContext.Provider value = {contextValue}>
            {props.children}

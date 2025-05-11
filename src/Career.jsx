@@ -27,15 +27,30 @@ const Career = () => {
         setLoading(true);
         setMessage(null);
         const {name, career, message, role} = formData;
+
+        try {
         const {data, error } = await supabase.from('careers').insert([{name, career, message, role}])
-        if (error) {
-          setMessage(`Error: ${error.message}`);
-          console.log(error)
+        if (error) throw error;
+
+        const response = await fetch('http://localhost:5000/send-career', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({name, career, message, role}),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert(result.message || 'Thank you for subscribing!');
+          setFormData({  name: "", career: "",message: "" , role: ""});
         } else {
-          alert("Form submitted successfully")
-          setMessage("Form submitted successfully!");
-          setFormData({ name: "", career: "",message: "" , role: ""});
+          alert(result.message || 'Error sending email, please try again.');
         }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('Something went wrong. Please try again.');
+      }
         setLoading(false)
       };
     

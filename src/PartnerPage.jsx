@@ -39,15 +39,31 @@ import Footer from "./footer"
     setLoading(true);
     setMessage(null)
     const {firstname, email, message,phone, surname, businessName, website, role, product} = formData;
+
+    try {
      const {data, error } = await supabase.from('Partner_Investor').insert([{firstname, email, message,phone, surname, businessName, website, role, product}])
-     if (error) {
-      setMessage(`Error: ${error.message}`);
-      console.log(error)
+     if (error) throw error;
+      
+     const response = await fetch('http://localhost:5000/send-partner', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({firstname, email, message,phone, surname, businessName, website, role, product}),
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      alert(result.message || 'Thank you for subscribing!');
+      setFormData({  firstname: "", surname: "", email: "", phone: "", businessName: "", website: "", message: "", role: "", product: ""});
     } else {
-      alert("Form submitted successfully")
-      setMessage("Form submitted successfully!");
-      setFormData({ firstname: "", email: "",message: "",phone: "", surname: "", businessName: "", website: "",role: "", product: "" });
+      alert(result.message || 'Error sending email, please try again.');
     }
+  } catch (err) {
+    console.error('Error:', err);
+    alert('Something went wrong. Please try again.');
+  }
+
     setLoading(false)
   };
 
