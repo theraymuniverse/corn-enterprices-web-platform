@@ -3,6 +3,8 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer'
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 

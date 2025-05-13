@@ -4,13 +4,17 @@ import Nav from '../Nav'
 import { UserAuth } from './AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { supabase } from './supabaseClient';
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
+  const [dob, setDob] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const { session, signUpNewuser, } = UserAuth();
@@ -21,16 +25,46 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const result = await signUpNewuser(email,  password)
-      if (result.success) {
-        navigate("/verify")
+      // Sign up user with email and password
+      const { data, error } = await signUpNewuser(email, password);
+      if (error) throw error;
+  
+      // Update user metadata (name, address, phone number)
+      const userId = data.user.id;
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .insert({
+          id: userId,
+          name,
+          address,
+          phone,
+          dob,
+        });
+
+      if (profileError){
+        console.error("Error creating user profile:", profileError);
+        setError(`An error occurred: ${profileError.message}`);
+        return;
+      };
+  
+      if (error) {
+        if (error.message.includes("User already registered")) {
+          setError("Already signed up");
+        } else {
+          setError(`An error occurred: ${error.message}`);
         }
+        return;
+      }
+
+  
+      navigate("/verify");
     } catch (err) {
-      setError('an error occurred: ${err.message || err}');
+      setError(`An error occurred: ${err.message || err}`);
     } finally {
       setLoading(false);
     }
-  }
+  };
+  
 
   return (
     <div>
@@ -49,7 +83,7 @@ const Signup = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleSignUp} method="POST" className="space-y-6">
-            <div>
+          <div>
               <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                 Name
               </label>
@@ -62,6 +96,57 @@ const Signup = () => {
                   value={name}
                   required
                   autoComplete="Name"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+              Address
+              </label>
+              <div className="mt-2"></div><div className="mt-2">
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  onChange={(e) => setAddress(e.target.value)}
+                  value={address}
+                  required
+                  autoComplete="Address"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+              Phone Number
+              </label>
+              <div className="mt-2"></div><div className="mt-2">
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  onChange={(e) => setPhone(e.target.value)}
+                  value={phone}
+                  required
+                  autoComplete="Phone"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                Date of Birth
+              </label>
+              <div className="mt-2"></div><div className="mt-2">
+                <input
+                  id="dob"
+                  name="dob"
+                  type="date"
+                  onChange={(e) => setDob(e.target.value)}
+                  value={dob}
+                  required
+                  autoComplete="dob"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
                 />
               </div>

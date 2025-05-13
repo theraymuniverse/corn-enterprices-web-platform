@@ -24,6 +24,8 @@ const Login = () => {
     setLoading(true);
     try {
       const result = await signInUser(email, password)
+
+
       if (result.success) {
         navigate("/products")
         } else {
