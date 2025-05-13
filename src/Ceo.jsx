@@ -33,7 +33,8 @@ const Ceo = () => {
      </div>   
      <div className="p-5 md:p-15 lg:px-40 lg:pt-30 ">
      <iframe
-     className='w-full h-[450px] rounded-lg' 
+     
+     className='w-full bg-no-repeat shadow-md bg-[url("http://www.w3.org/2000/svg")] h-[450px] rounded-lg' 
      loading='lazy'
      width="1060" 
      height="596" 
