@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 
 const testimonials = [
   {
-    name: "John Doe",
+    name: "John Okoro",
     text: "This service changed my life! Absolutely phenomenal responsee and good customer care.",
   },
   {
-    name: "Jane Smith",
+    name: "Jane Apati",
     text: "Great customer service and super fast delivery.",
   },
   {
     name: "Alex Johnson",
-    text: "The best platform I've used for online shopping!",
+    text: "The best platform I've used for online farm shopping!",
   },
 ];
 

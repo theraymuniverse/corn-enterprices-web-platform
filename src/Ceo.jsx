@@ -40,6 +40,7 @@ const Ceo = () => {
      src="https://www.youtube.com/embed/DJdVRke5Mf0" 
      title="Welcome to another class on Crop Production(Cont&#39;d) #farmtowealth #investing #ricecultivation" 
      frameBorder="0" 
+     allowtransparency="true"
      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
      referrerPolicy="strict-origin-when-cross-origin" 
      allowFullScreen></iframe>

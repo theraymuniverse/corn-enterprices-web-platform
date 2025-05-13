@@ -18,8 +18,7 @@ const cart = ({item}) => {
         className='group-hover:-translate-y-2 md:mt-[20px] rounded-xl
         transition-all duratioin-500 h-[200px]  w-[300px] md:w-[700px]' loading='lazy'/>
         <div className='text-center '>
-           <h1 className='text-black '>{name}</h1>
-           <span className='text-red-300 text-lg'>Price per kg: ₦{price}</span>
+           <h1 className='text-black text-[20px]'>{name}</h1>
            <button onClick={() => addToCart(id)}   className='flex border text-[18px]  bg-green-500 text-white border-green-300 text-green-300 rounded-lg mt-[10px] hover:bg-green-900 hover:text-white duration-500 transition p-[5px] px-[35px]'>
              <ShoppingCart className=' w-10 -ml-[30px]' />
              {<>Buy Now {cartItemAmount > 0 && <> ({cartItemAmount}) </> }</>}

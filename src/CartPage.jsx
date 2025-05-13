@@ -50,9 +50,9 @@ const CartPage = () => {
     return acc + item.price * cartItems[item.id];
   }, 0);
 
-  const message = `Hello! I would like to order:%0A${cartDetails}%0A%0ATotal: ₦${total}`;
+  const message = `I would like to order:%0A${cartDetails}%0A%0ATotal: ₦${total}`;
 
-  const phoneNumber = '2348131906385';
+  const phoneNumber = '2347080136945';
 
   const url = `https://wa.me/${phoneNumber}?text=${message}`;
 
@@ -78,11 +78,11 @@ const CartPage = () => {
             })}
           </div>
           <div className='Justify-center text-center pt-[20px]  '>
-             <p className='text-[20px] md:text-[30px]'>
+           {/*<p className='text-[20px] md:text-[30px]'>
                 Subtotal: ₦{products.reduce((acc, item) => {
                     return acc + item.price * cartItems[item.id]
                 }, 0)}
-             </p>
+             </p>*/}  
              <div className='flex justify-center flex-row gap-6 pt-[40px]'>
              <button className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 pointer cursor'><Link to='/products'>Continue Shopping</Link></button>
              <button onClick={handleClick} className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 poniter cursor'>
