@@ -28,7 +28,7 @@ const Footer = () => {
       if (error) throw error;
 
       // Send email via Express server
-      const response = await fetch('https://www.cornenterprise.com/send-newsletter', {
+      const response = await fetch('https://www.cornenterprise.com/api/send-newsletter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
