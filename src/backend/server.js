@@ -13,11 +13,18 @@ const PORT = process.env.PORT || 5000;
 
 
 // Middleware
+app.use(helmet());
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: "https://www.cornenterprise.com/", // Use your production frontend URL
     methods: ['POST'],
 }));
 app.use(express.json());
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, 
+});
+app.use(limiter);
 
 app.post('/send-newsletter', async (req, res) => {
     const {email} = req.body;
