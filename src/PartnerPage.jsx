@@ -44,7 +44,7 @@ import Footer from "./footer"
      const {data, error } = await supabase.from('Partner_Investor').insert([{firstname, email, message,phone, surname, businessName, website, role, product}])
      if (error) throw error;
       
-     const response = await fetch('https://www.cornenterprise.com/send-partner', {
+     const response = await fetch('https://www.cornenterprise.com/api/send-partner', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
