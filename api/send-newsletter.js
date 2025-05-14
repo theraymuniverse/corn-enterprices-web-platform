@@ -25,7 +25,7 @@ export default async function handler(req, res) {
             html: `<p>New subscriber: ${email}</p>`,
         });
 
-        res.status(200).json({ message: "Email sent successfully!" });
+        res.status(200).json({ message: "Joined Newsletter Successfully" });
     } catch (error) {
         console.error("Email Error:", error);
         res.status(500).json({ message: "Failed to send email", error: error.message });

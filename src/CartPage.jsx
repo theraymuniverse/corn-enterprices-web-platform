@@ -13,6 +13,15 @@ const CartPage = () => {
      
     const [user, setUser] = useState(null)
 
+    const [roles, setRoles] = useState({}); // Track roles for each cart item
+
+    const setRoleInCart = (id, role) => {
+        setRoles((prev) => ({
+            ...prev,
+            [id]: role,
+        }));
+    };
+
 
   useEffect(() => {
     const getUser = async () => {
