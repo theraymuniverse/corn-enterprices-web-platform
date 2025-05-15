@@ -12,6 +12,7 @@ const CartPage = () => {
     const navigate = useNavigate();
      
     const [user, setUser] = useState(null)
+    const [apiResponse, setApiResponse] = useState('');
 
     const [roles, setRoles] = useState({}); // Track roles for each cart item
 
@@ -51,7 +52,6 @@ const CartPage = () => {
   const cartDetails = products
     .filter((item) => cartItems[item.id] > 0)
     .map((item) => {
-      const role = roles[item.id] || "No role selected";
       return `${item.name} ${role} x ${cartItems[item.id]}`;
     })
     .join('%0A');
@@ -120,6 +120,12 @@ const CartPage = () => {
              {user ? "Cash Out" : "Login to Cash Out"}</button>
              </div>
              </div>
+             {apiResponse && (
+  <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
+    <h3>Order Message Sent:</h3>
+    <pre>{decodeURIComponent(apiResponse)}</pre>
+  </div>
+)}
           </div>
     </div>
   )
