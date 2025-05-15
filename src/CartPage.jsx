@@ -42,56 +42,50 @@ const CartPage = () => {
 
  
   const handleClick =  async () => {
-    try {
-    const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message}),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        alert(result.message || 'Thank you for subscribing!');
-        setFormData({ email: "" });
-      } else {
-        alert(result.message || 'Error sending email, please try again.');
-      }
-    }  catch (err) {
-      console.error('Error:', err);
-      alert('Something went wrong. Please try again.');
-    }
-
   if (!user) {
     alert("Login to Cash Out");
     navigate('/login');
     return;
-  } else {
-    alert("Redirecting to WhatsApp for payment");
-
-    const cartDetails = products
-      .filter((item) => cartItems[item.id] > 0)
-      .map((item) => {
-        const role = roles[item.id] || "No role selected"; // Get the role or a default message
-        return `${item.name} ${role} x ${cartItems[item.id]}`;
-      })
-      .join('%0A');
-
-    const total = products.reduce((acc, item) => {
-      return acc + item.price * cartItems[item.id];
-    }, 0);
-
-    const message = `Order Details%0A%0AProducts:%0A${cartDetails}`;
-
-    const phoneNumber = '2348131906385';
-
-    const url = `https://wa.me/${phoneNumber}?text=${message}`;
-
-    window.open(url, '_blank');
-    window.location.reload();
   }
-};
 
+  const cartDetails = products
+    .filter((item) => cartItems[item.id] > 0)
+    .map((item) => {
+      const role = roles[item.id] || "No role selected";
+      return `${item.name} ${role} x ${cartItems[item.id]}`;
+    })
+    .join('%0A');
+
+  const total = products.reduce((acc, item) => {
+    return acc + item.price * cartItems[item.id];
+  }, 0);
+
+  const message = `Order Details%0A%0AProducts:%0A${cartDetails}%0A%0ATotal: ₦${total}`;
+
+  try {
+    const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
+    const result = await response.json();
+    if (response.ok) {
+      setApiResponse(message); // <-- Set the message in state to display in UI
+    } else {
+      alert(result.message || 'Error sending email, please try again.');
+    }
+  } catch (err) {
+    console.error('Error:', err);
+    alert('Something went wrong. Please try again.');
+  }
+
+  alert("Redirecting to WhatsApp for payment");
+  const phoneNumber = '2348131906385';
+  const url = `https://wa.me/${phoneNumber}?text=${message}`;
+  window.open(url, '_blank');
+};
     
 
   return (
