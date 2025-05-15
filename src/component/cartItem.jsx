@@ -27,6 +27,7 @@ const cartItem = (props) => {
                 name="role"
                 value={formData.role}
                 onChange={handleRoleChange}
+                required
                 className= "border border-gray-500 w-[150px] md:w-[200px]   h-[25px] text-[15px]" >
                   <option value="">Select category</option>
                   <option value="Kg">Kg</option>
