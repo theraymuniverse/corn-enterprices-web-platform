@@ -70,7 +70,7 @@ const CartPage = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: messageForEmail }),
+      body: JSON.stringify({ messageForEmail }),
     });
     const result = await response.json();
     if (response.ok) {
