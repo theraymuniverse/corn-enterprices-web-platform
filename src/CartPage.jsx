@@ -61,7 +61,7 @@ const CartPage = () => {
     return acc + item.price * cartItems[item.id];
   }, 0);
 
-  const message = `Order Details%0A%0AProducts:%0A${cartDetails}%0A%0ATotal: ₦${total}`;
+  const message = `Order Details%0A%0AProducts:%0A${cartDetails}`;
 
   try {
     const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
