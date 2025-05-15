@@ -11,6 +11,7 @@ const Footer = () => {
   const [formData, setFormData] = useState({
     email: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -21,6 +22,7 @@ const Footer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const { email } = formData;
 
     try {
@@ -47,6 +49,7 @@ const Footer = () => {
       console.error('Error:', err);
       alert('Something went wrong. Please try again.');
     }
+    setLoading(false);
   };
 
   return (
@@ -70,7 +73,7 @@ const Footer = () => {
             className='w-full py-3 md:text-[20px]'
           />
           <button className='py-[10px] px-[30px] hover:bg-green-900 transition cursor-pointer duration-700 border-0 bg-green-500 rounded-lg gap-2'>
-            Subscribe
+            {loading ? "Subscribing" : "Subscribe"}
           </button>
         </form>
       </div>

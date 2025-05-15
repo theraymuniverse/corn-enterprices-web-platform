@@ -8,11 +8,13 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()    
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     setMessage('');
+    setLoading(true);
     setError('');
 
     const { error } = await supabase.auth.resetPasswordForEmail(email);
@@ -21,6 +23,7 @@ const ForgotPassword = () => {
     } else {
       setMessage('Password reset email sent! Check your inbox.');
     }
+    setLoading(false);
   }
 
 
@@ -42,7 +45,7 @@ const ForgotPassword = () => {
       />
 
       <button type="submit" className="w-[300px] md:w-full bg-green-600 text-white hover:bg-green-900 cursor pointer py-2 rounded-md">
-        Send Reset Link
+        {loading ? "Sending Link...": "Send Reset Link"}
       </button>
 
       {message && <p className="text-green-600">{message}</p>}

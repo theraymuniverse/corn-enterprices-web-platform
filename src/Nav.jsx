@@ -86,7 +86,6 @@ const Nav =() => {
         {isOpen && (
         <div className="md:hidden bg-white w-[30rem] py-6">
           <ul className="flex flex-col  items-center gap-4 text-black">
-            
           <Link to="/"><li className="font-bold hover:text-gray-400 border-b text-black cursor-pointer">
              Home
             </li></Link>
@@ -110,15 +109,16 @@ const Nav =() => {
                <Link to="/signout">SiginOut</Link>
              ) : (
               <Link to="/login">LogIn</Link>
-             )}
+             )
+             }
             </li>
           </ul>
         </div>
       )}
-      <div className='flex flex-row gap-6 pt-[30px] md:-mr-[60px] max-md:hidden'>
+      <div className='flex flex-row gap-6 pt-[30px] md:-mr-[60px] lg:-mr-[50px] max-md:hidden'>
       {isLoggedIn ? (
         <>
-            <span className="font-semibold max-lg:hidden text-black pt-1">
+            <span className="font-semibold text-green-700 max-lg:hidden text-black pt-1">
               Hi,{profile?.firstname}
             </span>
             <Link to='/signout'>
