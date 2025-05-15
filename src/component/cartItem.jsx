@@ -39,9 +39,16 @@ const cartItem = (props) => {
         <button onClick={() => removeFromCart(id)} className=' w-8'>
             -
         </button>
-        <input value={cartItems[id]} onChange={(e) => updateCartItemCount(Number(e.target.value), id)} className='justify-center w-[100px] md:w-[300px] text-center'>
-            
-        </input>
+        <input
+  type="number"
+  min="1"
+  value={cartItems[id]}
+  onChange={e => {
+    const value = e.target.value === '' ? '' : Math.max(1, Number(e.target.value));
+    updateCartItemCount(value, id);
+  }}
+  className='justify-center w-[100px] md:w-[300px] text-center'
+/>
         
         <button onClick={() => addToCart(id)}>
             +
