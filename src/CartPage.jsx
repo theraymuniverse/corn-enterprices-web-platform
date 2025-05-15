@@ -52,7 +52,8 @@ const CartPage = () => {
   const cartDetails = products
     .filter((item) => cartItems[item.id] > 0)
     .map((item) => {
-      return `${item.name} ${role} x ${cartItems[item.id]}`;
+      const itemRole = roles[item.id] || "No role selected";
+      return `${item.name} ${itemRole} x ${cartItems[item.id]}`;
     })
     .join('%0A');
 
