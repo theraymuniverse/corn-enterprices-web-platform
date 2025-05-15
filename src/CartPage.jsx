@@ -42,6 +42,26 @@ const CartPage = () => {
 
  
   const handleClick =  async () => {
+    try {
+    const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message}),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message || 'Thank you for subscribing!');
+        setFormData({ email: "" });
+      } else {
+        alert(result.message || 'Error sending email, please try again.');
+      }
+    }  catch (err) {
+      console.error('Error:', err);
+      alert('Something went wrong. Please try again.');
+    }
+
   if (!user) {
     alert("Login to Cash Out");
     navigate('/login');
