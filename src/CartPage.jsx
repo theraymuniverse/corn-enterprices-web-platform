@@ -42,33 +42,34 @@ const CartPage = () => {
 
  
   const handleClick =  async () => {
-    if (!user) {
-      alert("Login to Cash Out")
-      navigate('/login')
-      return 
-    }else{
-      alert("Redirecting to WhatsApp for payment")
-      const cartDetails = products
-    .filter((item) => cartItems[item.id] > 0)
-    .map((item) => {
-      return `${item.name} x ${cartItems[item.id]} = ₦${item.price * cartItems[item.id]}`;
-    })
-    .join('%0A');
+  if (!user) {
+    alert("Login to Cash Out");
+    navigate('/login');
+    return;
+  } else {
+    alert("Redirecting to WhatsApp for payment");
 
-  const total = products.reduce((acc, item) => {
-    return acc + item.price * cartItems[item.id];
-  }, 0);
+    const cartDetails = products
+      .filter((item) => cartItems[item.id] > 0)
+      .map((item) => {
+        const role = roles[item.id] || "No role selected"; // Get the role or a default message
+        return `${item.name} ${role} x ${cartItems[item.id]}`;
+      })
+      .join('%0A');
 
-  const message = `I would like to order:%0A${cartDetails}%0A%0ATotal: ₦${total}`;
+    const total = products.reduce((acc, item) => {
+      return acc + item.price * cartItems[item.id];
+    }, 0);
 
-  const phoneNumber = '2347080136945';
+    const message = `Order Details%0A%0AProducts:%0A${cartDetails}`;
 
-  const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    const phoneNumber = '2348131906385';
 
-  window.open(url, '_blank');
-    }
+    const url = `https://wa.me/${phoneNumber}?text=${message}`;
 
-}
+    window.open(url, '_blank');
+  }
+};
 
     
 
@@ -80,12 +81,18 @@ const CartPage = () => {
             <h1 className='text-center text-[50px] '> Items in Cart</h1>
           </div>
           <div className='pt-6 justify-self-center flex flex-col gap-6 '>
-            {products.map((items) => {
-                if (cartItems[items.id] !== 0){
-                    return <CartItem data = {items} />;
-                }
-            })}
-          </div>
+  {products.map((items) => {
+    if (cartItems[items.id] !== 0) {
+      return (
+        <CartItem 
+          key={items.id} 
+          data={items} 
+          setRoleInCart={setRoleInCart} // Pass the function to CartItem
+        />
+      );
+    }
+  })}
+</div>
           <div className='Justify-center text-center pt-[20px]  '>
            {/*<p className='text-[20px] md:text-[30px]'>
                 Subtotal: ₦{products.reduce((acc, item) => {

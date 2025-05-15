@@ -43,7 +43,7 @@ const Signup = () => {
 
       if (profileError){
         console.error("Error creating user profile:", profileError);
-        setError(`An error occurred: ${profileError.message}`);
+        setError(`An error occurred: Already Signed in `);
         return;
       };
   
