@@ -14,7 +14,7 @@ export default async function handler(req, res) {
             secure: true,
             auth: {
                 user: 'sales@cornenterprise.com',
-                pass: 'ncf9A_xq',
+                pass: '',
             },
         });
 

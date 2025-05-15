@@ -64,12 +64,13 @@ const CartPage = () => {
   const message = `Order Details%0A%0AProducts:%0A${cartDetails}`;
 
   try {
+    const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '\n');
     const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message: messageForEmail }),
     });
     const result = await response.json();
     if (response.ok) {
