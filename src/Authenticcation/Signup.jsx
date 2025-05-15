@@ -9,7 +9,8 @@ import { supabase } from './supabaseClient';
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstname, setfirstName] = useState("");
+  const [surname, setsurName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
@@ -35,7 +36,8 @@ const Signup = () => {
         .from("profiles")
         .insert({
           id: userId,
-          name,
+          firstname,
+          surname,
           address,
           phone,
           dob,
@@ -85,17 +87,32 @@ const Signup = () => {
           <form onSubmit={handleSignUp} method="POST" className="space-y-6">
           <div>
               <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                Name
+                First Name
               </label>
               <div className="mt-2"></div><div className="mt-2">
                 <input
-                  id="name"
-                  name="name"
+                  id="firstname"
+                  name="firstname"
                   type="name"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  onChange={(e) => setfirstName(e.target.value)}
+                  value={firstname}
                   required
                   autoComplete="Name"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
+                />
+              </div>
+            </div><div>
+              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                Surname
+              </label>
+              <div className="mt-2"></div><div className="mt-2">
+                <input
+                  id="surname"
+                  name="surname"
+                  type="name"
+                  onChange={(e) => setsurName(e.target.value)}
+                  value={surname}
+                  required
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
                 />
               </div>

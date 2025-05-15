@@ -11,18 +11,34 @@ const Nav =() => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { getTotalCartItemCount } = useContext(ShopContext);
+  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState(null);
   const totalItems = getTotalCartItemCount();
 
   useEffect(() => {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setIsLoggedIn(!!session);
-    };
+       setUser(session?.user || null);
+   
   
+        if (session?.user) {
+        const { data, error } = await supabase
+          .from('profiles') // your table name
+          .select('*')
+          .eq('id', session.user.id) // assuming 'id' is the user id column
+          .single();
+        if (data) setProfile(data);
+      } else {
+        setProfile(null);
+      }
+    };
+
     checkUser();
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsLoggedIn(!!session);
+       setUser(session?.user || null);
     });
   
     return () => {
@@ -99,11 +115,16 @@ const Nav =() => {
           </ul>
         </div>
       )}
-      <div className='flex flex-row gap-8 pt-[30px] md:-mr-[70px] max-md:hidden'>
+      <div className='flex flex-row gap-6 pt-[30px] md:-mr-[60px] max-md:hidden'>
       {isLoggedIn ? (
-         <Link to='/signout'>
-           <User className='hover:shadow-xl cursor-pointer hover:bg-gray-300 hover:rounded-sm' />
-         </Link>
+        <>
+            <span className="font-semibold max-lg:hidden text-black pt-1">
+              Hi,{profile?.firstname}
+            </span>
+            <Link to='/signout'>
+              <User className='hover:shadow-xl cursor-pointer hover:bg-gray-300 hover:rounded-sm' />
+            </Link>
+          </>
       ) : (
         <Link to='/login'>
           <LogIn className='hover:shadow-xl cursor-pointer hover:bg-gray-300 hover:rounded-sm' />

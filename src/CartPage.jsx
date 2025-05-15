@@ -68,6 +68,7 @@ const CartPage = () => {
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
 
     window.open(url, '_blank');
+    window.location.reload();
   }
 };
 

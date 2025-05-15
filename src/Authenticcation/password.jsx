@@ -7,23 +7,23 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [newPassword, setNewPassword] = useState('')
   const navigate = useNavigate()    
 
   const handleForgotPassword = async (e) => {
-    e.preventDefault()
-    setMessage('')
-    setError('')
+    e.preventDefault();
+    setMessage('');
+    setError('');
 
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email)
-    if (success){
-        navigate("/login")
-    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
     if (error) {
-      setError(error.message)
+      setError(error.message);
     } else {
-      setMessage('Password reset email sent! Check your inbox.')
+      setMessage('Password reset email sent! Check your inbox.');
     }
   }
+
+
 
   return (
     <div>
