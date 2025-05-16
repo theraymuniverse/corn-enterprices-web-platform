@@ -49,7 +49,8 @@ const Products = () => {
                 <Link onClick={handleClick} to ='/products' className='text-center justify-center mr-[10px] border bg-green-300 text-white border-white rounded-md px-[25px] py-[10px] hover:bg-green-800 hover:shadow-green-200 hover:shadow-xl mt-[30px]'>View all Products</Link>
 
         </div>
-        <ul className='flex md:flex-row flex-col mt-[20px] h-[300px] px-[50px] max-lg:hidden justify-end' >
+        <div className='hidden lg:block'>
+            <ul className='flex md:flex-row flex-col mt-[20px] h-[300px] px-[50px]  justify-end' >
             <li className='p-2 pt-[50px]   m-5'>
                 <img loading='lazy' alt='form' className='shadow-md hover:shadow-2xl  rounded-lg w-[350px] rounded-xl h-[200px]' src={powder3}/>
                 <p className='pt-[20px] lg:text-[20px]'>Paddy Rice</p>
@@ -63,6 +64,7 @@ const Products = () => {
                 <p className='pt-[20px] lg:text-[20px]'>Maize</p>
             </li>
         </ul>
+    </div>
     </div>
   )
 }
