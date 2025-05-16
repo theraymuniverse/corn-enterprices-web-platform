@@ -99,7 +99,7 @@ const CartPage = () => {
           </div>
           <div className='pt-6 justify-self-center flex flex-col gap-6 '>
   {products.map((items) => {
-    if (cartItems[items.id] !== 0) {
+    if (cartItems[items.id] >= 0) {
       return (
         <CartItem 
           key={items.id} 
