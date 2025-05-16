@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ShopContext } from '../cartContext';
 
 
@@ -9,10 +9,39 @@ const cartItem = (props) => {
     const { id, name, imageUrl, price } = props.data;
     const { cartItems, addToCart, removeFromCart, updateCartItemCount } = useContext(ShopContext);
 
+    // Local state for the input field
+    const [inputValue, setInputValue] = useState(cartItems[id]);
+
+    useEffect(() => {
+        // Keep local input in sync with cart state
+        setInputValue(cartItems[id]);
+    }, [cartItems, id]);
+
     const handleRoleChange = (e) => {
         const selected = e.target.value;
         setFormData((prev) => ({ ...prev, role: selected }));
         props.setRoleInCart(id, selected); // Pass the role to the parent
+    };
+
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        // Allow blank for editing
+        if (value === '' || /^[0-9]+$/.test(value)) {
+            setInputValue(value);
+            // Only update cart state if value is not blank
+            if (value !== '') {
+                updateCartItemCount(Number(value), id);
+            }
+        }
+    };
+
+    const handleInputBlur = (e) => {
+        let value = e.target.value;
+        if (value === '' || Number(value) < 1) {
+            value = '1';
+        }
+        setInputValue(value);
+        updateCartItemCount(Number(value), id);
     };
 
 
@@ -42,11 +71,9 @@ const cartItem = (props) => {
         <input
   type="number"
   min="1"
-  value={cartItems[id]}
-  onChange={e => {
-    const value = e.target.value === '' ? '' : Math.max(1, Number(e.target.value));
-    updateCartItemCount(value, id);
-  }}
+  value={inputValue}
+  onChange={handleInputChange}
+  onBlur={handleInputBlur}
   className='justify-center w-[100px] md:w-[300px] text-center'
 />
         

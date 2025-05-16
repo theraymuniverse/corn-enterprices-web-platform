@@ -99,16 +99,17 @@ const CartPage = () => {
           </div>
           <div className='pt-6 justify-self-center flex flex-col gap-6 '>
   {products.map((items) => {
-    if (cartItems[items.id] >= 0) {
+    // Only show if quantity is greater than 0 (not blank or zero)
+    if (cartItems[items.id] > 0) {
       return (
         <CartItem 
           key={items.id} 
           data={items} 
-          setRoleInCart={setRoleInCart} // Pass the function to CartItem
+          setRoleInCart={setRoleInCart}
         />
       );
     }
-  })}
+})}
 </div>
           <div className='Justify-center text-center pt-[20px]  '>
            {/*<p className='text-[20px] md:text-[30px]'>
