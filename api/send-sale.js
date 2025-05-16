@@ -5,7 +5,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    const {  messageForEmail } = req.body;
+    const {  message} = req.body;
 
     try {
         const transporter = nodemailer.createTransport({
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
             secure: true,
             auth: {
                 user: 'sales@cornenterprise.com',
-                pass: '',
+                pass: 'ncf9A_xq',
             },
         });
 
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
             from: `"Upcoming Sale COR'N Enterprises" <${'sales@cornenterprise.com'}>`,
             to: 'sales@cornenterprise.com',
             subject: "Upcoming Sale",
-            html: `<p>New Sale Order: ${ messageForEmail }</p>`,
+            html: `<p>New Sale Order: ${ message }</p>`,
         });
 
         res.status(200).json({ message: "Joined Newsletter Successfully" });
