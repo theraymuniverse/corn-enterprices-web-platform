@@ -22,7 +22,11 @@ export default async function handler(req, res) {
             from: `"Upcoming Sale COR'N Enterprises" <${'sales@cornenterprise.com'}>`,
             to: 'sales@cornenterprise.com',
             subject: "Upcoming Sale",
-            html: `<p>New Sale Order: ${ message }</p>`,
+            html: `<p>New Sale Order: </p>
+            <p>${ message}</p>
+            <p>For more details,Please check the Whatsapp Message.</p>
+            `
+           
         });
 
         res.status(200).json({ message: "Joined Newsletter Successfully" });
