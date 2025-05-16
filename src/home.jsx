@@ -29,8 +29,8 @@ const home = () => {
         </p>
   
         <HashLink>
-        <div  className="" >
-        <ChevronsDown className='max-sm:hidden 
+        <div  className="hidden md:block" >
+        <ChevronsDown className='
          animate-bounce  md:mt-[80px] border  rounded-full ' size={70} />
         </div>
         </HashLink>    

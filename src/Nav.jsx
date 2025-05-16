@@ -117,7 +117,8 @@ const Nav =() => {
           </ul>
         </div>
       )}
-      <div className='flex flex-row gap-6 pt-[30px] md:-mr-[60px] lg:-mr-[50px] max-md:hidden'>
+      <div className='hidden md:block'>
+      <div className='flex flex-row gap-6 pt-[30px] md:-mr-[60px] lg:-mr-[50px] '>
       {isLoggedIn ? (
         <>
             <span className="font-semibold text-green-700 max-lg:hidden text-black pt-1">
@@ -137,6 +138,7 @@ const Nav =() => {
           {totalItems}
         </span>
       )}</Link>
+      </div>
       </div>
     </div>
     )
