@@ -53,7 +53,7 @@ const CartPage = () => {
     .filter((item) => cartItems[item.id] > 0)
     .map((item) => {
       const itemRole = roles[item.id] || "No quantity type selected";
-      return `${item.name} ${itemRole} x ${cartItems[item.id]}`;
+      return `${item.name} ${(itemRole)} x ${cartItems[item.id]}`;
     })
     .join('%0A');
 
@@ -64,7 +64,7 @@ const CartPage = () => {
   const message = `Order Details%0A%0AProducts:%0A${cartDetails}`;
 
   try {
-    const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '\n');
+    const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br>');
     const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
       method: 'POST',
       headers: {
