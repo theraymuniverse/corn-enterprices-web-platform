@@ -49,8 +49,9 @@ const Nav =() => {
 
     return (
       <div className="p-1 sticky bg-transparent justify-between flex shadow-md md:px-[130px]">
-      <img src={slogon} className='w-[60px] max-md:hidden md:-ml-[120px] h-[80px]' />
-      <ul className="flex gap-5 lg:gap-10 text-center  max-md:hidden md:text-[14px] lg:text-[16px] pt-[30px]">
+      <img src={slogon} className='w-[60px] hidden md:block md:-ml-[120px] h-[80px]' />
+      <div className='hidden md:block' >
+      <ul className="flex gap-5 lg:gap-10 text-center md:text-[14px] lg:text-[16px] pt-[30px]">
         <Link to ='/' ><li className='hover:text-gray-400 text-black hover:border-b cursor-pointer'>
            Home
         </li></Link>
@@ -70,6 +71,7 @@ const Nav =() => {
           Careers/Learning
         </li></Link>
       </ul>
+      </div>
         <div className='md:hidden container flex flex-row justify-between '>
         <img src={slogon} className='w-[50px] sm:ml-[30px] h-[60px]'/>
         <div className='flex gap-5'>

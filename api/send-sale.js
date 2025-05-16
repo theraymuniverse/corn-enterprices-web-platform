@@ -23,7 +23,7 @@ export default async function handler(req, res) {
             to: 'sales@cornenterprise.com',
             subject: "Upcoming Sale",
             html: `<p>New Sale Order: </p>
-            <p>${ message}</p>
+            <p>${message}</p>
             <p>For more details,Please check the Whatsapp Message.</p>
             `
            
