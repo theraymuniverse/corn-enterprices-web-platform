@@ -13,22 +13,20 @@ const cartItem = (props) => {
     const [inputValue, setInputValue] = useState(cartItems[id]);
 
     useEffect(() => {
-        // Keep local input in sync with cart state
         setInputValue(cartItems[id]);
     }, [cartItems, id]);
 
     const handleRoleChange = (e) => {
         const selected = e.target.value;
         setFormData((prev) => ({ ...prev, role: selected }));
-        props.setRoleInCart(id, selected); // Pass the role to the parent
+        props.setRoleInCart(id, selected); 
     };
 
     const handleInputChange = (e) => {
         const value = e.target.value;
-        // Allow blank for editing
+        
         if (value === '' || /^[0-9]+$/.test(value)) {
             setInputValue(value);
-            // Only update cart state if value is not blank
             if (value !== '') {
                 updateCartItemCount(Number(value), id);
             }
