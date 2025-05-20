@@ -42,7 +42,16 @@ const CartPage = () => {
   }, [])
 
  
-  const handleClick =  async () => {
+  const handleClick = async () => {
+  // Check if all cart items have a selected role
+  const missingRole = products.some(
+    (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')
+  );
+  if (missingRole) {
+    alert('Please select a category (Kg, Bags, or Tons) for all items before cashing out.');
+    return;
+  }
+
   if (!user) {
     alert("Login to Cash Out");
     navigate('/login');
@@ -124,11 +133,15 @@ const CartPage = () => {
              </div>
              </div>
              {apiResponse && (
-  <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
-    <h3>Order Message Sent:</h3>
-    <pre>{decodeURIComponent(apiResponse)}</pre>
-  </div>
-)}
+               <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
+                 <h3>Order Message Sent:</h3>
+                 <pre>{decodeURIComponent(apiResponse)}</pre>
+                 <p>
+                  Our sales representative will reach out to you shortly to confirm your order and offer you a quotation...
+                  Thank you
+                 </p>
+               </div>
+             )}
           </div>
     </div>
   )
