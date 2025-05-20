@@ -28,7 +28,7 @@ const Career = () => {
         e.preventDefault();
         setLoading(true);
         setMessage(null);
-        const {name, career, message, role} = formData;
+        const {name, career, message, role, email, phone} = formData;
 
         try {
         const {data, error } = await supabase.from('careers').insert([{name, career, message, role}])
