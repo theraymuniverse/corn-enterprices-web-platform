@@ -136,6 +136,7 @@ const CartPage = () => {
                <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
                  <h3>Order Message Sent:</h3>
                  <pre>{decodeURIComponent(apiResponse)}</pre>
+                 <br/>
                  <p>
                   Our sales representative will reach out to you shortly to confirm your order and offer you a quotation...
                   Thank you
