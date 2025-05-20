@@ -31,22 +31,30 @@ const Form = () => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
-    const validateErrors = validate();
     const {name, email, message} = formData;
-    const {data, error } = await supabase.from('contacts').insert([{name, email, message}])
-    if(Object.keys(validateErrors).length > 0){
-      setErrors(validateErrors);
-      return;
-    }
-    setErrors({})
 
-    if (error) {
-      setMessage(`Error: ${error.message}`);
-      console.log(error)
-    } else {
-      alert("Form submitted successfully")
-      setMessage("Form submitted successfully!");
-      setFormData({ name: "", email: "",message: "" });
+    try{
+      const {data, error } = await supabase.from('contacts').insert([{name, email, message}])
+       if(error) throw error;
+
+      const response = await fetch('https://www.cornenterprise.com/api/send-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, message }),
+      })
+       const result = await response.json();
+      if (response.ok) {
+        alert(result.message || 'Thank you for contacting us!');
+        setFormData({ email: "" , message: "" ,name: "" });
+      } else {
+        alert(result.message || 'Error sending email, please try again.');
+      }
+    
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Something went wrong. Please try again.');
     }
     setLoading(false)
   };
