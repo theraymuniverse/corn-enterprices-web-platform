@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         await transporter.sendMail({
             from: `"Subscription from COR'N Enterprises" <${'hello@cornenterprise.com'}>`,
             to: 'hello@cornenterprise.com',
-            cc: {email},
+            cc: email,
             subject: "New Subscription to Cor'n Newsletter",
             html: `<p>New subscriber: ${email}</p>
             <p>Thank you for subscribing to our newsletter!</p>`,
