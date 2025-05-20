@@ -10,6 +10,8 @@ const Career = () => {
       career: "",
       message: "",
       role: "",
+      email: "",
+      phone: "",
     });
     const [loading, setLoading] = useState(false);
       const [message,setMessage] = useState(null);
@@ -37,13 +39,13 @@ const Career = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({name, career, message, role}),
+          body: JSON.stringify({name, career, message, role, phone, email}),
         });
 
         const result = await response.json();
         if (response.ok) {
           alert(result.message || 'Thank you for subscribing!');
-          setFormData({  name: "", career: "",message: "" , role: ""});
+          setFormData({  name: "", career: "",message: "" , role: "", phone: "", email: "" });
         } else {
           alert(result.message || 'Error sending email, please try again.');
         }
@@ -86,6 +88,26 @@ const Career = () => {
         required/><br/>
         </div>
         <div>
+        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Email</label><br/>
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
+         type='email'
+         name='email' 
+         value={formData.email}
+         onChange={handleChange}
+         placeholder='Enter your email' 
+         required/><br/>
+        </div>
+        <div>
+        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Career Path</label><br/>
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
+         type='tel'
+         name='phone' 
+         value={formData.phone}
+         onChange={handleChange}
+         placeholder='Enter your phone number ' 
+         required/><br/>
+        </div>
+        <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Career Path</label><br/>
         <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
          type='text'
@@ -108,7 +130,7 @@ const Career = () => {
           </select>
         </div>
         <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Message</label><br/>
+        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Why you wish to join us?</label><br/>
         <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
          type='text' 
          name='message'
