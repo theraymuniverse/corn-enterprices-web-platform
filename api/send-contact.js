@@ -13,14 +13,14 @@ export default async function handler(req, res) {
       port: 465,
       secure: true,
       auth: {
-        user: 'admin@cornenterprise.com',
-        pass: 'p_Cfp4pj',
+        user: 'hello@cornenterprise.com',
+        pass: 'ydhlD7j!',
       },
     });
 
     const info = await transporter.sendMail({
-        from: `"New Contact Us Entry" <${'admin@cornenterprise.com'}>`,
-        to: 'admin@cornenterprise.com',
+        from: `"New Contact Us Entry" <${'hello@cornenterprise.com'}>`,
+        to: 'hello@cornenterprise.com',
         subject: "New Contact",
         html: `
            <h1>New Contact Received </h1>
