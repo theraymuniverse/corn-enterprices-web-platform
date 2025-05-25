@@ -6,13 +6,13 @@ import Nav from './Nav'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from './Authenticcation/supabaseClient'
+import Popup from './component/Popup'
 
 const CartPage = () => {
     const { cartItems } = useContext(ShopContext)
     const navigate = useNavigate();
-     
+    const [showpopup, setShowPopup] = useState(false)
     const [user, setUser] = useState(null)
-    const [apiResponse, setApiResponse] = useState('');
 
     const [roles, setRoles] = useState({}); // Track roles for each cart item
 
@@ -84,7 +84,7 @@ const CartPage = () => {
     });
     const result = await response.json();
     if (response.ok) {
-      setApiResponse(message); // <-- Set the message in state to display in UI
+        setShowPopup(true); 
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
@@ -133,17 +133,9 @@ const CartPage = () => {
              {user ? "Cash Out" : "Login to Cash Out"}</button>
              </div>
              </div>
-             {apiResponse && (
-               <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
-                 <h3>Order Message Sent:</h3>
-                 <pre>{decodeURIComponent(apiResponse)}</pre>
-                 <br/>
-                 <p>
-                  Our sales representative will reach out to you shortly to confirm your order and offer you a quotation...
-                  Thank you
-                 </p>
-               </div>
-             )}
+             { showpopup && (
+                <Popup onClose={() => location.reload()}/>
+             )} 
           </div>
     </div>
   )
