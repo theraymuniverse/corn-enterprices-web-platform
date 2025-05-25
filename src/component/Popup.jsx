@@ -18,8 +18,6 @@ const Popup = ({onClose}) => {
             </h1>
             <p className='mt-3 text-sm md:text-md text-center '>
                 Our sales representative will reach out to you shortly to confirm your order and offer you a quotation.
-                <br/>
-                Thank you
             </p>
          </div>
     </div>

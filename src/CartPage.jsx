@@ -67,14 +67,14 @@ const CartPage = () => {
     .join('%0A');
 
   const total = products.reduce((acc, item) => {
-    return acc + item.price * cartItems[item.id];
+    return acc + cartItems[item.id];
   }, 0);
 
-  const message = `Order Details%0A%0AProducts:%0A${cartDetails}%0A Our sales representative will reach out to you shortly to confirm your order and offer you a quotation...
+  const message = `Order Details%0A%0AProducts:%0A${cartDetails}%0ATotal:${total} products  %0A Our sales representative will reach out to you shortly to confirm your order and offer you a quotation...
                   Thank you`;
 
   try {
-    const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br>');
+    const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
     const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
       method: 'POST',
       headers: {
