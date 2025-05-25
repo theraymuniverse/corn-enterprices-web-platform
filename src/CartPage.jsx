@@ -92,14 +92,13 @@ const CartPage = () => {
   } catch (err) {
     console.error('Error:', err);
     alert('Something went wrong. Please try again.');
-  }finally {
-      setLoading(false);
-    }
+  }
 
   alert("Redirecting to WhatsApp for payment");
   const phoneNumber = '2348131906385';
   const url = `https://wa.me/${phoneNumber}?text=${message}`;
   window.open(url, '_blank');
+  setLoading(false);
 };
     
 
