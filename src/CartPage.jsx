@@ -13,6 +13,7 @@ const CartPage = () => {
     const navigate = useNavigate();
     const [showpopup, setShowPopup] = useState(false)
     const [user, setUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(false);
 
     const [roles, setRoles] = useState({}); // Track roles for each cart item
 
@@ -43,6 +44,7 @@ const CartPage = () => {
 
  
   const handleClick = async () => {
+    setIsLoading(true);
   // Check if all cart items have a selected role
   const missingRole = products.some(
     (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')
@@ -70,8 +72,7 @@ const CartPage = () => {
     return acc + cartItems[item.id];
   }, 0);
 
-  const message = `Order Details%0A%0AProducts:%0A${cartDetails}%0ATotal:${total} products  %0A Our sales representative will reach out to you shortly to confirm your order and offer you a quotation...
-                  Thank you`;
+  const message = `Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
 
   try {
     const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
@@ -91,7 +92,9 @@ const CartPage = () => {
   } catch (err) {
     console.error('Error:', err);
     alert('Something went wrong. Please try again.');
-  }
+  }finally {
+      setLoading(false);
+    }
 
   alert("Redirecting to WhatsApp for payment");
   const phoneNumber = '2348131906385';
@@ -130,7 +133,18 @@ const CartPage = () => {
              <div className='flex justify-center flex-row gap-6 pt-[40px]'>
              <button className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 pointer cursor'><Link to='/products'>Continue Shopping</Link></button>
              <button onClick={handleClick} className='bg-black text-white rounded-xl p-3 hover:bg-gray-500 poniter cursor'>
-             {user ? "Cash Out" : "Login to Cash Out"}</button>
+                     {isLoading ? (
+            <>
+            <div className='flex flex-row gap-2'>
+              <div class='h-2 w-2 bg-green-400 rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+              <div class='h-2 w-2 bg-green-400 rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+              <div class='h-2 w-2 bg-green-400 rounded-full animate-bounce'></div>
+            </div>
+            </>
+               ) : (
+                user ? "Cash Out" : "Login to Cash Out"
+                 )}
+             </button>
              </div>
              </div>
              { showpopup && (
