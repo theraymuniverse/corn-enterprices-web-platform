@@ -12,7 +12,9 @@ const Popup = ({onClose}) => {
            <X size={30}/> 
          </button>
          <div className='bg-white shadow-md rounded-xl md:py-10 md:px-20 px-15 py-10  mx-6 md:mx-4 justify-center items-center  gap-6    '>
-            <img className='w-[90px] place-self-center justify-self-center h-[100px]' src={cornfetti}/>
+            <div className='items-center justify-center flex flex-col'>
+            <img className='w-[90px] h-[100px]' src={cornfetti}/>
+            </div>
             <h1 className='text-center font-extrabold text-2xl md:text-3xl '>
                 Thank you for your purchase
             </h1>
