@@ -89,8 +89,7 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      setShowPopup(true); // Show popup
-      // Do NOT reload or navigate here!
+      setShowPopup(true); 
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
@@ -103,7 +102,7 @@ const CartPage = () => {
   const phoneNumber = '2348131906385';
   const url = `https://wa.me/${phoneNumber}?text=${message}`;
   window.open(url, '_blank');
-  setLoading(false);
+  setIsLoading(false);
 };
     
 
