@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from './Authenticcation/supabaseClient'
 import Popup from './component/Popup'
+import { getItem, setItem } from './localstorage'
 
 const CartPage = () => {
     const { cartItems } = useContext(ShopContext)
@@ -15,13 +16,17 @@ const CartPage = () => {
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
 
-    const [roles, setRoles] = useState({}); // Track roles for each cart item
+    const [roles, setRoles] = useState(() => {
+        const saved = localStorage.getItem('roles');
+        return saved ? JSON.parse(saved) : {};
+    });
 
     const setRoleInCart = (id, role) => {
-        setRoles((prev) => ({
-            ...prev,
-            [id]: role,
-        }));
+        setRoles(prev => {
+            const updated = { ...prev, [id]: role };
+            localStorage.setItem('roles', JSON.stringify(updated));
+            return updated;
+        });
     };
 
 
@@ -45,7 +50,6 @@ const CartPage = () => {
  
   const handleClick = async () => {
     setIsLoading(true);
-  // Check if all cart items have a selected role
   const missingRole = products.some(
     (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')
   );
@@ -78,14 +82,14 @@ const CartPage = () => {
     const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
     const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: messageForEmail }),
     });
     const result = await response.json();
     if (response.ok) {
-         setShowPopup(true);
+      setShowPopup(true);
+      setRoles({});
+      localStorage.removeItem('roles');
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
@@ -118,6 +122,7 @@ const CartPage = () => {
           key={items.id} 
           data={items} 
           setRoleInCart={setRoleInCart}
+          role = {roles[items.id] || ''}
         />
       );
     }

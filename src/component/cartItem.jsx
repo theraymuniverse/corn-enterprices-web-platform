@@ -17,9 +17,7 @@ const cartItem = (props) => {
     }, [cartItems, id]);
 
     const handleRoleChange = (e) => {
-        const selected = e.target.value;
-        setFormData((prev) => ({ ...prev, role: selected }));
-        props.setRoleInCart(id, selected); 
+        props.setRoleInCart(id, e.target.value);
     };
 
     const handleInputChange = (e) => {
@@ -52,7 +50,7 @@ const cartItem = (props) => {
         <label  className="text-[18px] text-center">Kg, Ton or Bags:</label>
                 <select 
                 name="role"
-                value={formData.role}
+                value={props.role}
                 onChange={handleRoleChange}
                 required
                 className= "border border-gray-500 w-[150px] md:w-[200px]   h-[25px] text-[15px]" >

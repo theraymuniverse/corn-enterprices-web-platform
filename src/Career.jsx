@@ -98,7 +98,7 @@ const Career = () => {
          required/><br/>
         </div>
         <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Career Path</label><br/>
+        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Phone Number</label><br/>
         <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
          type='tel'
          name='phone' 
