@@ -81,7 +81,7 @@ const CartPage = () => {
 
   const message = `Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
 
-   alert("Redirecting to WhatsApp for payment");
+   
      const phoneNumber = '2348131906385';
      const url = `https://wa.me/${phoneNumber}?text=${message}`;
     
@@ -108,8 +108,9 @@ const CartPage = () => {
   } finally{
      setIsLoading(false);
      setTimeout(() => {
+      alert("Redirecting to WhatsApp for payment");
       window.open(url, '_blank');
-    }, 700)
+    }, 1500)
   }
 };
     
