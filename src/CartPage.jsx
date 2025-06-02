@@ -12,8 +12,7 @@ import { getItem, setItem } from './localstorage'
 const CartPage = () => {
   const navigate = useNavigate(); 
     const { cartItems } = useContext(ShopContext)
-    const [showpopup, setShowPopup] = useState(() => {
-      return localStorage.getItem('showpopup') === 'true';})
+    const [showpopup, setShowPopup] = useState(false)
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,22 +28,7 @@ const CartPage = () => {
             return updated;
         });
     };
-  useEffect(() => {
-  const syncPopup = () => {
-    const stored = localStorage.getItem('showpopup') === 'true';
-    setShowPopup(stored);
-  };
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-      syncPopup();
-    }
-  });
-
-  return () => {
-    document.removeEventListener('visibilitychange', syncPopup);
-  };
-}, []);
 
   useEffect(() => {
     const getUser = async () => {
