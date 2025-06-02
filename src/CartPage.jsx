@@ -47,11 +47,11 @@ const CartPage = () => {
     }, [])
 
     
-useEffect(() => {
-  if (localStorage.getItem('showpopup') === 'true') {
-    setShowPopup(true);
-  }
-}, [])
+     useEffect(() => {
+       if (localStorage.getItem('showpopup') === 'true') {
+         setShowPopup(true);
+       }
+     }, [])
  
   const handleClick = async () => {
     setIsLoading(true); 
