@@ -29,7 +29,6 @@ const Popup = ({onClose, whatsappUrl }) => {
            </div>
            <a
         href={whatsappUrl}
-        onClick={() => onClose()}
         target="_blank"
         rel="noopener noreferrer"
         className="bg-green-500 text-white rounded-xl p-3 block mt-4 text-center"
