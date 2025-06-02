@@ -9,7 +9,7 @@ const Popup = ({onClose, whatsappUrl }) => {
 
   return (
     <div className='fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center'>
-    <div className='md:mt-50 mt-35 flex flex-col gap-5 text-black lg:w-[800px] md:w-[600px] w-[350px]'>
+    <div className='md:mt-50 mt-30 flex flex-col gap-5 text-black lg:w-[800px] md:w-[600px] w-[350px]'>
          <button onClick = {onClose}  className='place-self-end'>
            <X size={30}/> 
          </button>
@@ -18,7 +18,7 @@ const Popup = ({onClose, whatsappUrl }) => {
             <img className='w-[90px] h-[100px]' src={cornfetti}/>
             </div>
             <h1 className='text-center font-extrabold text-2xl md:text-3xl '>
-                Thank you for your purchase
+                Your purchase is being processed
             </h1>
                    <a
                  href={whatsappUrl}
