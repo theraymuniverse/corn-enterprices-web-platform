@@ -31,8 +31,8 @@ const Popup = ({onClose, whatsappUrl }) => {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-green-500 text-white rounded-xl p-3 block mt-4 text-center"
-        onClick={() =>  window.location.reload()}
+        className="bg-green-500 text-[10px] md:text-[15px] text-white rounded-xl p-3 block mt-4 text-center"
+        onClick={() => setTimeout(() => window.location.reload(), 500)}
       >
         Open WhatsApp to complete your order
       </a>
