@@ -84,7 +84,7 @@ const CartPage = () => {
    alert("Redirecting to WhatsApp for payment");
      const phoneNumber = '2348131906385';
      const url = `https://wa.me/${phoneNumber}?text=${message}`;
-     window.open(url, '');
+    
 
   try {
     const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
@@ -108,6 +108,9 @@ const CartPage = () => {
   } finally{
      setIsLoading(false);
      setShowPopup(true);
+     setTimeout(() => {
+      window.open(url, '_blank');
+    }, 700)
   }
 };
     
