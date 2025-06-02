@@ -29,29 +29,25 @@ const CartPage = () => {
         });
     };
 
-    useEffect(() => {
-      const getUser = async () => {
-        const {
-          data: { user }
-        } = await supabase.auth.getUser()
-        setUser(user)
-      }
-  
-      getUser()
-  
-      const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-        setUser(session?.user || null)
-      })
-  
-      return () => listener?.subscription.unsubscribe()
-    }, [])
-
     
-     useEffect(() => {
-       if (localStorage.getItem('showpopup') === 'true') {
-         setShowPopup(true);
-       }
-     }, [])
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser()
+      setUser(user)
+    }
+
+    getUser()
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+    })
+
+    return () => listener?.subscription.unsubscribe()
+  }, [])
+
  
   const handleClick = async () => {
     setIsLoading(true); 
@@ -101,9 +97,7 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      setShowPopup(true);
-      localStorage.setItem('showpopup', 'true');
-     
+       setShowPopup(true);
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
@@ -112,6 +106,7 @@ const CartPage = () => {
     alert('Something went wrong. Please try again.');
   } finally{
      setIsLoading(false);
+    
   }
 };
     
@@ -162,10 +157,7 @@ const CartPage = () => {
              </div>
              </div>
             {showpopup && (
-              <Popup onClose={() => {
-                setShowPopup(false);
-                localStorage.removeItem('showpopup');
-              }} />
+              <Popup onClose={() => location.reload()} />
          )} 
           </div>
     </div>
