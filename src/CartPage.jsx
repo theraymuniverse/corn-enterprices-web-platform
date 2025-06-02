@@ -29,6 +29,7 @@ const CartPage = () => {
         });
     };
 
+    const whatsappRef = React.useRef(null);
 
   useEffect(() => {
     const getUser = async () => {
@@ -47,12 +48,6 @@ const CartPage = () => {
     return () => listener?.subscription.unsubscribe()
   }, [])
 
-  // On mount, restore popup state
-useEffect(() => {
-  if (localStorage.getItem('showpopup') === 'true') {
-    setShowPopup(true);
-  }
-}, [])
  
   const handleClick = async () => {
     setIsLoading(true); 
@@ -85,14 +80,16 @@ useEffect(() => {
   }, 0);
 
   const message = `Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
-  setShowPopup(true);
-  localStorage.setItem('showpopup', 'true');
 
-  // Now open WhatsApp and show alert
-  alert("Redirecting to WhatsApp for payment");
+   alert("Redirecting to WhatsApp for payment");
      const phoneNumber = '2348131906385';
-     const url = `https://wa.me/${phoneNumber}?text=${message}`;
-     window.open(url, '');
+     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  // Set the href and trigger the click
+  if (whatsappRef.current) {
+    whatsappRef.current.href = url;
+    whatsappRef.current.click();
+  }
 
   try {
     const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
@@ -105,6 +102,8 @@ useEffect(() => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
+      setShowPopup(true);
+     
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
@@ -163,11 +162,17 @@ useEffect(() => {
              </div>
              </div>
             {showpopup && (
-              <Popup onClose={() => {
-                setShowPopup(false);
-                localStorage.removeItem('showpopup');
-              }} />
-            )} 
+              <Popup onClose={() => location.reload()} />
+         )} 
+         <a
+  ref={whatsappRef}
+  href="/"
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{ display: 'none' }}
+>
+  WhatsApp
+</a>
           </div>
     </div>
   )
