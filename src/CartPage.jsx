@@ -48,11 +48,6 @@ const CartPage = () => {
     return () => listener?.subscription.unsubscribe()
   }, [])
 
-  useEffect(() => {
-    if (localStorage.getItem('showpopup') === 'true') {
-      setShowPopup(true);
-    }
-  }, []);
  
   const handleClick = async () => {
     setIsLoading(true); 
@@ -102,8 +97,7 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      setShowPopup(true);
-      localStorage.setItem('showpopup', 'true');
+       setShowPopup(true);
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
@@ -163,10 +157,7 @@ const CartPage = () => {
              </div>
              </div>
             {showpopup && (
-              <Popup onClose={() => {
-                setShowPopup(false);
-                localStorage.removeItem('showpopup');
-              }} />
+              <Popup onClose={() => location.reload()} />
          )} 
           </div>
     </div>
