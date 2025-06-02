@@ -11,7 +11,6 @@ import { getItem, setItem } from './localstorage'
 
 const CartPage = () => {
     const { cartItems } = useContext(ShopContext)
-    const navigate = useNavigate();
     const [showpopup, setShowPopup] = useState(false)
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +48,7 @@ const CartPage = () => {
 
  
   const handleClick = async () => {
+    const navigate = useNavigate();
     setIsLoading(true);
   const missingRole = products.some(
     (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')

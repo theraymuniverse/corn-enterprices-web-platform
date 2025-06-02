@@ -3,9 +3,6 @@ import { ShopContext } from '../cartContext';
 
 
 const cartItem = (props) => {
-    const [formData, setFormData] = useState({
-        role: "",
-    });
     const { id, name, imageUrl, price } = props.data;
     const { cartItems, addToCart, removeFromCart, updateCartItemCount } = useContext(ShopContext);
 
