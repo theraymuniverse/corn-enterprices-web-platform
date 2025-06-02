@@ -152,7 +152,7 @@ const CartPage = () => {
              </div>
              </div>
              { showpopup && (
-                <Popup onClose={() => location.reload()}/>
+                <Popup onClose={() =>}/>
              )} 
           </div>
     </div>
