@@ -15,6 +15,7 @@ const CartPage = () => {
     const [showpopup, setShowPopup] = useState(false)
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
+    const [whatsappUrl, setWhatsappUrl] = useState('');
 
     const [roles, setRoles] = useState(() => {
         const saved = localStorage.getItem('roles');
@@ -81,10 +82,10 @@ const CartPage = () => {
 
   const message = `Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
 
-   
+      alert("Redirecting to WhatsApp for payment");
      const phoneNumber = '2348131906385';
      const url = `https://wa.me/${phoneNumber}?text=${message}`;
-    
+     setWhatsappUrl(url);
 
   try {
     const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
@@ -107,10 +108,6 @@ const CartPage = () => {
     alert('Something went wrong. Please try again.');
   } finally{
      setIsLoading(false);
-     setTimeout(() => {
-      alert("Redirecting to WhatsApp for payment");
-      window.open(url, '_blank');
-    }, 1500)
   }
 };
     
@@ -161,7 +158,9 @@ const CartPage = () => {
              </div>
              </div>
             {showpopup && (
-              <Popup onClose={() => location.reload()} />
+              <Popup onClose={() => location.reload()}
+               whatsappUrl={whatsappUrl}
+                />
          )} 
           </div>
     </div>
