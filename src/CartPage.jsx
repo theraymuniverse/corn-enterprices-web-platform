@@ -97,7 +97,7 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      setShowPopup(true);
+      setShowPopup(true); 
      
     } else {
       alert(result.message || 'Error sending email, please try again.');

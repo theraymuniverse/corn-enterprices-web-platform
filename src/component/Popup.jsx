@@ -34,7 +34,7 @@ const Popup = ({onClose, whatsappUrl }) => {
             </p>
             <div className='flex flex-row gap-4 justify-center mt-5 md:mt-8'>
                <Link to='/'><button onClick={navigate('/')} className='bg-black text-white py-1 px-1 md:px-5 md:py-2 md:text-[15px] rounded-xl text-[10px] hover:bg-gray-500 pointer cursor  duration-300 ease-out'>Return to home page</button></Link>
-               <Link to = '/products'><button onClick={navigate('/partner')} className='bg-black text-white py-1 px-1 md:px-5 md:py-2 md:text-[15px] rounded-xl text-[10px] hover:bg-gray-500 pointer cursor duration-300 ease-in-out '> Parnter With Cor'n</button></Link>            
+               <Link to = '/partner'><button onClick={navigate('/partner')} className='bg-black text-white py-1 px-1 md:px-5 md:py-2 md:text-[15px] rounded-xl text-[10px] hover:bg-gray-500 pointer cursor duration-300 ease-in-out '> Parnter With Cor'n</button></Link>            
            </div>
          </div>
     </div>
