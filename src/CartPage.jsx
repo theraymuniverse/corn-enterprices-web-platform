@@ -154,10 +154,7 @@ const CartPage = () => {
              </div>
             {showpopup && (
               <Popup onClose={() => {
-              setShowPopup(false);
-              setTimeout(() => {
-             location.reload();
-              }, 100); 
+              setShowPopup(false) 
             }} />
          )} 
           </div>
