@@ -99,7 +99,7 @@ const CartPage = () => {
       localStorage.removeItem('roles');
        setTimeout(() => {
         setShowPopup(true);
-       }, 3000);
+       }, 1000);
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
