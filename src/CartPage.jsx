@@ -29,7 +29,7 @@ const CartPage = () => {
         });
     };
 
-    const whatsappRef = React.useRef(null);
+    
 
   useEffect(() => {
     const getUser = async () => {
@@ -83,13 +83,8 @@ const CartPage = () => {
 
    alert("Redirecting to WhatsApp for payment");
      const phoneNumber = '2348131906385';
-     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-  // Set the href and trigger the click
-  if (whatsappRef.current) {
-    whatsappRef.current.href = url;
-    whatsappRef.current.click();
-  }
+     const url = `https://wa.me/${phoneNumber}?text=${message}`;
+     window.open(url, '');
 
   try {
     const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
@@ -102,7 +97,7 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      setShowPopup(true);
+      
      
     } else {
       alert(result.message || 'Error sending email, please try again.');
@@ -112,6 +107,7 @@ const CartPage = () => {
     alert('Something went wrong. Please try again.');
   } finally{
      setIsLoading(false);
+     setShowPopup(true);
   }
 };
     
@@ -164,15 +160,6 @@ const CartPage = () => {
             {showpopup && (
               <Popup onClose={() => location.reload()} />
          )} 
-         <a
-  ref={whatsappRef}
-  href="/"
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{ display: 'none' }}
->
-  WhatsApp
-</a>
           </div>
     </div>
   )
