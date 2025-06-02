@@ -51,6 +51,7 @@ const CartPage = () => {
  
   const handleClick = async () => {
     setIsLoading(true); 
+    
   const missingRole = products.some(
     (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')
   );
@@ -64,7 +65,9 @@ const CartPage = () => {
     navigate('/login'); 
     return;
   }
-
+ 
+   setShowPopup(true);
+   
   const cartDetails = products
     .filter((item) => cartItems[item.id] > 0)
     .map((item) => {
@@ -102,7 +105,6 @@ const CartPage = () => {
     alert('Something went wrong. Please try again.');
   } finally{
      setIsLoading(false);
-     setShowPopup(true);
   }
 };
     
