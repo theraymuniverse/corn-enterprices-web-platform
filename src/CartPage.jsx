@@ -29,10 +29,22 @@ const CartPage = () => {
             return updated;
         });
     };
+  useEffect(() => {
+  const syncPopup = () => {
+    const stored = localStorage.getItem('showpopup') === 'true';
+    setShowPopup(stored);
+  };
 
-    useEffect(() => {
-    localStorage.setItem('showpopup', showpopup);
-    }, [showpopup]);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      syncPopup();
+    }
+  });
+
+  return () => {
+    document.removeEventListener('visibilitychange', syncPopup);
+  };
+}, []);
 
   useEffect(() => {
     const getUser = async () => {
