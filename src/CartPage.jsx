@@ -47,6 +47,12 @@ const CartPage = () => {
     return () => listener?.subscription.unsubscribe()
   }, [])
 
+  // On mount, restore popup state
+useEffect(() => {
+  if (localStorage.getItem('showpopup') === 'true') {
+    setShowPopup(true);
+  }
+}, [])
  
   const handleClick = async () => {
     setIsLoading(true); 
@@ -104,7 +110,9 @@ const CartPage = () => {
     alert('Something went wrong. Please try again.');
   } finally{
      setIsLoading(false);
-     setShowPopup(true);
+     // Show popup and persist
+setShowPopup(true);
+localStorage.setItem('showpopup', 'true');
   }
 };
     
@@ -155,8 +163,11 @@ const CartPage = () => {
              </div>
              </div>
             {showpopup && (
-              <Popup onClose={() =>{location.reload()}}/>
-         )} 
+              <Popup onClose={() => {
+                setShowPopup(false);
+                localStorage.removeItem('showpopup');
+              }} />
+            )} 
           </div>
     </div>
   )
