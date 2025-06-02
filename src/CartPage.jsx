@@ -10,6 +10,7 @@ import Popup from './component/Popup'
 import { getItem, setItem } from './localstorage'
 
 const CartPage = () => {
+  const navigate = useNavigate(); 
     const { cartItems } = useContext(ShopContext)
     const [showpopup, setShowPopup] = useState(false)
     const [user, setUser] = useState(null)
@@ -28,7 +29,7 @@ const CartPage = () => {
         });
     };
 
-    const navigate = useNavigate(); 
+    
 
   useEffect(() => {
     const getUser = async () => {
@@ -49,7 +50,7 @@ const CartPage = () => {
 
  
   const handleClick = async () => {
-    setIsLoading(true);
+    setIsLoading(true); 
   const missingRole = products.some(
     (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')
   );
@@ -89,7 +90,7 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      setShowPopup(true); 
+      setShowPopup(true);
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
