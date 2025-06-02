@@ -97,7 +97,9 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-       setShowPopup(true);
+       setTimeout(() => {
+        setShowPopup(true);
+       }, 3000);
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
