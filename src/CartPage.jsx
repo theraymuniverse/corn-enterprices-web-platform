@@ -13,7 +13,7 @@ const CartPage = () => {
   const navigate = useNavigate(); 
     const { cartItems } = useContext(ShopContext)
     const [showpopup, setShowPopup] = useState(() => {
-      return localStorage.getItem('showPopup') === 'true';})
+      return localStorage.getItem('showpopup') === 'true';})
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
 
