@@ -100,10 +100,10 @@ const CartPage = () => {
   } catch (err) {
     console.error('Error:', err);
     alert('Something went wrong. Please try again.');
+  } finally{
+     setIsLoading(false);
+     setShowPopup(true);
   }
-  
-  setShowPopup(true);
-  setIsLoading(false);
 };
     
 
