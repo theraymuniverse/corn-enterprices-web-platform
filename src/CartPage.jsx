@@ -85,8 +85,11 @@ useEffect(() => {
   }, 0);
 
   const message = `Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
+  setShowPopup(true);
+  localStorage.setItem('showpopup', 'true');
 
-   alert("Redirecting to WhatsApp for payment");
+  // Now open WhatsApp and show alert
+  alert("Redirecting to WhatsApp for payment");
      const phoneNumber = '2348131906385';
      const url = `https://wa.me/${phoneNumber}?text=${message}`;
      window.open(url, '');
@@ -110,9 +113,6 @@ useEffect(() => {
     alert('Something went wrong. Please try again.');
   } finally{
      setIsLoading(false);
-     // Show popup and persist
-setShowPopup(true);
-localStorage.setItem('showpopup', 'true');
   }
 };
     
