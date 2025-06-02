@@ -12,7 +12,8 @@ import { getItem, setItem } from './localstorage'
 const CartPage = () => {
   const navigate = useNavigate(); 
     const { cartItems } = useContext(ShopContext)
-    const [showpopup, setShowPopup] = useState(false)
+    const [showpopup, setShowPopup] = useState(() => {
+      return localStorage.getItem('showPopup') === 'true';})
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +30,9 @@ const CartPage = () => {
         });
     };
 
-    
+    useEffect(() => {
+    localStorage.setItem('showpopup', showpopup);
+    }, [showpopup]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -159,7 +162,10 @@ const CartPage = () => {
              </div>
              </div>
             {showpopup && (
-              <Popup onClose={() => location.reload()} />
+              <Popup onClose={() => {
+                localStorage.removeItem('showpopup');
+                setShowPopup(false);
+              }}/>
          )} 
           </div>
     </div>
