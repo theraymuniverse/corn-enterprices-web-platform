@@ -66,8 +66,7 @@ const CartPage = () => {
     return;
   }
  
-   setShowPopup(true);
-   
+
   const cartDetails = products
     .filter((item) => cartItems[item.id] > 0)
     .map((item) => {
@@ -82,6 +81,11 @@ const CartPage = () => {
 
   const message = `Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
 
+   alert("Redirecting to WhatsApp for payment");
+     const phoneNumber = '2348131906385';
+     const url = `https://wa.me/${phoneNumber}?text=${message}`;
+     window.open(url, '');
+
   try {
     const messageForEmail = decodeURIComponent(message).replace(/%0A/g, '<br/>');
     const response = await fetch('https://www.cornenterprise.com/api/send-sale', {
@@ -93,10 +97,8 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      alert("Redirecting to WhatsApp for payment");
-     const phoneNumber = '2348131906385';
-     const url = `https://wa.me/${phoneNumber}?text=${message}`;
-     window.open(url, '_blank');
+      setShowPopup(true);
+     
     } else {
       alert(result.message || 'Error sending email, please try again.');
     }
