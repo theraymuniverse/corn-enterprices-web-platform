@@ -28,6 +28,7 @@ const CartPage = () => {
         });
     };
 
+    const navigate = useNavigate(); 
 
   useEffect(() => {
     const getUser = async () => {
@@ -48,7 +49,6 @@ const CartPage = () => {
 
  
   const handleClick = async () => {
-    const navigate = useNavigate();
     setIsLoading(true);
   const missingRole = products.some(
     (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')
@@ -60,7 +60,7 @@ const CartPage = () => {
 
   if (!user) {
     alert("Login to Cash Out");
-    navigate('/login');
+    navigate('/login'); 
     return;
   }
 
