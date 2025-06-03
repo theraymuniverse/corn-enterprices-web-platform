@@ -21,13 +21,13 @@ const Popup = ({onClose, whatsappUrl }) => {
                 Your purchase is being processed
             </h1>
                    <a
-                 href={whatsappUrl}
-                 rel="noopener noreferrer external"
-                 className="bg-green-500 text-[13px] md:text-[17px] text-white rounded-xl p-3 block mt-4 text-center"
-                 onClick={() =>  location.reload()}
-               >
-                 Open WhatsApp to complete your order
-               </a>
+                    href={whatsappUrl}
+                    rel="noopener noreferrer external"
+                    className="bg-green-500 text-[13px] md:text-[17px] text-white rounded-xl p-3 block mt-4 text-center"
+                    onClick={() => setTimeout(() => window.location.reload(), 500)}
+                  >
+  Open WhatsApp to complete your order
+</a>
             <p className='mt-3 text-sm md:text-md text-center '>
                 Our sales representative will reach out to you shortly when your order is confirmed and offer you a quotation.
             </p>
