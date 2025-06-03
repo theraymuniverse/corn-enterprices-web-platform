@@ -11,7 +11,9 @@ import { getItem, setItem } from './localstorage'
 
 const CartPage = () => {
   const navigate = useNavigate(); 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { cartItems } = useContext(ShopContext)
+    const [profile, setProfile] = useState(null);
     const [showpopup, setShowPopup] = useState(false)
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
