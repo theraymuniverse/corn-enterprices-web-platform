@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {X} from "lucide-react" 
 import cornfetti from '../assets/Some.jpg'
 import {Link, useNavigate } from 'react-router-dom'
@@ -6,6 +6,16 @@ import {Link, useNavigate } from 'react-router-dom'
 
 const Popup = ({onClose, whatsappUrl }) => {
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        const handleVisibility = () => {
+          if (!document.hidden) {
+            window.location.reload();
+          }
+        };
+        document.addEventListener('visibilitychange', handleVisibility);
+        return () => document.removeEventListener('visibilitychange', handleVisibility);
+      }, []);
 
   return (
     <div className='fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center'>
@@ -21,11 +31,10 @@ const Popup = ({onClose, whatsappUrl }) => {
                 Your purchase is being processed
             </h1>
                    <a
-                    href={whatsappUrl}
-                    rel="noopener noreferrer external"
-                    className="bg-green-500 text-[13px] md:text-[17px] text-white rounded-xl p-3 block mt-4 text-center"
-                    onClick={() => setTimeout(() => window.location.reload(), 500)}
-                  >
+  href={whatsappUrl}
+  rel="noopener noreferrer external"
+  className="bg-green-500 text-[13px] md:text-[17px] text-white rounded-xl p-3 block mt-4 text-center"
+>
   Open WhatsApp to complete your order
 </a>
             <p className='mt-3 text-sm md:text-md text-center '>
