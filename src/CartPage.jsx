@@ -34,6 +34,26 @@ const CartPage = () => {
 
   useEffect(() => {
     const getUser = async () => {
+       const checkUser = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setIsLoggedIn(!!session);
+             setUser(session?.user || null);
+         
+        
+              if (session?.user) {
+              const { data, error } = await supabase
+                .from('profiles') // your table name
+                .select('*')
+                .eq('id', session.user.id) // assuming 'id' is the user id column
+                .single();
+              if (data) setProfile(data);
+            } else {
+              setProfile(null);
+            }
+          };
+      
+          checkUser();
+
       const {
         data: { user }
       } = await supabase.auth.getUser()
@@ -51,8 +71,7 @@ const CartPage = () => {
 
  
   const handleClick = async () => {
-    setIsLoading(true); 
-    
+    setIsLoading(true);  
   const missingRole = products.some(
     (item) => cartItems[item.id] > 0 && (!roles[item.id] || roles[item.id] === '')
   );
@@ -80,7 +99,7 @@ const CartPage = () => {
     return acc + cartItems[item.id];
   }, 0);
 
-  const message = `Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
+  const message = `Customer: ${profile?.firstname}%0APhoneNumber:${profile?.phone}%0AEmail: ${profile?.email}%0A%0A Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
 
      const phoneNumber = '2348131906385';
      const url = `https://wa.me/${phoneNumber}?text=${message}`;
@@ -97,7 +116,7 @@ const CartPage = () => {
     if (response.ok) {
       setRoles({});
       localStorage.removeItem('roles');
-      setShowPopup(true); 
+      
      
     } else {
       alert(result.message || 'Error sending email, please try again.');
@@ -107,6 +126,7 @@ const CartPage = () => {
     alert('Something went wrong. Please try again.');
   } finally{
      setIsLoading(false);
+      setShowPopup(true);
   }
 };
     
