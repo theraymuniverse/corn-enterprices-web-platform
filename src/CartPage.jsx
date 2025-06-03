@@ -103,7 +103,7 @@ const CartPage = () => {
     return acc + cartItems[item.id];
   }, 0);
 
-  const message = `Customer: ${profile?.surname} ${profile?.firstname}%0APhoneNumber:${profile?.phone}%0AEmail: ${profile?.email}%0A%0A Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
+  const message = `Customer: ${profile?.surname} ${profile?.firstname}%0APhoneNumber:  ${profile?.phone}%0AEmail: ${profile?.email}%0A%0A Order Details %0A%0AProducts:%0A${cartDetails}%0ATotal Products: ${total} %0A`;
 
      const phoneNumber = '2348131906385';
      const url = `https://wa.me/${phoneNumber}?text=${message}`;

@@ -108,7 +108,7 @@ const Nav =() => {
             </li>
             <li className="font-bold hover:text-gray-400 text-black border-b cursor-pointer">
             {isLoggedIn ? (
-               <Link to="/signout">Sign wOut</Link>
+               <Link to="/signout">Sign Out</Link>
              ) : (
               <Link to="/login">LogIn</Link>
              )
