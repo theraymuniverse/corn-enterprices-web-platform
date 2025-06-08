@@ -1,18 +1,46 @@
-import React from 'react'
-import second from './assets/Farmer.jpg'
+import React, {useState, useEffect} from 'react'
+import second from './assets/oo.jpg'
 import { Link } from 'react-router-dom'
 import { ChevronsDown } from 'lucide-react';
 import {motion} from 'framer-motion'
 import { HashLink } from 'react-router-hash-link';
+import third from './assets/yu.jpg'
+import fourth from './assets/pl.jpg'
+import five from './assets/po.jpg'
+
+ const icon = [
+   {
+     img: fourth 
+   },
+    {
+     img: second
+   },{
+    
+    img: third
+   },{
+    img: five
+   }
+ ]
 
 
 const home = () => {
+   
+    const [currentIndex, setCurrentIndex] = useState(0);
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentIndex(prev => (prev + 1) % icon.length)
+      }, 5000);
+  
+      return () => clearInterval(interval);
+    }, []);
+
   return (
     <div
-     className='bg-gradient-to-tr h-[500px]  max-sm:h-[650px] md:h-[600px] from-green-00 to-[#1B7A43] relative '>
+     className='h-[500px]  max-sm:h-[650px] md:h-[600px]  relative '>
     <img
     alt='home'
-    src={second} className='absolute w-full h-[500px] max-sm:h-[650px] md:h-[600px] object-cover mix-blend-overlay' />
+    src={icon[currentIndex].img} className='absolute w-full h-[500px] max-sm:h-[650px] md:h-[600px] object-cover mix-blend-overlay' />
     <motion.div 
      initial={{ y:30, opacity: 0, }}
      whileInView= {{ y:0, opacity: 1}}
