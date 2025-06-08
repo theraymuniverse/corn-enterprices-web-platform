@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import second from './assets/oo.jpg'
+import second from './assets/lol.jpg'
 import { Link } from 'react-router-dom'
 import { ChevronsDown } from 'lucide-react';
 import {motion} from 'framer-motion'
