@@ -213,7 +213,7 @@ To become the most excellent grain producing, processing, and distribution compa
           </div>
           <h2 className="text-[30px] font-bold text-center px-[40px] sm:px-[0px] text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or <span className="text-green-500">Investor</span></h2>
           <p className="text-center -mt-[25px] px-[20px]"> Ready to invest or collaborate?<br/>
-Kindly fill the contact form beside to get started. A member of our executive team will reach out to you.</p>
+           Kindly fill the contact form beside to get started. A member of our executive team will reach out to you.</p>
           <div className="justify-center items-center">
           <form onSubmit={handleSubmit} method="POST" className="space-y-8 w-auto">
              <div className="flex md:flex-row flex-col  ">

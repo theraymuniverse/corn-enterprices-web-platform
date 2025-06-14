@@ -8,6 +8,7 @@ import {ArrowUpRight} from 'lucide-react'
 import rice from './assets/Rice.jpg'
 
 const Career = () => {
+  const [role, setRole] = useState("");
   const [formData, setFormData] = useState({
       name: "",
       career: "",
@@ -15,6 +16,7 @@ const Career = () => {
       role: "",
       email: "",
       phone: "",
+      type: ""
     });
     const [loading, setLoading] = useState(false);
       const [message,setMessage] = useState(null);
@@ -25,15 +27,21 @@ const Career = () => {
           ...prev,[e.target.name]: e.target.value
         }));
       };
+
+      const handleRoleChange = (e) => {
+      const selected = e.target.value;
+      setFormData(prev => ({ ...prev, role: selected }));
+      setRole(selected);
+    };
     
       const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setMessage(null);
-        const {name, career, message, role, email, phone} = formData;
+        const {name, career, message, role, email, phone,type} = formData;
 
         try {
-        const {data, error } = await supabase.from('careers').insert([{name, career, message, role}])
+        const {data, error } = await supabase.from('careers').insert([{name, career, message, role, type}])
         if (error) throw error;
 
         const response = await fetch('https://www.cornenterprise.com/api/send-career', {
@@ -41,13 +49,13 @@ const Career = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({name, career, message, role, phone, email}),
+          body: JSON.stringify({name, career, message, role, phone, email, type}),
         });
 
         const result = await response.json();
         if (response.ok) {
           alert(result.message || 'Thank you for subscribing!');
-          setFormData({  name: "", career: "",message: "" , role: "", phone: "", email: "" });
+          setFormData({  name: "", career: "",message: "" , role: "", phone: "", email: "", type: "" });
         } else {
           alert(result.message || 'Error sending email, please try again.');
         }
@@ -193,13 +201,31 @@ const Career = () => {
           <select
           name='role' 
           value={formData.role}
-          onChange={handleChange}
+          onChange={handleRoleChange}
           className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'>
           <option value=''>Choose your option</option>
           <option value='learn'>Learning Course</option>
           <option value='career'>Career</option>
           </select>
         </div>
+        {role === "career" && (
+                 <div className="mt-1">
+                   <label  className=" md:ml-[5px] md:ml-[0px] pb-[10px]  text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]">We are always on the lookout for:</label>
+                    <select 
+                     name="type"
+                     value={formData.type}
+                     onChange={handleChange}
+                     className= " md:ml-[10px] border-2 border-gray-300 rounded-md p-2 w-[300px] mb-5" >
+                  <option value="">Available Roles & Openings</option>
+                  <option value="a">Farm Assistants & Field Officers</option>
+                  <option value="b">Processing Plant Operators</option>
+                  <option value="c">Agro-Marketing Executives</option>
+                  <option value="d">Warehouse & Supply Chain Staff</option>
+                  <option value="e">Administrative & Finance Interns</option>
+                  <option value="e">Project & Training Coordinators</option>
+                </select>
+                  </div>
+                  )}
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Why you wish to join us?</label><br/>
         <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'

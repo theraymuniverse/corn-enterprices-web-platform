@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { name, career, message, role, phone, email } = req.body;
+  const { name, career, message, role, phone, email, type} = req.body;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -29,6 +29,7 @@ export default async function handler(req, res) {
             <p>Career: ${career}</p>
             <p>Message: ${message}</p>
             <p>Role: ${role}</p>
+            <p>Job type: ${type}</p>
             <p>Phone: ${phone}</p>
             <p>Email: ${email}</p>
             <p>Thank you for your interest in joining our team!</p>
