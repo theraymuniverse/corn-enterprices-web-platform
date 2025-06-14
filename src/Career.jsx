@@ -217,12 +217,12 @@ const Career = () => {
                      onChange={handleChange}
                      className= " md:ml-[10px] border-2 border-gray-300 rounded-md p-2 w-[300px] mb-5" >
                   <option value="">Available Roles & Openings</option>
-                  <option value="a">Farm Assistants & Field Officers</option>
-                  <option value="b">Processing Plant Operators</option>
-                  <option value="c">Agro-Marketing Executives</option>
-                  <option value="d">Warehouse & Supply Chain Staff</option>
-                  <option value="e">Administrative & Finance Interns</option>
-                  <option value="e">Project & Training Coordinators</option>
+                  <option value="Farm Assistants & Field Officers">Farm Assistants & Field Officers</option>
+                  <option value="Processing Plant Operators">Processing Plant Operators</option>
+                  <option value="Agro-Marketing Executives">Agro-Marketing Executives</option>
+                  <option value="Warehouse & Supply Chain Staff">Warehouse & Supply Chain Staff</option>
+                  <option value="Administrative & Finance Interns">Administrative & Finance Interns</option>
+                  <option value="Project & Training Coordinators">Project & Training Coordinators</option>
                 </select>
                   </div>
                   )}
