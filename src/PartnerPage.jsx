@@ -77,12 +77,12 @@ import { MapPin } from 'lucide-react';
        <Nav/>
        
       <div className="flex gap-[40px] flex-col pb-[50px] justify-center items-center lg:items-center">
-             <div className="justify-center mt-[20px] md:p-[30px] p-10">
-               <h1 className="text-center font-bold text-[35px] sm:text-[18px] md:text-[35px]">
+             <div className="justify-center items-center mt-[20px] md:p-[30px] p-10">
+               <h1 className="text-center font-bold  text-[35px] sm:text-[18px] md:text-[35px]">
                  Partner with <span className="text-green-500">COR'N ENTERPRISES</span>
                </h1>
                <p className="text-center text-[10px] max-w-[650px] md:max-w-full md:text-[13px] ">
-                Let’s Grow Wealth, Feed Nations, and Build the Future of Agriculture Together.</p>
+                Let's Grow Wealth, Feed Nations, and Build the Future of Agriculture Together.</p>
                 <div className="flex md:flex-row flex-col md:p-2 gap-8 mt-[30px] ">
                 <p className="lg:mt-[160px] md:mt-[80px] max-w-[500px] text-[12px] md:text-[15px] md:w-[600px]">At COR'N ENTERPRISES, we are not just growing grains—we are growing a vision for food security, economic empowerment, and sustainable agricultural wealth across Nigeria and beyond. From our base in Jalingo, Taraba State—Nature’s gift to the nation, we cultivate, process, distribute, and innovate across the grain value chain.
                 As a dynamic agribusiness with strong roots and bold ambitions, we are calling on forward-thinking investors and strategic partners to join us in shaping the future of Africa’s grain economy.
