@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Nav from './Nav'
 import img11 from './assets/career.jpg'
 import Footer from './footer'
-import {supabase} from './Authenticcation/supabaseClient' 
+import {supabase} from './Authenticcation/supabaseClient'
+import {motion} from 'framer-motion'
 
 const Career = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,6 @@ const Career = () => {
           ...prev,[e.target.name]: e.target.value
         }));
       };
-    
     
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -59,19 +59,59 @@ const Career = () => {
   return (
     <div>
      <Nav/>
-     <div className='md:p-15 items-center flex md:flex-row flex-col md:gap-20 lg:gap-35 xl:gap-50 md:p-20 lg:p-25 xl:p-30 '>
+     <div className='md:p-15 items-center flex md:flex-row flex-col md:gap-20 lg:gap-35 xl:gap-40 md:p-20 lg:p-20 xl:p-30 '>
        <div>
-        <h1 className='justify-center text-center md:text-start pt-[70px] md:pt-[30px] lg:text-[40px] xl:text-[50px] text-[31px] md:text-[30px]'>
+        <motion.h1
+         style={{overflow: 'hidden', whiteSpace: 'nowrap'}}
+         initial={{width: 0}}
+         animate={{width: '100%'}}
+         transition={{duration: 2, ease: 'easeInOut'}}
+         className=' justify-center text-center md:text-start pt-[70px] md:pt-[30px] lg:text-[40px] xl:text-[50px] text-[31px] md:text-[30px]'>
            Start your Career in one leap<br/> <span className='text-green-500'>with COR'N </span>
-        </h1>
-        <p className='pt-5 text-[13px] md:text-[15px] text-center md:text-start px-[20px] md:px-[0px] '>Want to be a part of the great work we do at COR'N?<br/>
-        Fill the the form below or contact us via whatsapp and we will get back to you as soon as possible.
+        </motion.h1>
+         <p className='pt-5 text-[13px] md:text-[15px] text-center md:text-start px-[20px] md:px-[0px] '>At COR’N ENTERPRISES, we don’t just cultivate grains—we cultivate people. Our fields grow food, but our enterprise grows futures. Whether you're a fresh graduate, a seasoned professional, or a curious learner eager to break into agribusiness, there’s a place for you here.<br/>
+        We are building a community of bold thinkers, skilled hands, and passionate professionals who believe that agriculture is not just about the land—but about the people who work it, manage it, and transform it.
         </p>
         </div>
         <img className=' w-[350px] md:w-[380px] lg:w-[450px] pt-[20px] xl:w-[550px] rounded-xl ' loading='lazy' src={img11}
         />
      </div>
      <div>
+     {/*<div className='p-20'>
+        <h1 className='text-center text-[25px] md:text-[20px] lg:text-[25px] xl:text-[33px]'>
+          Learning <span className='text-green-500'> and </span> Capacity Building Programs
+        </h1>
+        <ul className='items-center justify-center mt-[40px] flex flex-row gap-10'>
+          <li className='p-5 shadow-sm rounded-lg overflow-hidden w-[600px] '>
+            <h1 className='text-center '>
+              Students & Graduates
+            </h1>
+          </li>
+           <li className='p-5 shadow-sm rounded-lg overflow-hidden w-[600px] '>
+            <h1 className='text-center text-[20px] '>
+              Students & Graduates
+            </h1>
+            <p className='text-center mt-[30px]'>
+              Industrial Training (IT/SIWES)<br/>
+              Graduate Internship Program<br/>
+              Agro-Leadership Bootcamps
+            </p>
+          </li>
+        </ul>
+         <ul className='items-center justify-center mt-[40px] flex flex-row gap-10'>
+          <li className='border w-[600px] '>
+            <h1 className='text-center '>
+              Students & Graduates
+            </h1>
+          </li>
+           <li className='border w-[600px] '>
+            <h1 className='text-center '>
+              Students & Graduates
+            </h1>
+          </li>
+        </ul>
+        
+     </div>*/}
        <h1 className='text-center p-3 text-[25px] md:text-[25px] lg:text-[30px] xl:text-[40px] mb-[30px] pt-10'>
          EXPLORE ENDLESS <span className='text-green-500'>POSSIBILITIES</span>
        </h1>
@@ -104,7 +144,7 @@ const Career = () => {
          name='phone' 
          value={formData.phone}
          onChange={handleChange}
-         placeholder='Enter your phone number ' 
+         placeholder='Enter your phone number' 
          required/><br/>
         </div>
         <div>

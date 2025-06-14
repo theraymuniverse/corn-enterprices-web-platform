@@ -2,8 +2,13 @@ import { useState } from "react";
 import Nav from './Nav'
 import {supabase} from './Authenticcation/supabaseClient' 
 import Footer from "./footer"
-
-
+import icon2 from './assets/az.jpg'
+import { motion } from "framer-motion"; 
+import { Flag, Eye } from 'lucide-react';
+import rose from './assets/open.jpg'
+import store from './assets/store.jpg'
+import truck from './assets/trucker.jpg'
+import { MapPin } from 'lucide-react';
 
  const  PartnerPage = () => {
   const [role, setRole] = useState("");
@@ -72,7 +77,145 @@ import Footer from "./footer"
        <Nav/>
        
       <div className="flex gap-[40px] flex-col pb-[50px] justify-center items-center lg:items-center">
-          <h2 className="text-xl font-bold text-center text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or <span className="text-green-500">Investor</span></h2>
+             <div className="justify-center mt-[20px] md:p-[30px] p-10">
+               <h1 className="text-center font-bold text-[27px] sm:text-[18px] md:text-[35px]">
+                 Partner with <span className="text-green-500">COR'N ENTERPRISES</span>
+               </h1>
+               <p className="text-center text-[10px] max-w-[650px] md:max-w-full md:text-[13px] ">
+                Let’s Grow Wealth, Feed Nations, and Build the Future of Agriculture Together.</p>
+                <div className="flex md:flex-row flex-col md:p-2 gap-8 mt-[30px] ">
+                <p className="lg:mt-[160px] md:mt-[80px] max-w-[500px] text-[12px] md:text-[15px] md:w-[600px]">At COR'N ENTERPRISES, we are not just growing grains—we are growing a vision for food security, economic empowerment, and sustainable agricultural wealth across Nigeria and beyond. From our base in Jalingo, Taraba State—Nature’s gift to the nation, we cultivate, process, distribute, and innovate across the grain value chain.
+                As a dynamic agribusiness with strong roots and bold ambitions, we are calling on forward-thinking investors and strategic partners to join us in shaping the future of Africa’s grain economy.
+               </p>
+               <img src={icon2} className="lg:w-120 lg:h-120 md:w-100  "/>
+               </div>
+             </div>
+             <div>
+              <h1 className="text-center font-bold text-[22px] md:text-[30px]"> 
+                 Why Partner with COR’N ENTERPRISES?
+              </h1>
+              <ul
+               className="grid md:p-20 p-15 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 md:mt-[20px]">
+              <motion.li 
+                 whileHover={{ scale: 1.2 }}
+                 whileTap={{ scale: 0.2}}
+              className="container shadow-sm shadow-green-500   rounded-xl">
+                <div className="mt-6 p-5 " >
+                  <h1 className="text-green-500 mb-[10px] font-semibold text-center">Strategic Location in Taraba State</h1>
+                  <p className="md:text-[15px]  text-center">
+                    With fertile lands, favorable climate, and vast farming potential, Taraba provides the natural advantage to grow at scale
+                  </p>
+                </div>
+                 </motion.li>
+               <li className="container shadow-green-500 shadow-sm rounded-xl">
+                <div className="mt-6 p-5 " >
+                  <h1 className="text-green-500 mb-[10px] font-semibold text-center"> Fast-Rising Agro Brand</h1>
+                  <p className="text-[15px] text-center">
+                    We’re building a strong brand presence, backed by trusted partners like LBO Global Services, and expanding across local and international markets.
+                  </p>
+                </div>
+                 </li>
+              <li className="container shadow-green-500 shadow-sm rounded-xl">
+                <div className="mt-6 p-5 " >
+                  <h1 className="text-green-500 mb-[10px] font-semibold text-center">Diverse Partnership Avenues</h1>
+                  <p className="text-[12px] text-center">
+                      We welcome:<br/>
+                      – Equity Investors<br/>
+                      – Off-Takers & Bulk Buyers<br/>
+                      – Export & Logistics Partners<br/>
+                      – Franchisees & Distributors<br/>
+                      – Agro-Financial Collaborators
+                  </p>
+                </div>
+                 </li>
+                <li className="container shadow-green-500 shadow-sm rounded-xl">
+                <div className="mt-6 p-5 " >
+                  <h1 className="text-green-500 mb-[10px] font-semibold text-center">Impact-Driven and Scalable</h1>
+                  <p className="text-[15px] text-center">
+                    Beyond profits, we are committed to creating jobs, empowering farmers, and promoting food security across Africa
+                  </p>
+                </div>
+                 </li>
+              </ul>
+             </div>
+             <div className="md:p-10 p-5 gap-5 flex flex-row basis-50 md:gap-20  justify-center items-center">
+               <div className="shadow-md  overflow-hidden rounded-lg h-[275px] md:h-[250px]">
+               <Eye size={40} className="text-green-500 mx-auto mt-5" />
+              <h1 className="text-center font-bold md:text-[30px] text-[20px] mt-[10px]"> 
+                 Our Vision
+              </h1>
+              <p className="text-center md:text-[15px] text-[12px] p-5 max-w-[500px]">
+                
+To become the most excellent grain producing, processing, and distribution company, while pioneering agro-financial services in the grain industry.
+
+              </p>
+              </div>
+              <div className="shadow-md  overflow-hidden rounded-lg h-[277px] md:h-[250px]">
+                 <Flag size={40} className="text-green-500 mx-auto mt-5" />
+                 <h1 className="text-center font-bold md:text-[30px] text-[20px] mt-[10px]"> 
+                 Our Mission
+              </h1>
+              <p className="text-center md:text-[15px] text-[12px] p-5 max-w-[450px]">
+                
+To deliver premium grains and inclusive agro-based financial services to the Nigerian people and the world at large.
+
+              </p>
+              </div>
+             </div>
+             <div className="justify-center items-center p-10">
+             <section className="md:max-w-[600px] text-left justify-center items-center">
+                <h1 className="font-semibold  text-[26px] md:text-[40px] text-center">What We Do?</h1>
+                <p className="text-[13px] md:text-[16px] text-center px-[30px] ">
+                  At COR'N ENTERPRISES, we operate a fully integrated model that spans:<br/>
+                </p>
+                <div class="grid md:grid-flow-col p-7 md:p-2 max-sm:grid-cols-1 justify-center md:grid-rows-3 gap-3 md:gap-5 lg:gap-9 mt-[20px]">
+                  <div
+                   className="bg-cover row-span-3 text-center pt-3 h-[250px]  w-[345px] md:h-[620px] md:w-[350px] lg:h-[650px]  lg:w-[750px] rounded-xl"
+                   style={{ backgroundImage: `url(${rose})` }}
+                    >                 
+                    <h1 className="lg:mt-[190px] md:mt-[250px] mt-[100px] md:text-[40px]  lg:text-[50px] text-[35px] text-white font-semibold">Direct Farming</h1>
+                  </div>
+                  <div 
+                   style={{ backgroundImage: `url(${truck})` }}
+                   className="col-span-2  bg-cover rounded-xl   text-center h-[250px]  md:w-[400px]">
+                  <h1 className="md:mt-[80px] mt-[60px] text-white md:text-[20px] text-[25px] font-semibold " >Distribution<br/> (local and global)</h1>
+                  </div>
+                  <div 
+                   style={{ backgroundImage: `url(${store})` }}
+                  className="col-span-2  bd-cover rounded-lg row-span-2 text-center  h-[250px] md:h-[350px]">
+                  <h1 className="md:mt-[180px] mt-[90px] text-white text-[30px] font-semibold">
+                   Storage and Processing
+                  </h1>
+                  </div>
+                  
+                </div>
+                <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-1 md:gap-5 lg:gap-20 ">
+                  <div className="lg:mt-[80px] px-[60px] md:px-[0px] md:-ml-[60px]  text-left ">
+                 <h1 className="text-[50px] font-semibold mb-[20px]">
+                    Join <span className="text-green-500">us</span>
+                  </h1>          
+                  <p>
+                  Whether you’re an investor seeking strong returns, a partner seeking sustainable supply, or an organization looking to create real agricultural impact, COR’N ENTERPRISES is your ideal ally.<br/></p>  
+                  <div className="text-[20px]">
+                  <span className="text-green-500">Let’s turn fertile land into financial abundance.<br/> </span>
+                  <span className="text-green-500 mb-[5px]">Let’s make grains not just grow—but thrive.<br/></span>
+                  <span className="text-green-500 mb-[5px]">Let’s do it—together.</span>    
+               </div>
+                </div>
+                <div className="mt-[80px] px-[60px] md:px-[40pxpx]  p-5 w-[400px]">
+                      <div className="flex flex-row justify-center items-center gap-2 ">
+                           <MapPin size={100} className=" " color="green"/>   <span className="text-[15px]">Head Office: Jalingo, Taraba State, Nigeria<br/>
+                           Call Us:+234 813 190 8385<br/>
+                       Email: admin@cornenterprise.com<br/>
+                       </span>
+                      </div>
+                  </div>
+                </div>
+             </section>
+          </div>
+          <h2 className="text-[30px] font-bold text-center text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or <span className="text-green-500">Investor</span></h2>
+          <p className="text-center -mt-[25px] px-[20px]"> Ready to invest or collaborate?<br/>
+Kindly fill the contact form beside to get started. A member of our executive team will reach out to you.</p>
           <div className="justify-center  items-center">
           <form onSubmit={handleSubmit} method="POST" className="space-y-8 w-auto">
              <div className="flex md:flex-row flex-col  ">

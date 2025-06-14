@@ -12,7 +12,7 @@ const About = () => {
      <Nav/>
      <div className='items-center '>
      <div className='flex md:flex-row flex-col  gap-2 pt-[20px] items-center pb-[100px] lg:ml-[60px] xl:ml-[120px] md:ml-[50px] '>
-        <div className='md:pt-[100px] lg:pt-[150px] '>
+        <div className='md:pt-[30px] lg:pt-[150px] '>
         
         <h1 className='font-bold justify-center pt-[30px] lg:text-[40px]  md:text-[30px] pb-[10px] lg:pl-[40px] md:pl-[30px] text-center max-sm:text-center text-[25px]'>
             About US
