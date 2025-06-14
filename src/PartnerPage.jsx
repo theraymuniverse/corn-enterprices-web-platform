@@ -67,7 +67,7 @@ import { MapPin } from 'lucide-react';
   } catch (err) {
     console.error('Error:', err);
     alert('Something went wrong. Please try again.');
-  }
+  } 
 
     setLoading(false)
   };
@@ -120,11 +120,11 @@ import { MapPin } from 'lucide-react';
                   <h1 className="text-green-500 mb-[10px] font-semibold text-center">Diverse Partnership Avenues</h1>
                   <p className="text-[12px] text-center">
                       We welcome:<br/>
-                      – Equity Investors<br/>
-                      – Off-Takers & Bulk Buyers<br/>
-                      – Export & Logistics Partners<br/>
-                      – Franchisees & Distributors<br/>
-                      – Agro-Financial Collaborators
+                      - Equity Investors<br/>
+                      - Off-Takers & Bulk Buyers<br/>
+                      - Export & Logistics Partners<br/>
+                      - Franchisees & Distributors<br/>
+                      - Agro-Financial Collaborators
                   </p>
                 </div>
                  </li>
@@ -156,9 +156,7 @@ To become the most excellent grain producing, processing, and distribution compa
                  Our Mission
               </h1>
               <p className="text-center md:text-[15px] text-[12px] p-5 max-w-[450px]">
-                
-To deliver premium grains and inclusive agro-based financial services to the Nigerian people and the world at large.
-
+               To deliver premium grains and inclusive agro-based financial services to the Nigerian people and the world at large.
               </p>
               </div>
              </div>
@@ -173,7 +171,7 @@ To deliver premium grains and inclusive agro-based financial services to the Nig
                    className="bg-cover row-span-3 text-center pt-3 h-[250px]  w-[295px] md:h-[620px] md:w-[350px] lg:h-[650px]  lg:w-[750px] rounded-xl"
                    style={{ backgroundImage: `url(${rose})` }}
                     >                 
-                    <h1 className="lg:mt-[190px] md:mt-[250px] mt-[100px] md:text-[40px]  lg:text-[50px] text-[35px] text-white font-semibold">Direct Farming</h1>
+                    <h1 className="lg:mt-[250px] md:mt-[250px] mt-[100px] md:text-[40px]  lg:text-[50px] text-[35px] text-white font-semibold">Direct Farming</h1>
                   </div>
                   <div 
                    style={{ backgroundImage: `url(${truck})` }}
@@ -227,7 +225,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.firstname}
               onChange={handleChange}
               required
-              className="mt-[10px] w-[325px] md:w-[250px] lg:w-[400px] h-[35px] pl-[5px] ml-[10px] lg:ml-[10px] border border-green-500 rounded-sm block text-[#0d0d0d] text-[18px]"
+              className="mt-[10px] w-[325px] md:w-[250px] lg:w-[400px] h-[35px] pl-[5px] ml-[10px] lg:ml-[10px] border-2 border-gray-300 rounded-sm block text-[#0d0d0d] text-[18px]"
               
             />
               <label className="text-[20px] mt-[10px] ml-[10px] lg:ml-[50px]">Surname:</label>
@@ -238,11 +236,11 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.surname}
               onChange={handleChange}
               required
-              className="mt-[10px] w-[325px] md:w-[250px] border ml-[10px] lg:ml-[5px] h-[35px] pl-[5px] lg:w-[400px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
+              className="mt-[10px] w-[325px] md:w-[250px] border ml-[10px] lg:ml-[5px] h-[35px] pl-[5px] lg:w-[400px] border-gray-300 border-2 rounded-md block text-[#0d0d0d] text-[18px]"
               
             />
             </div>
-            <div className="flex lg:flex-row flex-col">
+            <div className="flex  flex-col">
             <label className="text-[20px]  mt-[10px]  ml-[10px] lg:ml-[0px] ">Enter Email:</label>
             <input
               type="email"
@@ -251,9 +249,9 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.email}
               onChange={handleChange}
               required
-              className="block ml-[10px] w-[325px] md:w-[600px] ml-[10px] lg:ml-[5px] text-[#0d0d0d] h-[35px] pl-[5px] mt-[10px]  border lg:w-[350px] border-green-500 rounded-md"
+              className="block ml-[10px] w-[325px] md:w-[750px]  lg:ml-[0px]  text-[#0d0d0d] h-[35px] pl-[5px] mt-[10px]  border lg:w-[1050px] border-gray-300 border-2 rounded-md"
             />
-              <label className="text-[20px] mt-[10px] ml-[10px] lg::ml-[30px] ">Phone Number:</label>
+              <label className="text-[20px] mt-[10px] ml-[10px] lg:ml-[0px] ">Phone Number:</label>
             <input
               type="tel"
               name="phone"
@@ -261,7 +259,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.phone}
               onChange={handleChange}
               required
-              className="block ml-[10px] w-[325px] ml-[10px] lg:ml-[5px] text-[#0d0d0d] mt-[10px] border ml-[5px] h-[35px] pl-[5px] md:w-[600px] lg:w-[400px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
+              className="block ml-[10px]  lg:ml-[0px] w-[325px] text-[#0d0d0d] mt-[10px] border ml-[5px] h-[35px] pl-[5px] md:w-[750px]  lg:w-[1050px] border-gray-300 border-2 rounded-md block text-[#0d0d0d] text-[18px]"
             />
               </div>
               <div className="flex flex-col md:flex-row">
@@ -274,7 +272,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.businessName}
               onChange={handleChange}
               required
-              className="block mt-[10px] border w-[325px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[600px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
+              className="block mt-[10px] border w-[325px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[600px] border-gray-300 border-2 rounded-md block text-[#0d0d0d] text-[18px] "
             />
             </div>
             <div className="flex  flex-col">
@@ -283,7 +281,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
                 name="role"
                 value={formData.role}
                 onChange={handleRoleChange}
-                className= "border lg:ml-[150px] md:ml-[100px] ml-[10px] border-green-500 w-[300px] text-[18px]" >
+                className= "border lg:ml-[150px] md:ml-[100px] ml-[10px] border-gray-300 border-2 w-[300px] text-[18px]" >
                   <option value="">Select Role</option>
                   <option value="Buyer">Buyer</option>
                   <option value="Seller">Seller</option>
@@ -326,7 +324,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               placeholder="Business Website (Optional)"
               value={formData.website}
               onChange={handleChange}
-              className="block w-[325px] ml-[10px] lg:ml-[0px] text-[#0d0d0d] mt-[10px] border  h-[35px] pl-[5px] md:w-[600px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
+              className="block w-[325px] ml-[10px] lg:ml-[0px] text-[#0d0d0d] mt-[10px] border  h-[35px] pl-[5px] md:w-[750px]   lg:w-[1050px] border-gray-300 border-2 rounded-md block text-[#0d0d0d] text-[18px]"
             />
 
             <label className="text-[20px] ml-[10px] lg:ml-[0px] mt-[10px]">Tell us about your business.</label>
@@ -336,7 +334,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.message}
               onChange={handleChange}
               required
-              className="block md:ml-[20px] ml-[10px] lg:ml[0px]  text-[#0d0d0d] lg:ml-[0px] pb-[150px] mt-[10px] border h-[250px] pl-[5px] lg:w-[1050px] w-[330px] md:w-[780px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
+              className="block md:ml-[10px] ml-[10px] lg:ml[0px]  text-[#0d0d0d] lg:ml-[0px] pb-[150px] mt-[10px] border h-[250px] pl-[5px] lg:w-[1050px] w-[330px] md:w-[780px] border-2 border-gray-300 rounded-md block text-[#0d0d0d] text-[18px]"
             />
             <div className="items-center justify-center text-center ">
             <button disabled={loading} type="submit" className="px-[25px] py-[13px] rounded-lg mt-[30px] items-center  border bg-black text-white">
