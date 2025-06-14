@@ -5,6 +5,7 @@ import Footer from './footer'
 import {supabase} from './Authenticcation/supabaseClient'
 import {motion} from 'framer-motion'
 import {ArrowUpRight} from 'lucide-react'   
+import rice from './assets/Rice.jpg'
 
 const Career = () => {
   const [formData, setFormData] = useState({
@@ -63,23 +64,19 @@ const Career = () => {
      <div className='md:p-15 items-center flex md:flex-row flex-col md:gap-20 lg:gap-35 xl:gap-40 md:p-20 lg:p-20 xl:p-30 '>
        <div>
         <motion.h1
-         style={{overflow: 'hidden', whiteSpace: 'nowrap'}}
-         initial={{width: 0}}
-         animate={{width: '100%'}}
-         transition={{duration: 2, ease: 'easeInOut'}}
-         className=' justify-center text-center md:text-start pt-[70px] md:pt-[30px] lg:text-[40px] xl:text-[50px] text-[35px] md:text-[30px]'>
+         className=' justify-center text-center md:text-start font-bold pt-[70px] md:pt-[30px] lg:text-[40px] xl:text-[50px] text-[35px] md:text-[30px]'>
            Start your Career<br className='md:hidden'/> in one leap<br/> <span className='text-green-500'>with COR'N </span>
         </motion.h1>
          <p className='pt-5 text-[13px] md:text-[15px] text-center md:text-start px-[40px] md:px-[0px] '>At COR’N ENTERPRISES, we don’t just cultivate grains—we cultivate people. Our fields grow food, but our enterprise grows futures. Whether you're a fresh graduate, a seasoned professional, or a curious learner eager to break into agribusiness, there’s a place for you here.<br/>
         We are building a community of bold thinkers, skilled hands, and passionate professionals who believe that agriculture is not just about the land—but about the people who work it, manage it, and transform it.
         </p>
         </div>
-        <img className=' w-[350px] md:w-[380px] lg:w-[450px] pt-[20px] xl:w-[550px] rounded-xl ' loading='lazy' src={img11}
+        <img className=' w-[350px] md:w-[300px] lg:w-[450px] pt-[20px] xl:w-[550px] rounded-xl ' loading='lazy' src={img11}
         />
      </div>
      <div>
      <div className='p-20'>
-        <h1 className='text-center text-[25px] md:text-[20px] lg:text-[25px] xl:text-[33px]'>
+        <h1 className='text-center text-[28px] font-semibold md:text-[20px] lg:text-[25px] xl:text-[33px]'>
           Learning <span className='text-green-500'> and </span> Capacity Building Programs
         </h1>
         <p className='text-center text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px] mt-5'>
@@ -142,14 +139,18 @@ const Career = () => {
         </ul>
         </div>
      </div>
-       <h1 className='text-center p-3 text-[25px] md:text-[25px] lg:text-[30px] xl:text-[40px] mb-[30px] pt-10'>
+       <div className='flex flex-col md:flex-row items-center justify-center gap-10 p-20'>
+       <div className=''>
+        <img src={rice} loading='lazy' className='rounded-xl max-lg:hidden xl:h-[800px] md:w-[600px] md:h-[500px] ' />
+       </div>
+       <div className='items-center '>
+       <h1 className='text-[22px] ml-[20px] md:text-[20px] lg:text-[25px] xl:text-[30px] '>
          EXPLORE ENDLESS <span className='text-green-500'>POSSIBILITIES</span>
        </h1>
-       <div className='items-center pl-[20px]'>
-       <form onSubmit={handleSubmit} method="POST" className='lg:p-20 p-5'>
+       <form onSubmit={handleSubmit} method="POST" className='p-5'>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Full Name</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5' 
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5' 
         type='text' 
         name='name'
         placeholder='Enter your name'
@@ -159,7 +160,7 @@ const Career = () => {
         </div>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Email</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
          type='email'
          name='email' 
          value={formData.email}
@@ -169,7 +170,7 @@ const Career = () => {
         </div>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Phone Number</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
          type='tel'
          name='phone' 
          value={formData.phone}
@@ -179,7 +180,7 @@ const Career = () => {
         </div>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Career Path</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
          type='text'
          name='career' 
          value={formData.career}
@@ -193,7 +194,7 @@ const Career = () => {
           name='role' 
           value={formData.role}
           onChange={handleChange}
-          className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'>
+          className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'>
           <option value=''>Choose your option</option>
           <option value='learn'>Learning Course</option>
           <option value='career'>Career</option>
@@ -201,7 +202,7 @@ const Career = () => {
         </div>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Why you wish to join us?</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[50%] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
          type='text' 
          name='message'
          value={formData.message} 
@@ -217,7 +218,8 @@ const Career = () => {
            {loading ?  "Submitting.." : 'Submit'}
           </button>
        </form>
-       </div>
+      </div>
+      </div>
      </div>
      <Footer/>
     </div>

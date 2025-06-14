@@ -87,7 +87,7 @@ import { MapPin } from 'lucide-react';
                 <p className="lg:mt-[160px] md:mt-[80px] max-w-[500px] text-[12px] md:text-[15px] md:w-[600px]">At COR'N ENTERPRISES, we are not just growing grains—we are growing a vision for food security, economic empowerment, and sustainable agricultural wealth across Nigeria and beyond. From our base in Jalingo, Taraba State—Nature’s gift to the nation, we cultivate, process, distribute, and innovate across the grain value chain.
                 As a dynamic agribusiness with strong roots and bold ambitions, we are calling on forward-thinking investors and strategic partners to join us in shaping the future of Africa’s grain economy.
                </p>
-               <img src={icon2} className="lg:w-120 lg:h-120 md:w-100 w-80  "/>
+               <img src={icon2} loading="lazy" className="lg:w-120 lg:h-120 md:w-100 w-80  "/>
                </div>
              </div>
              <div>
