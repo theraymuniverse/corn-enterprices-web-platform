@@ -138,7 +138,7 @@ import { MapPin } from 'lucide-react';
                  </li>
               </ul>
              </div>
-             <div className="md:p-10 p-5 gap-5 flex flex-row basis-50 md:gap-20  justify-center items-center">
+             <div className="md:p-10 gap-5 max-sm:w-[340px]  flex flex-row basis-50 md:gap-20  justify-center items-center">
                <div className="shadow-md  overflow-hidden rounded-lg h-[275px] md:h-[250px]">
                <Eye size={40} className="text-green-500 mx-auto mt-5" />
               <h1 className="text-center font-bold md:text-[30px] text-[20px] mt-[10px]"> 
@@ -170,7 +170,7 @@ To deliver premium grains and inclusive agro-based financial services to the Nig
                 </p>
                 <div class="grid md:grid-flow-col p-7 md:p-2 max-sm:grid-cols-1 justify-center md:grid-rows-3 gap-3 md:gap-5 lg:gap-9 mt-[20px]">
                   <div
-                   className="bg-cover row-span-3 text-center pt-3 h-[250px]  w-[345px] md:h-[620px] md:w-[350px] lg:h-[650px]  lg:w-[750px] rounded-xl"
+                   className="bg-cover row-span-3 text-center pt-3 h-[250px]  w-[295px] md:h-[620px] md:w-[350px] lg:h-[650px]  lg:w-[750px] rounded-xl"
                    style={{ backgroundImage: `url(${rose})` }}
                     >                 
                     <h1 className="lg:mt-[190px] md:mt-[250px] mt-[100px] md:text-[40px]  lg:text-[50px] text-[35px] text-white font-semibold">Direct Farming</h1>
@@ -190,7 +190,7 @@ To deliver premium grains and inclusive agro-based financial services to the Nig
                   
                 </div>
                 <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-1 md:gap-5 lg:gap-20 ">
-                  <div className="lg:mt-[80px] px-[60px] md:px-[0px] md:-ml-[60px]  text-left ">
+                  <div className="lg:mt-[80px] px-[60px] w-[350px] md:px-[0px] md:-ml-[60px]  text-left ">
                  <h1 className="text-[50px] font-semibold mb-[20px]">
                     Join <span className="text-green-500">us</span>
                   </h1>          
@@ -202,21 +202,21 @@ To deliver premium grains and inclusive agro-based financial services to the Nig
                   <span className="text-green-500 mb-[5px]">Let’s do it—together.</span>    
                </div>
                 </div>
-                <div className="mt-[80px] px-[60px] md:px-[40pxpx]  p-5 w-[400px]">
+                <div className="mt-[80px] px-[20px] md:px-[40px] p-5 w-[330px]">
                       <div className="flex flex-row justify-center items-center gap-2 ">
                            <MapPin size={100} className=" " color="green"/>   <span className="text-[15px]">Head Office: Jalingo, Taraba State, Nigeria<br/>
                            Call Us:+234 813 190 8385<br/>
-                       Email: admin@cornenterprise.com<br/>
+                           Email: admin@cornenterprise.com<br/>
                        </span>
                       </div>
                   </div>
                 </div>
              </section>
           </div>
-          <h2 className="text-[30px] font-bold text-center text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or <span className="text-green-500">Investor</span></h2>
+          <h2 className="text-[30px] font-bold text-center px-[40px] sm:px-[0px] text-center items-center md:text-[30px] lg:text-[40px]  pt-[40px]">Become a Partner or <span className="text-green-500">Investor</span></h2>
           <p className="text-center -mt-[25px] px-[20px]"> Ready to invest or collaborate?<br/>
 Kindly fill the contact form beside to get started. A member of our executive team will reach out to you.</p>
-          <div className="justify-center  items-center">
+          <div className="justify-center items-center">
           <form onSubmit={handleSubmit} method="POST" className="space-y-8 w-auto">
              <div className="flex md:flex-row flex-col  ">
             <label className="text-[20px] ml-[10px] lg:ml-[0px]  mt-[10px] ">Firstname:</label>
@@ -227,7 +227,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.firstname}
               onChange={handleChange}
               required
-              className="mt-[10px] w-[350px] md:w-[250px] lg:w-[400px] h-[35px] pl-[5px] ml-[10px] lg:ml-[10px] border border-green-500 rounded-sm block text-[#0d0d0d] text-[18px]"
+              className="mt-[10px] w-[325px] md:w-[250px] lg:w-[400px] h-[35px] pl-[5px] ml-[10px] lg:ml-[10px] border border-green-500 rounded-sm block text-[#0d0d0d] text-[18px]"
               
             />
               <label className="text-[20px] mt-[10px] ml-[10px] lg:ml-[50px]">Surname:</label>
@@ -238,7 +238,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.surname}
               onChange={handleChange}
               required
-              className="mt-[10px] w-[350px] md:w-[250px] border ml-[10px] lg:ml-[5px] h-[35px] pl-[5px] lg:w-[400px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
+              className="mt-[10px] w-[325px] md:w-[250px] border ml-[10px] lg:ml-[5px] h-[35px] pl-[5px] lg:w-[400px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
               
             />
             </div>
@@ -251,7 +251,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.email}
               onChange={handleChange}
               required
-              className="block ml-[10px] w-[350px] md:w-[600px] ml-[10px] lg:ml-[5px] text-[#0d0d0d] h-[35px] pl-[5px] mt-[10px]  border lg:w-[350px] border-green-500 rounded-md"
+              className="block ml-[10px] w-[325px] md:w-[600px] ml-[10px] lg:ml-[5px] text-[#0d0d0d] h-[35px] pl-[5px] mt-[10px]  border lg:w-[350px] border-green-500 rounded-md"
             />
               <label className="text-[20px] mt-[10px] ml-[10px] lg::ml-[30px] ">Phone Number:</label>
             <input
@@ -261,7 +261,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.phone}
               onChange={handleChange}
               required
-              className="block ml-[10px] w-[350px] ml-[10px] lg:ml-[5px] text-[#0d0d0d] mt-[10px] border ml-[5px] h-[35px] pl-[5px] md:w-[600px] lg:w-[400px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
+              className="block ml-[10px] w-[325px] ml-[10px] lg:ml-[5px] text-[#0d0d0d] mt-[10px] border ml-[5px] h-[35px] pl-[5px] md:w-[600px] lg:w-[400px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
             />
               </div>
               <div className="flex flex-col md:flex-row">
@@ -274,7 +274,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               value={formData.businessName}
               onChange={handleChange}
               required
-              className="block mt-[10px] border w-[350px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[600px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
+              className="block mt-[10px] border w-[325px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[600px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
             />
             </div>
             <div className="flex  flex-col">
@@ -301,7 +301,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
                          value={formData.product}
                          onChange={handleChange}
                          required
-                         className="block mt-[10px] border w-[350px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[900px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
+                         className="block mt-[10px] border w-[325px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[900px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
                        />
                   </div>
                   )}
@@ -315,7 +315,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
                          value={formData.product}
                          onChange={handleChange}
                          required
-                         className="block mt-[10px] border w-[350px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[900px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
+                         className="block mt-[10px] border w-[325px] ml-[10px] lg:ml-[5px]  h-[35px] pl-[5px] lg:w-[900px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px] "
                        />
                   </div>
                   )}
@@ -326,7 +326,7 @@ Kindly fill the contact form beside to get started. A member of our executive te
               placeholder="Business Website (Optional)"
               value={formData.website}
               onChange={handleChange}
-              className="block w-[350px] ml-[10px] lg:ml-[0px] text-[#0d0d0d] mt-[10px] border  h-[35px] pl-[5px] md:w-[600px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
+              className="block w-[325px] ml-[10px] lg:ml-[0px] text-[#0d0d0d] mt-[10px] border  h-[35px] pl-[5px] md:w-[600px] border-green-500 rounded-md block text-[#0d0d0d] text-[18px]"
             />
 
             <label className="text-[20px] ml-[10px] lg:ml-[0px] mt-[10px]">Tell us about your business.</label>
