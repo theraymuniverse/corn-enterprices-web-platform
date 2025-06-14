@@ -4,6 +4,7 @@ import img11 from './assets/career.jpg'
 import Footer from './footer'
 import {supabase} from './Authenticcation/supabaseClient'
 import {motion} from 'framer-motion'
+import {ArrowUpRight} from 'lucide-react'   
 
 const Career = () => {
   const [formData, setFormData] = useState({
@@ -77,41 +78,70 @@ const Career = () => {
         />
      </div>
      <div>
-     {/*<div className='p-20'>
+     <div className='p-20'>
         <h1 className='text-center text-[25px] md:text-[20px] lg:text-[25px] xl:text-[33px]'>
           Learning <span className='text-green-500'> and </span> Capacity Building Programs
         </h1>
-        <ul className='items-center justify-center mt-[40px] flex flex-row gap-10'>
-          <li className='p-5 shadow-sm rounded-lg overflow-hidden w-[600px] '>
-            <h1 className='text-center '>
-              Students & Graduates
+        <p className='text-center text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px] mt-5'>
+          We offer a range of career and learning programs tailored for:
+          </p>
+        <div className=''>
+        <ul className='items-center justify-center gap-10  mt-[40px] grid grid-cols-1 md:grid-cols-2 '>
+          <li className='p-5 shadow-sm shadow-gray-300 rounded-lg '>
+            <div className='flex justify-center gap-3'>
+            <h1 className='text-center text-[27px]  '>
+              Young Professionals
             </h1>
+            <ArrowUpRight color='green' size={40} />
+            </div>
+            <p className='text-center mt-[30px]'>
+                Entry-Level Placement<br/>
+                Technical & Management Training<br/>
+                Business of Agriculture Workshops<br/>
+            </p>
           </li>
-           <li className='p-5 shadow-sm rounded-lg overflow-hidden w-[600px] '>
-            <h1 className='text-center text-[20px] '>
+           <li className='p-5 shadow-sm  shadow-gray-300 rounded-lg overflow-hidden '>
+             <div className='flex justify-center gap-3'>
+            <h1 className='text-center text-[27px] '>
               Students & Graduates
             </h1>
+             <ArrowUpRight color='green' size={40} />
+            </div>
             <p className='text-center mt-[30px]'>
               Industrial Training (IT/SIWES)<br/>
               Graduate Internship Program<br/>
               Agro-Leadership Bootcamps
             </p>
           </li>
-        </ul>
-         <ul className='items-center justify-center mt-[40px] flex flex-row gap-10'>
-          <li className='border w-[600px] '>
-            <h1 className='text-center '>
-              Students & Graduates
+          <li className='p-5 shadow-sm shadow-gray-300 rounded-lg overflow-hidden '>
+             <div className='flex justify-center gap-3'>
+            <h1 className='text-center text-[27px]'>
+              Community Empowerment
             </h1>
+             <ArrowUpRight color='green' size={40} />
+              </div>
+            <p className='text-center mt-[30px]'>
+                Rural Youth Empowerment Initiatives<br/>
+                Women in Agriculture Programs
+            </p>
+          
           </li>
-           <li className='border w-[600px] '>
-            <h1 className='text-center '>
-              Students & Graduates
+           <li className='p-5 shadow-sm shadow-gray-300 rounded-lg overflow-hidden '>
+             <div className='flex justify-center gap-3'>
+             <h1 className='text-center text-[25px] '>
+              Farmers & Entrepreneurs
             </h1>
+            <ArrowUpRight color='green' size={40} />
+             </div>
+            <p className='text-center mt-[30px]'>
+              Agribusiness Masterclasses<br/>
+              Financial Literacy for Farmers<br/>
+              Digital Tools for Agricultural Growth
+            </p>
           </li>
         </ul>
-        
-     </div>*/}
+        </div>
+     </div>
        <h1 className='text-center p-3 text-[25px] md:text-[25px] lg:text-[30px] xl:text-[40px] mb-[30px] pt-10'>
          EXPLORE ENDLESS <span className='text-green-500'>POSSIBILITIES</span>
        </h1>

@@ -99,7 +99,7 @@ import { MapPin } from 'lucide-react';
               <motion.li 
                  whileHover={{ scale: 1.2 }}
                  whileTap={{ scale: 0.2}}
-              className="container shadow-sm shadow-green-500   rounded-xl">
+              className="container shadow-sm shadow-gray-300   rounded-xl">
                 <div className="mt-6 p-5 " >
                   <h1 className="text-green-500 mb-[10px] font-semibold text-center">Strategic Location in Taraba State</h1>
                   <p className="md:text-[15px]  text-center">
@@ -107,7 +107,7 @@ import { MapPin } from 'lucide-react';
                   </p>
                 </div>
                  </motion.li>
-               <li className="container shadow-green-500 shadow-sm rounded-xl">
+               <li className="container shadow-gray-300 shadow-sm rounded-xl">
                 <div className="mt-6 p-5 " >
                   <h1 className="text-green-500 mb-[10px] font-semibold text-center"> Fast-Rising Agro Brand</h1>
                   <p className="text-[15px] text-center">
@@ -115,7 +115,7 @@ import { MapPin } from 'lucide-react';
                   </p>
                 </div>
                  </li>
-              <li className="container shadow-green-500 shadow-sm rounded-xl">
+              <li className="container shadow-gray-300 shadow-sm rounded-xl">
                 <div className="mt-6 p-5 " >
                   <h1 className="text-green-500 mb-[10px] font-semibold text-center">Diverse Partnership Avenues</h1>
                   <p className="text-[12px] text-center">
@@ -128,7 +128,7 @@ import { MapPin } from 'lucide-react';
                   </p>
                 </div>
                  </li>
-                <li className="container shadow-green-500 shadow-sm rounded-xl">
+                <li className="container shadow-gray-300 shadow-sm rounded-xl">
                 <div className="mt-6 p-5 " >
                   <h1 className="text-green-500 mb-[10px] font-semibold text-center">Impact-Driven and Scalable</h1>
                   <p className="text-[15px] text-center">
