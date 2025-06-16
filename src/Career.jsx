@@ -169,8 +169,7 @@ const Career = () => {
 
         <article className='items-center lg:w-[950px] xl:w-[600px]  justify-center shadow-gray-300 rounded-lg p-5'>
           <h1 className='text-center text-[28px]  font-semibold md:text-[30px] lg:text-[25px] xl:text-[33px] p-10'>
-         Why Work <span className='text-green-500'>or</span>  Learn With COR'N?
-           </h1> 
+            Apply<span className='text-green-500'> Now?</span></h1> 
            <p className='md:text-center '>
               <span className='font-semibold text-[20px]'>🌍 Come Learn Where the Future is Growing<br/></span>
               Agriculture is changing—and we’re leading that change. At COR’N ENTERPRISES, you’re not just learning how to work. You’re learning how to make a difference.<br/>

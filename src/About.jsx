@@ -12,16 +12,19 @@ const About = () => {
      <Nav/>
      <div className='items-center '>
      <div className='flex md:flex-row flex-col  gap-2 pt-[20px] items-center pb-[100px] lg:ml-[60px] xl:ml-[120px] md:ml-[50px] '>
-        <div className='md:pt-[30px] lg:pt-[150px] '>
+        <div className='md:pt-[30px] lg:pt-[20px] '>
         
         <h1 className='font-bold justify-center pt-[30px] lg:text-[40px]  md:text-[30px] pb-[10px] lg:pl-[40px] md:pl-[30px] text-center max-sm:text-center text-[25px]'>
             About US
         </h1>
+        <p className='text-center text-[12px] md:text-[15px]'>We Grow Grains. We Build Systems. We Create Value.</p>
         <p className='lg:px-[50px] md:px-[20px] text-[12px] px-[40px]  md:w-[500px] md:text-[14px] lg:text-[16px] xl:text-[17px] lg:mb-[80px] xl:mb-[100px] lg:w-[700px] xl:w-[900px] h-[50px] text-center'>
-        COR'N Enterprises is one of the leading producers of high quality agricultural produce. With our aim at mainly grains such as maize,millet, either raw or powered form. We prioritize the need of our customers and ensure that we deliver the best quality products. COR'N Sources these products for Large, Medium and Small scale businesses.
+          <br/>Welcome to COR’N ENTERPRISES, a proudly Nigerian agribusiness rooted in the fertile lands of Jalingo, Taraba State—Nature’s gift to the nation. We are a rising force in Nigeria’s agricultural and agro-financial space, committed to delivering excellence in grain production, processing, distribution, and capacity building.
+          <br/>Born out of the need to bridge the gap between food production and economic inclusion, COR'N ENTERPRISES is more than just a grain company—we are a solution-driven, impact-focused enterprise transforming how grains are grown, distributed, and monetized in Nigeria and beyond.
+
         </p>
         </div>
-        <div className='md:mt-[30px] mt-[30px] pt-[40px] md:pt-[0px] lg:mt-[0px]'>
+        <div className='md:mt-[30px] mt-[140px] pt-[40px] md:pt-[0px] lg:mt-[0px]'>
         <img src={Logo} alt='form' loading='lazy' className='xl:w-[300px] w-[150px] lg:w-[250px] md:w-[150px] lg:mt-[50px] md:mt-[60px]  p-[30px] '/>
         </div>
      </div>
