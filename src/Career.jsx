@@ -4,7 +4,7 @@ import img11 from './assets/career.jpg'
 import Footer from './footer'
 import {supabase} from './Authenticcation/supabaseClient'
 import {motion} from 'framer-motion'
-import {ArrowUpRight} from 'lucide-react'   
+import {ArrowUpRight,  GraduationCap} from 'lucide-react'   
 import rice from './assets/Rice.jpg'
 
 const Career = () => {
@@ -83,7 +83,7 @@ const Career = () => {
         />
      </div>
      <div>
-     <div className='p-20'>
+          <div className='p-18'>
         <h1 className='text-center text-[28px] font-semibold md:text-[20px] lg:text-[25px] xl:text-[33px]'>
           Learning <span className='text-green-500'> and </span> Capacity Building Programs
         </h1>
@@ -147,18 +147,51 @@ const Career = () => {
         </ul>
         </div>
      </div>
-       <div className='flex flex-col md:flex-row items-center justify-center gap-10 p-20'>
+      <div>
+     <div  className="grid grid-cols-1 xl:grid-cols-2 justify-center items-center gap-10  p-5 xl:p-20">
+        <article className='items-center  lg:w-[950px] xl:w-[600px] justify-center  shadow-gray-300 rounded-lg p-5 md:p-0 '>   
+              <h1 className='text-center text-[28px] font-semibold md:text-[30px] lg:text-[25px] xl:text-[33px] p-10'>
+                Why Work <span className='text-green-500'>or</span>  Learn With COR'N?
+             </h1>
+             <p className='text-[13px] md:text-[15px] md:p-5 items-center justify-center '>  
+             <span className='text-[20px] font-semibold'> 1. Purpose-Driven Work<br/></span>
+            Join a team that is solving real problems—food insecurity, youth unemployment, and rural underdevelopment—through sustainable agricultural solutions.<br/>
+             <span className='text-[20px] font-semibold'>2. Skill Development & Mentorship<br/></span>
+            We invest in people. Whether it’s agronomy, processing, logistics, agribusiness management, or agro-financial services, you’ll gain practical, future-proof skills to thrive in the evolving food economy.<br/>
+            <span className='text-[20px] font-semibold'> 3. Inclusive Culture<br/></span>
+            We believe in equal opportunity, team spirit, and leadership at every level. Your voice matters, your ideas count, and your growth is our priority.<br/>
+            <span className='text-[20px] font-semibold'>4. Learn by Doing<br/></span>
+            From farm operations to agribusiness consulting, COR'N offers real-world experience. Our interns and trainees work on live projects—not just theoretical assignments.<br/>
+            <span className='text-[20px] font-semibold'>  5. Career Pathways<br/></span>
+            Start as an intern, grow into a trainee, and move into leadership. At COR'N, we’re not just offering jobs—we're building careers.<br/>
+            </p>
+        </article>
+
+        <article className='items-center lg:w-[950px] xl:w-[600px]  justify-center shadow-gray-300 rounded-lg p-5'>
+          <h1 className='text-center text-[28px]  font-semibold md:text-[30px] lg:text-[25px] xl:text-[33px] p-10'>
+         Why Work <span className='text-green-500'>or</span>  Learn With COR'N?
+           </h1> 
+           <p className='md:text-center '>
+              <span className='font-semibold text-[20px]'>🌍 Come Learn Where the Future is Growing<br/></span>
+              Agriculture is changing—and we’re leading that change. At COR’N ENTERPRISES, you’re not just learning how to work. You’re learning how to make a difference.<br/>
+              👉 Whether you want to work, train, volunteer, or partner in developing talent—COR’N is your gateway to meaningful impact.<br/>
+               <span className='pt-[10px]'>Send your CV to careers@cornenterprise.com or check back regularly for job openings.<br/></span>
+           </p> 
+        </article>
+      </div>
+     </div>
+       <div className='flex flex-col lg:flex-row items-center justify-center gap-10 p-20'>
        <div className=''>
-        <img src={rice} loading='lazy' className='rounded-xl max-lg:hidden xl:h-[800px] md:w-[600px] md:h-[500px] ' />
+        <img src={rice} loading='lazy' className='rounded-xl w-[400px]  xl:h-[800px] md:w-[600px] md:h-[500px] ' />
        </div>
        <div className='items-center '>
-       <h1 className='text-[22px] ml-[20px] md:text-[20px] lg:text-[25px] xl:text-[30px] '>
+       <h1 className='text-[22px] ml-[20px] md:text-[30px] lg:text-[25px] xl:text-[30px] '>
          EXPLORE ENDLESS <span className='text-green-500'>POSSIBILITIES</span>
        </h1>
        <form onSubmit={handleSubmit} method="POST" className='p-5'>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Full Name</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5' 
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5' 
         type='text' 
         name='name'
         placeholder='Enter your name'
@@ -168,7 +201,7 @@ const Career = () => {
         </div>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Email</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
          type='email'
          name='email' 
          value={formData.email}
@@ -178,7 +211,7 @@ const Career = () => {
         </div>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Phone Number</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
          type='tel'
          name='phone' 
          value={formData.phone}
@@ -188,7 +221,7 @@ const Career = () => {
         </div>
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Career Path</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
          type='text'
          name='career' 
          value={formData.career}
@@ -202,7 +235,7 @@ const Career = () => {
           name='role' 
           value={formData.role}
           onChange={handleRoleChange}
-          className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'>
+          className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'>
           <option value=''>Choose your option</option>
           <option value='learn'>Learning Course</option>
           <option value='career'>Career</option>
@@ -228,7 +261,7 @@ const Career = () => {
                   )}
         <div>
         <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Why you wish to join us?</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] mb-5'
+        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
          type='text' 
          name='message'
          value={formData.message} 
