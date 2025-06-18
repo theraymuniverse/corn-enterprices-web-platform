@@ -12,12 +12,12 @@ const About = () => {
      <Nav/>
      <div className='items-center '>
      <div className='flex  md:flex-row flex-col  gap-2 items-center pb-[100px] lg:ml-[60px] xl:ml-[120px] md:ml-[50px] '>
-        <div className='md:pt-[30px] lg:pt-[20px] '>
+        <div className='md:pt-[30px] lg:pt-[20px] items-center justify-center '>
         <h1 className='font-bold justify-center pt-[30px] lg:text-[40px]  md:text-[30px] pb-[10px] lg:pl-[40px] md:pl-[30px] text-center max-sm:text-center text-[25px]'>
             About US
         </h1>
         <p className='text-center text-[12px] md:text-[15px]'>We Grow Grains. We Build Systems. We Create Value.</p>
-        <p className='lg:px-[50px] md:px-[20px] text-[12px] sm:text-[12px] px-[40px]  md:w-[500px] md:text-[14px] lg:text-[14px] lg:mb-[80px] xl:mb-[100px] lg:w-[700px] xl:w-[900px] h-[50px] text-center'>
+        <p className='lg:px-[50px] md:px-[20px] text-[12px] sm:text-[12px] px-[40px]  md:w-[500px] md:text-[14px] lg:text-[14px] lg:mb-[80px] xl:mb-[100px] lg:w-[700px] xl:w-[750px] 2xl:w-[950px] h-[50px] text-center'>
           <br/>Welcome to COR’N ENTERPRISES, a proudly Nigerian agribusiness rooted in the fertile lands of Jalingo, Taraba State—Nature’s gift to the nation. We are a rising force in Nigeria’s agricultural and agro-financial space, committed to delivering excellence in grain production, processing, distribution, and capacity building.
           <br/>Born out of the need to bridge the gap between food production and economic inclusion, COR'N ENTERPRISES is more than just a grain company—we are a solution-driven, impact-focused enterprise transforming how grains are grown, distributed, and monetized in Nigeria and beyond.
 
@@ -27,9 +27,9 @@ const About = () => {
         <img src={Logo} alt='form' loading='lazy' className='xl:w-[300px] w-[150px] lg:w-[250px] md:w-[150px] lg:mt-[50px] md:mt-[60px]  p-[30px] '/>
         </div>
      </div>
-     <div className='pt-[80px] bg-[#F3FFF1]  text-[18px] pb-[50px] flex flex-col items-center md:flex-row md:gap-10 gap-5 '>
+     <div className='pt-[80px] bg-[#F3FFF1]  text-[18px] pb-[50px] flex flex-col items-center md:flex-row 2xl:pl-[50px] md:gap-10 gap-5 '>
      <img src={light} alt='form' loading='lazy' className='xl:w-[400px] w-[150px] ml-[15px] lg:w-[250px] md:w-[150px] lg:ml-[110px] xl:ml-[150px] md:ml-[50px] rounded-full'/>
-     <div className=' lg:ml-[20px] items-center'>
+     <div className=' lg:ml-[20px] xl:-ml-[40px] 2xl:ml-[0px] items-center'>
       <h2 className='xl:ml-[130px] lg:ml-[90px] text-center  lg:text-[40px] md:text-[30px] md:ml-[10px] lg:pt-[20px]   pb-[10px] text-[25px] font-bold'>
         Our Vision
       </h2>
@@ -40,7 +40,7 @@ const About = () => {
       </div>
      </div>
      <div className='flex md:flex-row flex-col gap-2 md:pt-[30px] pb-[100px] lg:ml-[120px] '>
-        <div className='pt-[150px] '>
+        <div className='pt-[150px] xl:-ml-[120px] 2xl:-ml-[0px] '>
         
         <h1 className='font-bold justify-center text-center text-[25px] lg:text-[40px] md:text-[30px] pb-[10px] md:pl-[30px] lg:pl-[120px] xl:pl-[30px]'>
             Our Mission
@@ -50,6 +50,22 @@ const About = () => {
         </p>
         </div>
         <img src={biz} alt='form' loading='lazy' className='xl:w-[450px] w-[350px]  place-self-center xl:ml-[40px]  lg:w-[350px]  md:w-[250px] lg:mt-[50px] md:mt-[80px] p-[30px] rounded-xl'/>
+     </div>
+     <div className='px-[60px] lg:px-[150px] mb-[50px] bg-[#F3FFF1] pt-[50px] pb-[50px]'>
+        <h1 className=' font-bold text-[25px] lg:text-[40px] md:text-[30px] pb-[10px]]'>
+          Who We <span className='text-green-500'>Are</span>
+        </h1>
+        <p className='text-[12px] md:text-[14px] '>We are a multi-service agro-enterprise focused on delivering quality grains—paddy rice, processed rice, maize, benne seed, groundnut, soya beans, and more—while integrating financial access, training, consulting, and innovation into our business model.
+        <br/>Our work spans:<br/>
+         <span className='font-bold'>1. Direct Farming<br/></span>
+         <span  className='font-bold'>2. Processing & Value Addition<br/></span>
+         <span  className='font-bold'>3. Storage & Logistics<br/></span>
+         <span  className='font-bold'>4.Distribution (local and global)<br/></span>
+         <span  className='font-bold'>5.Agribusiness Training & Advisory Services<br/></span>
+        <span className='font-bold'>6.Agro-Financial Inclusion Solutions<br/></span>
+        </p>
+        <p className='mt-[10px] text-[12px] md:text-[14px] ' >Our team is driven by a shared belief that food security, financial inclusion, and rural prosperity are interconnected—and agriculture must be approached as both a business and a movement.<br/>
+        </p>
      </div>
        <div className='grid grid-cols-1 p-10 md:grid-cols-2 gap-5 pt-[10px] pb-[50px] px-[60px]'>
          <div className=''>
