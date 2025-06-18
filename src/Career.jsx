@@ -74,16 +74,7 @@ const Career = () => {
   return (
     <div> 
       <Nav/>
-       <motion.div
-        ref={targetRef}
-        initial={{ opacity: 0}}
-        whileInView={{ opacity: 1 }}
-        viewport={
-         {
-          amount: 0.2
-         }
-        }
-       >
+       <div>
         <div className='md:p-15 items-center flex md:flex-row flex-col md:gap-20 lg:gap-35 xl:gap-40 md:p-20 lg:p-20 xl:p-30 '>
        <div>
         <motion.h1
@@ -294,7 +285,7 @@ const Career = () => {
       </div>
       </div>
      </div>
-     </motion.div>
+     </div>
      <Footer/>
     </div>
   )
