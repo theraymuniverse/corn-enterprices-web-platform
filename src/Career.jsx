@@ -1,13 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import Nav from './Nav'
 import img11 from './assets/career.jpg'
 import Footer from './footer'
 import {supabase} from './Authenticcation/supabaseClient'
-import {motion} from 'framer-motion'
+import {motion, useScroll} from 'framer-motion'
 import {ArrowUpRight,  GraduationCap} from 'lucide-react'   
 import rice from './assets/Rice.jpg'
 
 const Career = () => {
+  const targetRef = useRef(null);
+  const {scrollYProgress } = useScroll({
+    target: targetRef,
+  })
+
   const [role, setRole] = useState("");
   const [formData, setFormData] = useState({
       name: "",
@@ -67,9 +72,19 @@ const Career = () => {
       };
     
   return (
-    <div>
-     <Nav/>
-     <div className='md:p-15 items-center flex md:flex-row flex-col md:gap-20 lg:gap-35 xl:gap-40 md:p-20 lg:p-20 xl:p-30 '>
+    <div> 
+      <Nav/>
+       <motion.div
+        ref={targetRef}
+        initial={{ opacity: 0}}
+        whileInView={{ opacity: 1 }}
+        viewport={
+         {
+          amount: 0.2
+         }
+        }
+       >
+        <div className='md:p-15 items-center flex md:flex-row flex-col md:gap-20 lg:gap-35 xl:gap-40 md:p-20 lg:p-20 xl:p-30 '>
        <div>
         <motion.h1
          className=' justify-center text-center md:text-start font-bold pt-[70px] md:pt-[30px] lg:text-[40px] xl:text-[50px] text-[35px] md:text-[30px]'>
@@ -81,7 +96,7 @@ const Career = () => {
         </div>
         <img className=' w-[350px] md:w-[300px] lg:w-[450px] pt-[20px] xl:w-[550px] rounded-xl ' loading='lazy' src={img11}
         />
-     </div>
+      </div>
      <div>
           <div className='p-18'>
         <h1 className='text-center text-[28px] font-semibold md:text-[20px] lg:text-[25px] xl:text-[33px]'>
@@ -279,6 +294,7 @@ const Career = () => {
       </div>
       </div>
      </div>
+     </motion.div>
      <Footer/>
     </div>
   )
