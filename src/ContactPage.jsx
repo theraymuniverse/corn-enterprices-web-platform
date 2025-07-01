@@ -31,7 +31,7 @@ const ContactPage = () => {
             </p>
              </div>
               <div className='items-center justify-center flex'>
-              <img src={shop} alt="shop" className='w-[500px] md:h-[350px] rounded-lg' />
+              <img loading='lazy' src={shop} alt="shop" className='w-[500px] md:h-[350px] rounded-lg' />
             </div>
          </div>
          <div>

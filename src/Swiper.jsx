@@ -31,19 +31,19 @@ const Slider = () => {
 </p>
       </SwiperSlide>
       <SwiperSlide>
-        <img className='rounded-xl duration-3  h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={beany}/>
+        <img loading='lazy' className='rounded-xl duration-3  h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={beany}/>
          <p className='text-green-500 text-[20px] font-semibold'>Beans</p>
       </SwiperSlide>
       <SwiperSlide>
-        <img className='rounded-xl duration-3 h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={maziey}/>
+        <img loading='lazy'  className='rounded-xl duration-3 h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={maziey}/>
          <p className='text-green-500 text-[20px] font-semibold'>Maize (Yellow & White)</p>
       </SwiperSlide>
       <SwiperSlide>
-        <img className='rounded-xl duration-3 h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={ground}/>
+        <img  loading='lazy' className='rounded-xl duration-3 h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={ground}/>
          <p className='text-green-500 text-[20px] font-semibold'>Groundnut (Shelled or Unshelled)</p>
       </SwiperSlide>
        <SwiperSlide>
-        <img className='rounded-xl duration-3 h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={soya}/>
+        <img  loading='lazy' className='rounded-xl duration-3 h-[350px] md:h-[400px] justify-self-center ease-in-out hover:shadow-lg  ' src={soya}/>
          <p className='text-green-500 text-[20px] font-semibold'>Soya Beans</p>
       </SwiperSlide>
       </div>
