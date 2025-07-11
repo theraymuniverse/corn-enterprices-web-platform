@@ -45,7 +45,7 @@ const home = () => {
      initial={{ y:30, opacity: 0, }}
      whileInView= {{ y:0, opacity: 1}}
      transition={{duration: 2}}
-    className='p-8 pt-[120px]  md:text-center  md:justify-items-center text-white '>
+    className='p-8 pt-[120px]  md:text-center   md:justify-items-center text-white '>
     <span
      className='text-white text-[50px] md:text-[60px] lg:pt-[20px] font-bold'>
         Discover Modern Agriculture</span>
@@ -59,7 +59,7 @@ const home = () => {
         <HashLink>
         <div  className="hidden md:block" >
         <ChevronsDown className='
-         animate-bounce  md:mt-[80px] border  rounded-full ' size={70} />
+         animate-bounce  md:mt-[80px] border md:place-self-center  rounded-full ' size={70} />
         </div>
         </HashLink>    
     </motion.div>    
