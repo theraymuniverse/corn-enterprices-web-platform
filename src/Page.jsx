@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Nav from './Nav'
 import Footer from './footer'
 import { motion } from 'framer-motion'
@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import {
   User, Briefcase, Building2, CheckCircle,
   FileText, ShieldCheck, Zap, Clock, Banknote,
-  ArrowRight, ChevronRight, MessageCircle
+  ArrowRight, ChevronRight, MessageCircle,
+  Lock, ScrollText, ChevronDown, ChevronUp, Mail, Phone
 } from 'lucide-react'
 
 const loanProducts = [
@@ -86,6 +87,147 @@ const steps = [
     desc: 'Upon approval, funds are released immediately — allowing you to attend to your financial needs without delay.',
   },
 ]
+
+const privacySections = [
+  {
+    title: 'Information We Collect',
+    content: [
+      'Personal details: full name, contact information, residential address',
+      'Employment details: employer name, position, income',
+      'Financial information: salary slips, bank account details',
+      'Guarantor information',
+      'Documents uploaded for verification purposes',
+    ],
+  },
+  {
+    title: 'How We Use Your Information',
+    content: [
+      'Verify your eligibility for loans',
+      'Process and approve loan applications',
+      'Communicate updates regarding your application or loan status',
+      'Comply with legal and regulatory requirements',
+      'Improve our services and ensure client satisfaction',
+    ],
+  },
+  {
+    title: 'Data Protection',
+    content: [
+      'We implement strict security measures to protect your information from unauthorized access, disclosure, or misuse. All electronic and physical records are secured in compliance with Nigerian financial regulations.',
+    ],
+  },
+  {
+    title: 'Sharing Your Information',
+    content: [
+      'We do not sell or rent your personal information.',
+      'Authorized employees of COR\'N Enterprises Limited',
+      'Regulatory or legal authorities, if required by law',
+      'Approved financial partners for the purpose of loan processing',
+    ],
+  },
+  {
+    title: 'Your Rights',
+    content: [
+      'Request access to your personal information',
+      'Request corrections to any inaccurate information',
+      'Withdraw consent for the use of your data, where applicable',
+    ],
+  },
+  {
+    title: 'Policy Updates',
+    content: [
+      'COR\'N Enterprises Limited may update this policy from time to time. Clients are encouraged to review this page periodically for any changes.',
+    ],
+  },
+]
+
+const termsSections = [
+  {
+    title: 'Eligibility',
+    content: [
+      'Applicants must be salary earners, civil servants, or registered business owners/SMEs within Taraba State or Abuja',
+      'A qualified guarantor is required for all loans',
+      'Applicants must provide valid identification and proof of income',
+    ],
+  },
+  {
+    title: 'Loan Amount and Repayment',
+    content: [
+      'Personal loans and salary advances: maximum ₦100,000',
+      'SME loans: maximum ₦300,000',
+      'Maximum repayment period: 5 months',
+      'Interest is calculated on a reducing balance structure',
+    ],
+  },
+  {
+    title: 'Loan Application and Approval',
+    content: [
+      'Loan applications can be submitted via the website form or WhatsApp',
+      'Approval is subject to verification of documents and guarantor eligibility',
+      'Approval decisions are final and at the discretion of COR\'N Enterprises Limited',
+    ],
+  },
+  {
+    title: 'Disbursement',
+    content: [
+      'Approved loans are disbursed immediately into the applicant\'s verified account',
+      'COR\'N Enterprises Limited reserves the right to delay disbursement in cases of incomplete or inaccurate information',
+    ],
+  },
+  {
+    title: 'Default and Late Payment',
+    content: [
+      'Late payments may attract additional interest charges as determined at the time of agreement',
+      'Continuous default may result in collection procedures through authorized channels, including communication with guarantors',
+    ],
+  },
+  {
+    title: 'Confidentiality',
+    content: [
+      'All client information is kept confidential and used solely for loan processing and compliance purposes',
+      'COR\'N Enterprises Limited follows data protection standards to ensure the security of client information',
+    ],
+  },
+  {
+    title: 'Amendments',
+    content: [
+      'COR\'N Enterprises Limited reserves the right to update or modify these Terms & Conditions at any time',
+      'Clients will be informed of significant changes via email or the company website',
+    ],
+  },
+]
+
+// Reusable accordion section
+const AccordionItem = ({ title, content, index }) => {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className={`border rounded-xl overflow-hidden transition-all duration-200 ${open ? 'border-[#3dba6f]/50 shadow-sm' : 'border-gray-100'}`}>
+      <button
+        onClick={() => setOpen(!open)}
+        className='w-full flex items-center justify-between px-6 py-4 text-left hover:bg-[#f0f9f4] transition-colors duration-200'
+      >
+        <div className='flex items-center gap-3'>
+          <span className='text-[#3dba6f] text-[12px] font-bold tabular-nums'>0{index + 1}</span>
+          <span className='text-[#1a4731] font-semibold text-[15px]'>{title}</span>
+        </div>
+        {open
+          ? <ChevronUp size={18} className='text-[#3dba6f] flex-shrink-0' />
+          : <ChevronDown size={18} className='text-gray-400 flex-shrink-0' />}
+      </button>
+      {open && (
+        <div className='px-6 pb-5 pt-1 bg-white border-t border-gray-50'>
+          <ul className='space-y-2'>
+            {content.map((item, i) => (
+              <li key={i} className='flex items-start gap-2.5 text-[13px] text-gray-600 leading-relaxed'>
+                <span className='w-1.5 h-1.5 rounded-full bg-[#3dba6f] flex-shrink-0 mt-1.5' />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  )
+}
 
 const cardVariants = {
   hidden: { opacity: 0, y: 28 },
@@ -298,6 +440,102 @@ const Page = () => {
             </a>
           </div>
         </motion.div>
+      </section>
+
+      {/* ── Legal Documents Tabs ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-white'>
+        <div className='max-w-4xl mx-auto'>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }} className='text-center mb-14'>
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Legal & Compliance</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[26px] md:text-[38px] font-bold'>Privacy Policy & Loan Terms</h2>
+            <p className='text-gray-500 text-[15px] mt-3 max-w-xl mx-auto'>
+              COR'N Enterprises Limited is committed to transparency. Please review our privacy and lending policies below.
+            </p>
+          </motion.div>
+
+          {/* Privacy Policy */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='mb-10'
+          >
+            <div className='flex items-center gap-3 mb-5'>
+              <div className='w-10 h-10 rounded-xl bg-[#1a4731] text-[#3dba6f] flex items-center justify-center flex-shrink-0'>
+                <Lock size={18} />
+              </div>
+              <div>
+                <h3 className='text-[#1a4731] font-bold text-[18px]'>Privacy Policy</h3>
+                <p className='text-gray-400 text-[12px]'>How we collect, use, and protect your personal data</p>
+              </div>
+            </div>
+            <p className='text-gray-500 text-[14px] leading-relaxed mb-5 pl-1'>
+              At COR'N Enterprises Limited, your privacy is of utmost importance. We are committed to protecting
+              the information you share with us when applying for loans or interacting with our services.
+            </p>
+            <div className='space-y-3'>
+              {privacySections.map((section, i) => (
+                <AccordionItem key={i} title={section.title} content={section.content} index={i} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Divider */}
+          <div className='flex items-center gap-4 my-12'>
+            <div className='flex-1 h-px bg-green-100' />
+            <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase whitespace-nowrap'>Loan Terms & Conditions</span>
+            <div className='flex-1 h-px bg-green-100' />
+          </div>
+
+          {/* Terms & Conditions */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+          >
+            <div className='flex items-center gap-3 mb-5'>
+              <div className='w-10 h-10 rounded-xl bg-[#1a4731] text-[#3dba6f] flex items-center justify-center flex-shrink-0'>
+                <ScrollText size={18} />
+              </div>
+              <div>
+                <h3 className='text-[#1a4731] font-bold text-[18px]'>Loan Terms & Conditions</h3>
+                <p className='text-gray-400 text-[12px]'>By applying for a loan, you agree to the following terms</p>
+              </div>
+            </div>
+            <p className='text-gray-500 text-[14px] leading-relaxed mb-5 pl-1'>
+              These Terms & Conditions govern your use of the loan services provided by COR'N Enterprises Limited.
+              By applying for a loan, you agree to the following:
+            </p>
+            <div className='space-y-3'>
+              {termsSections.map((section, i) => (
+                <AccordionItem key={i} title={section.title} content={section.content} index={i} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Contact for queries */}
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2 }}
+            className='mt-10 bg-[#f0f9f4] border border-green-100 rounded-2xl p-6'
+          >
+            <p className='text-[#1a4731] font-semibold text-[14px] mb-4'>
+              For questions or concerns about your data or these terms, contact us at:
+            </p>
+            <div className='flex flex-col sm:flex-row gap-4 text-[14px]'>
+              <a href='mailto:cornenterprises2709@gmail.com'
+                className='flex items-center gap-2 text-gray-600 hover:text-[#1a4731] transition-colors'>
+                <Mail size={15} className='text-[#3dba6f]' />
+                cornenterprises2709@gmail.com
+              </a>
+              <a href='tel:08023447314'
+                className='flex items-center gap-2 text-gray-600 hover:text-[#1a4731] transition-colors'>
+                <Phone size={15} className='text-[#3dba6f]' />
+                08023447314
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       <Footer />
