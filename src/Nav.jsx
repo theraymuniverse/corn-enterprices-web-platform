@@ -1,147 +1,162 @@
 import slogon from './assets/Logo2.png'
-import { Menu, X, LogIn ,User , ShoppingCart} from "lucide-react";
-import React, { useState, useContext, useEffect } from "react"; 
-import { Link } from 'react-router-dom'
-import { ShopContext } from './cartContext'
+import { Menu, X, LogIn, User, PhoneCall } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from 'react-router-dom'
 import { supabase } from './Authenticcation/supabaseClient';
 
+const navLinks = [
+  { label: 'Home', to: '/' },
+  { label: 'Loan Services', to: '/products' },
+  { label: 'About Us', to: '/about' },
+  { label: 'Apply Now', to: '/contact_us', highlight: true },
+  { label: 'Partner With Us', to: '/partner' },
+  { label: 'Careers', to: '/career' },
+];
 
-
-const Nav =() => {
+const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { getTotalCartItemCount } = useContext(ShopContext);
   const [profile, setProfile] = useState(null);
-  const [user, setUser] = useState(null);
-  const totalItems = getTotalCartItemCount();
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => { setIsOpen(false); }, [location]);
 
   useEffect(() => {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setIsLoggedIn(!!session);
-       setUser(session?.user || null);
-   
-  
-        if (session?.user) {
-        const { data, error } = await supabase
-          .from('profiles') // your table name
-          .select('*')
-          .eq('id', session.user.id) // assuming 'id' is the user id column
-          .single();
+      if (session?.user) {
+        const { data } = await supabase
+          .from('profiles').select('*').eq('id', session.user.id).single();
         if (data) setProfile(data);
-      } else {
-        setProfile(null);
-      }
+      } else { setProfile(null); }
     };
-
     checkUser();
-
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsLoggedIn(!!session);
-       setUser(session?.user || null);
     });
-  
-    return () => {
-      listener?.subscription.unsubscribe();
-    };
+    return () => listener?.subscription.unsubscribe();
   }, []);
-  
 
-    return (
-      <div className="p-1 sticky bg-transparent justify-between flex shadow-md md:px-[130px]">
-      <img src={slogon} className='w-[60px] hidden md:block md:-ml-[120px] h-[80px]' />
-      <div className='hidden md:block' >
-      <ul className="flex gap-5 lg:gap-10 text-center md:text-[14px] lg:text-[16px] pt-[30px]">
-        <Link to ='/' ><li className='hover:text-gray-400 text-black hover:border-b cursor-pointer'>
-           Home
-        </li></Link>
-        <Link to = '/products'><li className='hover:text-gray-400 hover:border-b text-black cursor-pointer'>
-          Products
-        </li></Link>
-        <Link to='/about'><li className='hover:text-gray-400 text-black hover:border-b h-[30px] cursor-pointer'>
-          About us
-        </li></Link>
-       <Link to='/contact_us'><li className='hover:text-gray-400 text-black hover:border-b h-[30px] cursor-pointer'>
-          Order Now
-        </li></Link>
-        <Link to='/partner'><li className='hover:text-gray-400 text-black hover:border-b h-[30px] cursor-pointer'>
-          Partner with us
-        </li></Link>
-        <Link to='/career'><li className='hover:text-gray-400 text-black hover:border-b h-[30px] cursor-pointer'>
-          Careers/Learning
-        </li></Link>
-      </ul>
+  const isActive = (to) =>
+    to === '/' ? location.pathname === '/' : location.pathname.startsWith(to);
+
+  return (
+    <>
+      {/* Announcement bar */}
+      <div className='bg-[#1a4731] text-white text-[12px] font-semibold text-center py-2 px-4 tracking-wide hidden md:flex items-center justify-center gap-2'>
+        <PhoneCall size={13} className='text-[#3dba6f]' />
+        Fast loan approvals in under 3 minutes — serving Taraba State &amp; Abuja
       </div>
-        <div className='md:hidden container flex flex-row justify-between '>
-        <img src={slogon} className='w-[50px] sm:ml-[30px] h-[60px]'/>
-        <div className='flex gap-5'>
-        <Link to='/CartPage' className='text-black flex'><ShoppingCart size={28} className='hover:shadow-xl mt-[18px] cursor pointer hover:bg-gray-300 hover:rounded-sm '/>{totalItems > 0 && (
-        <span className="bg-red-500 text-white text-xs px-2 ml-[5px] py-1 h-[25px] mt-[18px] rounded-full">
-          {totalItems}
-        </span>
-      )}</Link>
-      <button className="md:hidden  text-black  " onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={28}  /> : <Menu size={28} />}
-        </button>
-        </div>
-        </div>
-        {isOpen && (
-        <div className="md:hidden bg-white w-[30rem] py-6">
-          <ul className="flex flex-col  items-center gap-4 text-black">
-          <Link to="/"><li className="font-bold hover:text-gray-400 border-b text-black cursor-pointer">
-             Home
-            </li></Link>
-            <Link to='/products'><li className="font-bold hover:text-gray-400 border-b text-black cursor-pointer">
-              Products
-            </li></Link>
-            <Link to="/about" ><li className="font-bold hover:text-gray-400 text-black border-b cursor-pointer">
-               About us
-            </li></Link>
-            <li className="font-bold hover:text-gray-400 text-black border-b cursor-pointer">
-            <Link to="/contact_us">Order Now</Link>
-            </li>
-            <li className="font-bold hover:text-gray-400 text-black border-b cursor-pointer">
-            <Link to="/partner">Partner with us</Link>
-            </li>
-            <li className="font-bold hover:text-gray-400 text-black border-b cursor-pointer">
-            <Link to="/career">Careers/Learning</Link>
-            </li>
-            <li className="font-bold hover:text-gray-400 text-black border-b cursor-pointer">
-            {isLoggedIn ? (
-               <Link to="/signout">Sign Out</Link>
-             ) : (
-              <Link to="/login">LogIn</Link>
-             )
-             }
-            </li>
+
+      {/* Main navbar */}
+      <nav className={`sticky top-0 z-50 w-full transition-all duration-300 border-b ${
+        scrolled
+          ? 'bg-white/97 backdrop-blur-md shadow-md shadow-green-900/10 border-green-100'
+          : 'bg-white border-green-100'
+      }`}>
+        <div className='max-w-7xl mx-auto px-5 md:px-10 lg:px-16 flex items-center justify-between h-[70px]'>
+
+          {/* Logo */}
+          <Link to='/' className='flex items-center gap-3 flex-shrink-0'>
+            <img src={slogon} alt="COR'N Enterprises" className='h-[52px] w-auto' />
+            <div className='hidden sm:flex flex-col leading-tight'>
+              <span className='text-[#1a4731] font-bold text-[14px] tracking-wide'>COR'N Enterprises</span>
+              <span className='text-[#3dba6f] text-[10px] tracking-[0.15em] uppercase font-semibold'>Limited</span>
+            </div>
+          </Link>
+
+          {/* Desktop links */}
+          <ul className='hidden lg:flex items-center gap-1'>
+            {navLinks.map((link) => (
+              <li key={link.to}>
+                {link.highlight ? (
+                  <Link
+                    to={link.to}
+                    className='ml-2 bg-[#1a4731] hover:bg-[#2d7a4f] text-white font-bold text-[13px] px-5 py-2.5 rounded-full transition-all duration-200 tracking-wide shadow-md hover:shadow-green-800/30 hover:scale-105'
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <Link
+                    to={link.to}
+                    className={`relative px-4 py-2 text-[13px] font-medium transition-colors duration-200 rounded-md group ${
+                      isActive(link.to) ? 'text-[#1a4731]' : 'text-gray-500 hover:text-[#1a4731]'
+                    }`}
+                  >
+                    {link.label}
+                    <span className={`absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-[#3dba6f] transition-transform duration-200 origin-left ${
+                      isActive(link.to) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`} />
+                  </Link>
+                )}
+              </li>
+            ))}
           </ul>
+
+          {/* Desktop auth */}
+          <div className='hidden lg:flex items-center gap-4'>
+            {isLoggedIn ? (
+              <div className='flex items-center gap-3'>
+                <span className='text-[#1a4731] text-[13px] font-semibold'>Hi, {profile?.firstname || 'Client'}</span>
+                <Link to='/signout' className='flex items-center gap-2 border border-green-200 hover:border-[#3dba6f] text-gray-500 hover:text-[#1a4731] text-[13px] px-4 py-2 rounded-full transition-all duration-200'>
+                  <User size={15} /> Sign Out
+                </Link>
+              </div>
+            ) : (
+              <Link to='/login' className='flex items-center gap-2 border border-green-200 hover:border-[#3dba6f] text-gray-500 hover:text-[#1a4731] text-[13px] px-4 py-2 rounded-full transition-all duration-200'>
+                <LogIn size={15} /> Client Login
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile hamburger */}
+          <button className='lg:hidden text-[#1a4731] p-2 rounded-md hover:bg-green-50 transition-colors' onClick={() => setIsOpen(!isOpen)} aria-label='Toggle menu'>
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-      )}
-      <div className='hidden md:block'>
-      <div className='flex flex-row gap-6 pt-[30px] md:-mr-[60px] lg:-mr-[50px] '>
-      {isLoggedIn ? (
-        <>
-            <span className="font-semibold text-green-700 max-lg:hidden text-black pt-1">
-              Hi,{profile?.firstname}
-            </span>
-            <Link to='/signout'>
-              <User className='hover:shadow-xl cursor-pointer hover:bg-gray-300 hover:rounded-sm' />
-            </Link>
-          </>
-      ) : (
-        <Link to='/login'>
-          <LogIn className='hover:shadow-xl cursor-pointer hover:bg-gray-300 hover:rounded-sm' />
-        </Link>
-      )}
-      <Link to='/CartPage' className='text-black flex'><ShoppingCart className='hover:shadow-xl cursor pointer hover:bg-gray-300 hover:rounded-sm '/>{totalItems > 0 && (
-        <span className="bg-red-500 text-white text-xs px-2 ml-[5px] py-1 h-[25px] rounded-full">
-          {totalItems}
-        </span>
-      )}</Link>
-      </div>
-      </div>
-    </div>
-    )
-  }
-  
-  export default Nav
+
+        {/* Mobile drawer */}
+        <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className='bg-white border-t border-green-100 px-5 py-6'>
+            <p className='text-[#3dba6f] text-[11px] tracking-[0.2em] uppercase font-semibold mb-5'>Fast · Flexible · Professional</p>
+            <ul className='flex flex-col gap-1'>
+              {navLinks.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className={`flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-medium transition-all duration-200 ${
+                    link.highlight ? 'bg-[#1a4731] text-white font-bold mt-2'
+                      : isActive(link.to) ? 'bg-green-50 text-[#1a4731]'
+                      : 'text-gray-600 hover:bg-green-50 hover:text-[#1a4731]'
+                  }`}>
+                    {link.label}
+                    {isActive(link.to) && !link.highlight && <span className='w-1.5 h-1.5 rounded-full bg-[#3dba6f]' />}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className='mt-5 pt-5 border-t border-green-100'>
+              {isLoggedIn ? (
+                <Link to='/signout' className='flex items-center gap-2 text-gray-500 hover:text-[#1a4731] text-[14px] px-4 py-3'>
+                  <User size={16} /> Hi, {profile?.firstname || 'Client'} — Sign Out
+                </Link>
+              ) : (
+                <Link to='/login' className='flex items-center gap-2 text-gray-500 hover:text-[#1a4731] text-[14px] px-4 py-3 transition-colors'>
+                  <LogIn size={16} /> Client Login
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
+};
+
+export default Nav;
