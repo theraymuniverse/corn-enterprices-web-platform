@@ -1,118 +1,154 @@
 import { useState } from "react";
 import { supabase } from "./Authenticcation/supabaseClient";
-
+import { CheckCircle, AlertCircle, Send } from "lucide-react";
 
 const Form = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
-  const [message,setMessage] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,[e.target.name]: e.target.value
-    }));
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (errors[e.target.name]) setErrors(prev => ({ ...prev, [e.target.name]: null }));
   };
 
   const validate = () => {
-    const errors = {};
-    if (!formData.name.trim()) errors.name = 'Name is required';
-    if (!formData.email.trim()) errors.email = 'Email is required';
-    if (!formData.message.trim()) errors.message = 'Message cannot be empty';
-    return errors;
+    const errs = {};
+    if (!formData.name.trim()) errs.name = 'Name is required';
+    if (!formData.email.trim()) errs.email = 'Email is required';
+    if (!formData.message.trim()) errs.message = 'Message cannot be empty';
+    return errs;
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setLoading(true);
-    setMessage(null);
-    const {name, email, message} = formData;
 
-    try{
-      const {data, error } = await supabase.from('contacts').insert([{name, email, message}])
-       if(error) throw error;
+    const { name, email, message } = formData;
+    try {
+      const { error } = await supabase.from('contacts').insert([{ name, email, message }]);
+      if (error) throw error;
 
       const response = await fetch('https://www.cornenterprise.com/api/send-contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),
-      })
-       const result = await response.json();
+      });
+      const result = await response.json();
       if (response.ok) {
-        alert(result.message || 'Thank you for contacting us!');
-        setFormData({ email: "" , message: "" ,name: "" });
+        setSuccess(true);
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setSuccess(false), 6000);
       } else {
-        alert(result.message || 'Error sending email, please try again.');
+        alert(result.message || 'Error sending message, please try again.');
       }
-    
     } catch (err) {
       console.error('Error:', err);
       alert('Something went wrong. Please try again.');
     }
-    setLoading(false)
+    setLoading(false);
   };
 
+  const inputClass = (field) =>
+    `w-full border rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200 bg-white placeholder-gray-400 ${
+      errors[field]
+        ? 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100'
+        : 'border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20'
+    }`;
+
   return (
-    <div className="lg:flex max-sm:w-[300px] ">
-      <div className="p-10 border-green-300 md:pr-[120px] md:pl-[130px] text-[black]  rounded-lg  border  ">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-[#0d0d0d] text-[24px]">Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="p-2  h-[40px]  border-green-500 w-full md:w-[400px] lg:w-[500px]  border rounded-lg"
-              placeholder="Enter your name"
-            />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
-          </div>
-          <div>
-            <label className="block text-[#0D0D0D] text-[24px]">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-2 border h-[40px] border-[#003D56] border-green-500  mt-[10px] rounded-lg"
-              placeholder="Enter your email"
-            />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-          </div>
+    <form onSubmit={handleSubmit} className="space-y-5 w-full">
 
-          {/* Message Field */}
-          <div>
-            <label className="block text-[#0D0D0D] text-[24px] ">Message</label>
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full p-2 border border-[#003D56] mt-[10px]  border-green-500 rounded-lg"
-              rows="4"
-              placeholder="Write your message..."
-            ></textarea>
-            {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
-          </div>
+      {/* Success banner */}
+      {success && (
+        <div className="flex items-center gap-2 bg-[#f0f9f4] border border-[#3dba6f]/40 text-[#1a4731] px-4 py-3 rounded-xl text-[13px] font-semibold">
+          <CheckCircle size={16} className="text-[#3dba6f] flex-shrink-0" />
+          Thank you! Your message has been sent. We'll be in touch soon.
+        </div>
+      )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-[150px] transition duration-700 hover:bg-green-900 bg-green-500 text-black py-2 rounded-lg hover:bg-[] transition"
-          >
-           {loading ?  "Submitting.." : 'Submit'}
-          </button>
-        </form>
+      {/* Name */}
+      <div>
+        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">
+          Full Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Enter your full name"
+          className={inputClass('name')}
+        />
+        {errors.name && (
+          <p className="flex items-center gap-1 text-red-500 text-[11px] mt-1">
+            <AlertCircle size={11} />{errors.name}
+          </p>
+        )}
       </div>
-    </div>
+
+      {/* Email */}
+      <div>
+        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">
+          Email Address
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="your@email.com"
+          className={inputClass('email')}
+        />
+        {errors.email && (
+          <p className="flex items-center gap-1 text-red-500 text-[11px] mt-1">
+            <AlertCircle size={11} />{errors.email}
+          </p>
+        )}
+      </div>
+
+      {/* Message */}
+      <div>
+        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">
+          Message
+        </label>
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          rows={5}
+          placeholder="Write your message or inquiry..."
+          className={`${inputClass('message')} resize-none`}
+        />
+        {errors.message && (
+          <p className="flex items-center gap-1 text-red-500 text-[11px] mt-1">
+            <AlertCircle size={11} />{errors.message}
+          </p>
+        )}
+      </div>
+
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full inline-flex items-center justify-center gap-2 bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[14px] py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-sm"
+      >
+        {loading ? (
+          <>
+            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            Sending...
+          </>
+        ) : (
+          <>
+            <Send size={15} />
+            Send Message
+          </>
+        )}
+      </button>
+    </form>
   );
 };
 

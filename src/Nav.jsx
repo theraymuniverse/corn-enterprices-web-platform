@@ -1,5 +1,5 @@
 import slogon from './assets/Logo2.png'
-import { Menu, X, LogIn, User, PhoneCall } from "lucide-react";
+import { Menu, X, LogIn, User, PhoneCall, MessageCircle } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from 'react-router-dom'
 import { supabase } from './Authenticcation/supabaseClient';
@@ -155,6 +155,18 @@ const Nav = () => {
           </div>
         </div>
       </nav>
+
+      {/* ── Global floating WhatsApp button ── */}
+      <a
+        href="https://wa.me/2348023447314?text=Hello%20COR'N%20Enterprises%20Limited%2C%20I%20would%20like%20to%20apply%20for%20a%20loan."
+        target='_blank'
+        rel='noreferrer'
+        aria-label='Apply for a loan via WhatsApp'
+        className='fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#3dba6f] hover:bg-[#2ea85f] text-white font-bold text-[13px] pl-4 pr-5 py-3 rounded-full shadow-xl hover:shadow-[#3dba6f]/40 hover:scale-105 transition-all duration-300'
+      >
+        <MessageCircle size={20} />
+        <span className='hidden sm:inline'>Apply via WhatsApp</span>
+      </a>
     </>
   );
 };

@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, ScrollRestoration } from 'react-router-dom'
 import Page from './Page.jsx'
 import Contact from './contact_us.jsx'
 import CartPage from './CartPage.jsx'
@@ -19,60 +19,80 @@ import Password from './Authenticcation/password.jsx'
 import Career from './Career.jsx'
 import SignOut from './Authenticcation/signout.jsx'
 
+// A tiny wrapper that injects <ScrollRestoration /> into every route
+const withScroll = (element) => (
+  <>
+    <ScrollRestoration getKey={(location) => location.pathname} />
+    {element}
+  </>
+)
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
-    errorElement: <App/>,
+    element: withScroll(<App />),
+    errorElement: <App />,
   },
   {
     path: 'products',
-    element: <Page />,
-  },{
+    element: withScroll(<Page />),
+  },
+  {
     path: 'contact',
-    element: <Contact />
-  },{
+    element: withScroll(<Contact />),
+  },
+  {
     path: 'CartPage',
-    element: <CartPage/>
-  },{
+    element: withScroll(<CartPage />),
+  },
+  {
     path: 'about',
-    element: <About/>
-  },{
+    element: withScroll(<About />),
+  },
+  {
     path: 'contact_us',
-    element: <ContactPage/>
-  },{
+    element: withScroll(<ContactPage />),
+  },
+  {
     path: 'partner',
-    element: <PartnerPage/>
-  },{
+    element: withScroll(<PartnerPage />),
+  },
+  {
     path: 'login',
-    element: <Login/>
-  },{
+    element: withScroll(<Login />),
+  },
+  {
     path: 'register',
-    element: <Signup/>
-  },{
+    element: withScroll(<Signup />),
+  },
+  {
     path: 'verify',
-    element: <Verify/>
-  },{
+    element: withScroll(<Verify />),
+  },
+  {
     path: 'chose',
-    element: <Chose/>
-  }, {
+    element: withScroll(<Chose />),
+  },
+  {
     path: 'password',
-    element: <Password/>
-  },{
+    element: withScroll(<Password />),
+  },
+  {
     path: 'career',
-    element: <Career/>
-  }, {
-    path: "signout",
-    element: <SignOut/>
-  }
+    element: withScroll(<Career />),
+  },
+  {
+    path: 'signout',
+    element: withScroll(<SignOut />),
+  },
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-   <ShopContextProvider>
-     <AuthContextProvider>
-      <RouterProvider router={router} />
-     </AuthContextProvider>
-   </ShopContextProvider>
+    <ShopContextProvider>
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
+    </ShopContextProvider>
   </StrictMode>
 )
