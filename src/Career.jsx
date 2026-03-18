@@ -1,292 +1,431 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useRef } from 'react'
 import Nav from './Nav'
-import img11 from './assets/career.jpg'
 import Footer from './footer'
-import {supabase} from './Authenticcation/supabaseClient'
-import {motion, useScroll} from 'framer-motion'
-import {ArrowUpRight,  GraduationCap} from 'lucide-react'   
-import rice from './assets/Rice.jpg'
+import { supabase } from './Authenticcation/supabaseClient'
+import { motion } from 'framer-motion'
+import {
+  ArrowRight, TrendingUp, Heart, ShieldCheck, Zap,
+  Briefcase, HeadphonesIcon, ClipboardCheck, Megaphone,
+  CheckCircle, Send, Users, Star
+} from 'lucide-react'
+
+const whyWork = [
+  {
+    icon: <TrendingUp size={22} />,
+    title: 'Professional Growth',
+    desc: 'Work in an environment that encourages learning, career advancement, and skill development.',
+  },
+  {
+    icon: <Heart size={22} />,
+    title: 'Impactful Work',
+    desc: 'Every role contributes directly to empowering individuals and businesses to achieve their financial goals.',
+  },
+  {
+    icon: <ShieldCheck size={22} />,
+    title: 'Culture of Integrity',
+    desc: 'We operate with honesty, fairness, and respect in every client and team interaction.',
+  },
+  {
+    icon: <Zap size={22} />,
+    title: 'Dynamic Environment',
+    desc: 'Be part of a bold, proactive team that thrives on solving challenges efficiently.',
+  },
+]
+
+const opportunities = [
+  {
+    icon: <Briefcase size={20} />,
+    role: 'Loan Officers / Relationship Managers',
+    desc: 'Serve as the first point of contact for clients, assist with loan applications, and ensure compliance with lending standards.',
+  },
+  {
+    icon: <HeadphonesIcon size={20} />,
+    role: 'Customer Support Representatives',
+    desc: 'Provide guidance and assistance to clients through phone, WhatsApp, and in-person channels.',
+  },
+  {
+    icon: <ClipboardCheck size={20} />,
+    role: 'Operations & Compliance Specialists',
+    desc: 'Oversee verification, risk assessment, and adherence to regulatory requirements.',
+  },
+  {
+    icon: <Megaphone size={20} />,
+    role: 'Marketing & Business Development',
+    desc: 'Help grow COR\'N Enterprises\' reach by creating awareness and building strong client relationships.',
+  },
+]
+
+const qualities = [
+  'Integrity and professionalism in all dealings',
+  'Strong communication and interpersonal skills',
+  'Ability to work in a fast-paced, results-driven environment',
+  'Boldness in decision-making and problem-solving',
+  'A commitment to helping clients achieve financial success',
+]
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+}
+
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
 
 const Career = () => {
-  const targetRef = useRef(null);
-  const {scrollYProgress } = useScroll({
-    target: targetRef,
-  })
-
-  const [role, setRole] = useState("");
   const [formData, setFormData] = useState({
-      name: "",
-      career: "",
-      message: "",
-      role: "",
-      email: "",
-      phone: "",
-      type: ""
-    });
-    const [loading, setLoading] = useState(false);
-      const [message,setMessage] = useState(null);
-      const [errors, setErrors] = useState({});
-    
-      const handleChange = (e) => {
-        setFormData(prev => ({
-          ...prev,[e.target.name]: e.target.value
-        }));
-      };
+    name: '', career: '', message: '', role: '', email: '', phone: '', type: '',
+  })
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
 
-      const handleRoleChange = (e) => {
-      const selected = e.target.value;
-      setFormData(prev => ({ ...prev, role: selected }));
-      setRole(selected);
-    };
-    
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setMessage(null);
-        const {name, career, message, role, email, phone,type} = formData;
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
 
-        try {
-        const {data, error } = await supabase.from('careers').insert([{name, career, message, role, type}])
-        if (error) throw error;
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    const { name, career, message, role, email, phone, type } = formData
+    try {
+      const { error } = await supabase.from('careers').insert([{ name, career, message, role, type }])
+      if (error) throw error
 
-        const response = await fetch('https://www.cornenterprise.com/api/send-career', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({name, career, message, role, phone, email, type}),
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-          alert(result.message || 'Thank you for subscribing!');
-          setFormData({  name: "", career: "",message: "" , role: "", phone: "", email: "", type: "" });
-        } else {
-          alert(result.message || 'Error sending email, please try again.');
-        }
-      } catch (err) {
-        console.error('Error:', err);
-        alert('Something went wrong. Please try again.');
+      const response = await fetch('https://www.cornenterprise.com/api/send-career', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, career, message, role, phone, email, type }),
+      })
+      const result = await response.json()
+      if (response.ok) {
+        setSuccess(true)
+        setFormData({ name: '', career: '', message: '', role: '', phone: '', email: '', type: '' })
+        setTimeout(() => setSuccess(false), 6000)
+      } else {
+        alert(result.message || 'Error sending, please try again.')
       }
-        setLoading(false)
-      };
-    
-  return (
-    <div> 
-      <Nav/>
-       <div>
-        <div className='md:p-15 items-center flex md:flex-row flex-col md:gap-20 lg:gap-35 xl:gap-40 md:p-20 lg:p-20 xl:p-30 '>
-       <div>
-        <motion.h1
-         className=' justify-center text-center md:text-start font-bold pt-[70px] md:pt-[30px] lg:text-[40px] xl:text-[50px] text-[35px] md:text-[30px]'>
-           Start your Career<br className='md:hidden'/> in one leap<br/> <span className='text-green-500'>with COR'N </span>
-        </motion.h1>
-         <p className='pt-5 text-[13px] md:text-[15px] text-center md:text-start px-[40px] md:px-[0px] '>At COR’N ENTERPRISES, we don’t just cultivate grains—we cultivate people. Our fields grow food, but our enterprise grows futures. Whether you're a fresh graduate, a seasoned professional, or a curious learner eager to break into agribusiness, there’s a place for you here.<br/>
-        We are building a community of bold thinkers, skilled hands, and passionate professionals who believe that agriculture is not just about the land—but about the people who work it, manage it, and transform it.
-        </p>
-        </div>
-        <img className=' w-[350px] md:w-[300px] lg:w-[450px] pt-[20px] xl:w-[550px] rounded-xl ' loading='lazy' src={img11}
-        />
-      </div>
-     <div>
-          <div className='p-18'>
-        <h1 className='text-center text-[28px] font-semibold md:text-[20px] lg:text-[25px] xl:text-[33px]'>
-          Learning <span className='text-green-500'> and </span> Capacity Building Programs
-        </h1>
-        <p className='text-center text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px] mt-5'>
-          We offer a range of career and learning programs tailored for:
-          </p>
-        <div className=''>
-        <ul className='items-center justify-center gap-10  mt-[40px] grid grid-cols-1 md:grid-cols-2 '>
-          <li className='p-5 shadow-sm shadow-gray-300 rounded-lg '>
-            <div className='flex justify-center gap-3'>
-            <h1 className='text-center text-[27px]  '>
-              Young Professionals
-            </h1>
-            <ArrowUpRight color='green' size={40} />
-            </div>
-            <p className='text-center mt-[30px]'>
-                Entry-Level Placement<br/>
-                Technical & Management Training<br/>
-                Business of Agriculture Workshops<br/>
-            </p>
-          </li>
-           <li className='p-5 shadow-sm  shadow-gray-300 rounded-lg overflow-hidden '>
-             <div className='flex justify-center gap-3'>
-            <h1 className='text-center text-[27px] '>
-              Students & Graduates
-            </h1>
-             <ArrowUpRight color='green' size={40} />
-            </div>
-            <p className='text-center mt-[30px]'>
-              Industrial Training (IT/SIWES)<br/>
-              Graduate Internship Program<br/>
-              Agro-Leadership Bootcamps
-            </p>
-          </li>
-          <li className='p-5 shadow-sm shadow-gray-300 rounded-lg overflow-hidden '>
-             <div className='flex justify-center gap-3'>
-            <h1 className='text-center text-[27px]'>
-              Community Empowerment
-            </h1>
-             <ArrowUpRight color='green' size={40} />
-              </div>
-            <p className='text-center mt-[30px]'>
-                Rural Youth Empowerment Initiatives<br/>
-                Women in Agriculture Programs
-            </p>
-          
-          </li>
-           <li className='p-5 shadow-sm shadow-gray-300 rounded-lg overflow-hidden '>
-             <div className='flex justify-center gap-3'>
-             <h1 className='text-center text-[25px] '>
-              Farmers & Entrepreneurs
-            </h1>
-            <ArrowUpRight color='green' size={40} />
-             </div>
-            <p className='text-center mt-[30px]'>
-              Agribusiness Masterclasses<br/>
-              Financial Literacy for Farmers<br/>
-              Digital Tools for Agricultural Growth
-            </p>
-          </li>
-        </ul>
-        </div>
-     </div>
-      <div>
-     <div  className="grid grid-cols-1 xl:grid-cols-2 justify-center items-center gap-10  p-5 xl:p-20">
-        <article className='items-center  lg:w-[950px] xl:w-[600px] justify-center  shadow-gray-300 rounded-lg p-5 md:p-0 '>   
-              <h1 className='text-center text-[28px] font-semibold md:text-[30px] lg:text-[25px] xl:text-[33px] p-10'>
-                Why Work <span className='text-green-500'>or</span>  Learn With COR'N?
-             </h1>
-             <p className='text-[13px] md:text-[15px] md:p-5 items-center justify-center '>  
-             <span className='text-[20px] font-semibold'> 1. Purpose-Driven Work<br/></span>
-            Join a team that is solving real problems—food insecurity, youth unemployment, and rural underdevelopment—through sustainable agricultural solutions.<br/>
-             <span className='text-[20px] font-semibold'>2. Skill Development & Mentorship<br/></span>
-            We invest in people. Whether it’s agronomy, processing, logistics, agribusiness management, or agro-financial services, you’ll gain practical, future-proof skills to thrive in the evolving food economy.<br/>
-            <span className='text-[20px] font-semibold'> 3. Inclusive Culture<br/></span>
-            We believe in equal opportunity, team spirit, and leadership at every level. Your voice matters, your ideas count, and your growth is our priority.<br/>
-            <span className='text-[20px] font-semibold'>4. Learn by Doing<br/></span>
-            From farm operations to agribusiness consulting, COR'N offers real-world experience. Our interns and trainees work on live projects—not just theoretical assignments.<br/>
-            <span className='text-[20px] font-semibold'>  5. Career Pathways<br/></span>
-            Start as an intern, grow into a trainee, and move into leadership. At COR'N, we’re not just offering jobs—we're building careers.<br/>
-            </p>
-        </article>
+    } catch (err) {
+      console.error('Error:', err)
+      alert('Something went wrong. Please try again.')
+    }
+    setLoading(false)
+  }
 
-        <article className='items-center lg:w-[950px] xl:w-[600px]  justify-center shadow-gray-300 rounded-lg p-5'>
-          <h1 className='text-center text-[28px]  font-semibold md:text-[30px] lg:text-[25px] xl:text-[33px] p-10'>
-            Apply<span className='text-green-500'> Now?</span></h1> 
-           <p className='md:text-center '>
-              <span className='font-semibold text-[20px]'>🌍 Come Learn Where the Future is Growing<br/></span>
-              Agriculture is changing—and we’re leading that change. At COR’N ENTERPRISES, you’re not just learning how to work. You’re learning how to make a difference.<br/>
-              👉 Whether you want to work, train, volunteer, or partner in developing talent—COR’N is your gateway to meaningful impact.<br/>
-               <span className='pt-[10px]'>Send your CV to careers@cornenterprise.com or check back regularly for job openings.<br/></span>
-           </p> 
-        </article>
-      </div>
-     </div>
-       <div className='flex flex-col lg:flex-row items-center justify-center gap-10 p-20'>
-       <div className=''>
-        <img src={rice} loading='lazy' className='rounded-xl w-[400px]  xl:h-[800px] md:w-[600px] md:h-[500px] ' />
-       </div>
-       <div className='items-center '>
-       <h1 className='text-[22px] ml-[20px] md:text-[30px] lg:text-[25px] xl:text-[30px] '>
-         EXPLORE ENDLESS <span className='text-green-500'>POSSIBILITIES</span>
-       </h1>
-       <form onSubmit={handleSubmit} method="POST" className='p-5'>
-        <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Full Name</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5' 
-        type='text' 
-        name='name'
-        placeholder='Enter your name'
-        value={formData.name}
-        onChange={handleChange}
-        required/><br/>
-        </div>
-        <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Email</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
-         type='email'
-         name='email' 
-         value={formData.email}
-         onChange={handleChange}
-         placeholder='Enter your email' 
-         required/><br/>
-        </div>
-        <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Phone Number</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
-         type='tel'
-         name='phone' 
-         value={formData.phone}
-         onChange={handleChange}
-         placeholder='Enter your phone number' 
-         required/><br/>
-        </div>
-        <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Career Path</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
-         type='text'
-         name='career' 
-         value={formData.career}
-         onChange={handleChange}
-         placeholder='Enter your career path' 
-         required/><br/>
-        </div>
-        <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>What brings you here?</label><br/>
-          <select
-          name='role' 
-          value={formData.role}
-          onChange={handleRoleChange}
-          className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'>
-          <option value=''>Choose your option</option>
-          <option value='learn'>Learning Course</option>
-          <option value='career'>Career</option>
-          </select>
-        </div>
-        {role === "career" && (
-                 <div className="mt-1">
-                   <label  className=" md:ml-[5px] md:ml-[0px] pb-[10px]  text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]">We are always on the lookout for:</label>
-                    <select 
-                     name="type"
-                     value={formData.type}
-                     onChange={handleChange}
-                     className= " md:ml-[10px] border-2 border-gray-300 rounded-md p-2 w-[300px] mb-5" >
-                  <option value="">Available Roles & Openings</option>
-                  <option value="Farm Assistants & Field Officers">Farm Assistants & Field Officers</option>
-                  <option value="Processing Plant Operators">Processing Plant Operators</option>
-                  <option value="Agro-Marketing Executives">Agro-Marketing Executives</option>
-                  <option value="Warehouse & Supply Chain Staff">Warehouse & Supply Chain Staff</option>
-                  <option value="Administrative & Finance Interns">Administrative & Finance Interns</option>
-                  <option value="Project & Training Coordinators">Project & Training Coordinators</option>
-                </select>
-                  </div>
-                  )}
-        <div>
-        <label className='text-[15px] md:text-[15px] lg:text-[15px] xl:text-[20px]'>Why you wish to join us?</label><br/>
-        <input className='border-2 border-gray-300 rounded-md p-2 w-[300px] md:w-[600px] lg:w-[500px] xl:w-[600px] mb-5'
-         type='text' 
-         name='message'
-         value={formData.message} 
-         onChange={handleChange}
-         required
-         placeholder='What makes you tick?' /><br/>
-        </div>
-        <button
-            type="submit"
-            disabled={loading}
-            className="w-[150px] transition duration-700 hover:bg-green-900 bg-green-500 text-black py-2 rounded-lg hover:bg-[] transition"
+  return (
+    <div className='bg-white min-h-screen'>
+      <Nav />
+
+      {/* ── Hero ── */}
+      <section className='relative bg-[#1a4731] overflow-hidden'>
+        <div className='absolute inset-0 opacity-5'
+          style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+        <div className='absolute top-0 right-0 w-96 h-96 rounded-full bg-[#3dba6f]/15 blur-3xl pointer-events-none' />
+
+        <div className='relative z-10 max-w-5xl mx-auto px-6 md:px-12 py-20 md:py-28 text-center'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}
           >
-           {loading ?  "Submitting.." : 'Submit'}
-          </button>
-       </form>
-      </div>
-      </div>
-     </div>
-     </div>
-     <Footer/>
+            <div className='flex items-center justify-center gap-3 mb-4'>
+              <span className='h-px w-10 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.22em] uppercase'>Careers at COR'N</span>
+              <span className='h-px w-10 bg-[#3dba6f]' />
+            </div>
+            <h1 className='text-white text-[36px] md:text-[52px] font-bold leading-tight'>
+              Join a Team that Values{' '}
+              <span className='text-[#3dba6f]'>Integrity,</span>{' '}
+              Professionalism,{' '}
+              <br className='hidden md:block' />
+              and <span className='text-[#3dba6f]'>Bold Action.</span>
+            </h1>
+            <p className='text-green-200/70 text-[16px] md:text-[18px] mt-6 max-w-3xl mx-auto leading-relaxed'>
+              At COR'N Enterprises Limited, we are more than a lending company — we are a growing community of dedicated
+              professionals committed to providing fast, flexible, and trustworthy financial solutions across{' '}
+              <span className='text-white font-medium'>Taraba State and Abuja</span>.
+              We believe that our people are our greatest asset.
+            </p>
+            <a
+              href='#apply'
+              className='mt-8 inline-flex items-center gap-2 bg-[#3dba6f] hover:bg-[#2ea85f] text-white font-bold text-sm px-7 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-[#3dba6f]/30 hover:scale-105'
+            >
+              Apply Now <ArrowRight size={16} />
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Why Work With Us ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-white'>
+        <div className='max-w-6xl mx-auto'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='text-center mb-12'
+          >
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Our Culture</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[28px] md:text-[38px] font-bold'>Why Work With Us?</h2>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants} initial='hidden' whileInView='show' viewport={{ once: true }}
+            className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'
+          >
+            {whyWork.map((item, i) => (
+              <motion.div key={i} variants={cardVariants}
+                className='group bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 text-center'
+              >
+                <div className='w-12 h-12 rounded-xl bg-[#f0f9f4] text-[#1a4731] flex items-center justify-center mx-auto mb-4 group-hover:bg-[#1a4731] group-hover:text-white transition-colors duration-300'>
+                  {item.icon}
+                </div>
+                <h3 className='text-[#1a4731] font-bold text-[15px] mb-2'>{item.title}</h3>
+                <p className='text-gray-500 text-[13px] leading-relaxed'>{item.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Current Opportunities ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-[#f0f9f4]'>
+        <div className='max-w-6xl mx-auto'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='text-center mb-12'
+          >
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Open Roles</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[28px] md:text-[38px] font-bold'>Current Opportunities</h2>
+            <p className='text-gray-500 text-[15px] mt-3 max-w-xl mx-auto'>
+              We are always looking for talented and motivated individuals in the following areas:
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants} initial='hidden' whileInView='show' viewport={{ once: true }}
+            className='grid grid-cols-1 md:grid-cols-2 gap-6'
+          >
+            {opportunities.map((opp, i) => (
+              <motion.div key={i} variants={cardVariants}
+                className='group bg-white border border-green-100 rounded-2xl p-7 shadow-sm hover:shadow-md hover:border-[#3dba6f]/40 transition-all duration-300 flex gap-5'
+              >
+                <div className='w-11 h-11 rounded-xl bg-[#f0f9f4] text-[#1a4731] flex items-center justify-center flex-shrink-0 group-hover:bg-[#1a4731] group-hover:text-white transition-colors duration-300'>
+                  {opp.icon}
+                </div>
+                <div>
+                  <h3 className='text-[#1a4731] font-bold text-[15px] mb-2'>{opp.role}</h3>
+                  <p className='text-gray-500 text-[13px] leading-relaxed'>{opp.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Who We're Looking For ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-white'>
+        <div className='max-w-4xl mx-auto'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='text-center mb-12'
+          >
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Ideal Candidates</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[28px] md:text-[38px] font-bold'>Who We Are Looking For</h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='bg-[#f0f9f4] border border-green-100 rounded-2xl p-8 md:p-10'
+          >
+            <ul className='space-y-4'>
+              {qualities.map((q, i) => (
+                <li key={i} className='flex items-start gap-3 text-[15px] text-gray-700'>
+                  <CheckCircle size={18} className='text-[#3dba6f] flex-shrink-0 mt-0.5' />
+                  {q}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── How to Apply + Form ── */}
+      <section id='apply' className='py-20 px-6 md:px-12 lg:px-20 bg-[#f0f9f4]'>
+        <div className='max-w-6xl mx-auto'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='text-center mb-14'
+          >
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>How to Apply</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[28px] md:text-[38px] font-bold'>Ready to Make a Difference?</h2>
+            <p className='text-gray-500 text-[15px] mt-3 max-w-2xl mx-auto leading-relaxed'>
+              Submit your application by sending your CV and cover letter to{' '}
+              <a href='mailto:cornenterprises2709@gmail.com' className='text-[#1a4731] font-semibold underline underline-offset-2 hover:text-[#3dba6f] transition-colors'>
+                cornenterprises2709@gmail.com
+              </a>
+              {' '}with the position you are applying for in the subject line.
+              All qualified candidates will be reviewed and contacted for an interview.
+            </p>
+          </motion.div>
+
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-start'>
+
+            {/* Info panel */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.8 }}
+            >
+              <div className='bg-[#1a4731] rounded-2xl p-8 text-white h-full'>
+                <div className='flex items-center gap-3 mb-6'>
+                  <div className='w-10 h-10 rounded-xl bg-[#3dba6f]/20 flex items-center justify-center'>
+                    <Users size={20} className='text-[#3dba6f]' />
+                  </div>
+                  <h3 className='font-bold text-[18px]'>Join Our Growing Team</h3>
+                </div>
+                <p className='text-green-200/70 text-[14px] leading-relaxed mb-8'>
+                  At COR'N Enterprises Limited, we value diversity, fairness, and opportunity for growth.
+                  Whether you want to work, train, or build a long-term career — this is the place for you.
+                </p>
+
+                <div className='space-y-4'>
+                  {[
+                    { icon: <Star size={16} />, text: 'Competitive and fair compensation' },
+                    { icon: <TrendingUp size={16} />, text: 'Clear career advancement paths' },
+                    { icon: <ShieldCheck size={16} />, text: 'Integrity-driven work culture' },
+                    { icon: <Zap size={16} />, text: 'Fast-paced, impactful environment' },
+                  ].map((pt, i) => (
+                    <div key={i} className='flex items-center gap-3 text-[13px] text-green-200/80'>
+                      <span className='text-[#3dba6f]'>{pt.icon}</span>
+                      {pt.text}
+                    </div>
+                  ))}
+                </div>
+
+                <div className='mt-10 pt-6 border-t border-white/10'>
+                  <p className='text-[#3dba6f] font-bold text-[16px]'>Grow Your Career.</p>
+                  <p className='text-white font-bold text-[16px]'>Make a Difference.</p>
+                  <p className='text-green-200/60 text-[13px] mt-1'>Join COR'N Enterprises Limited Today.</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Application Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.8 }}
+            >
+              <div className='bg-white border border-green-100 rounded-2xl p-8 shadow-sm'>
+                <h3 className='text-[#1a4731] font-bold text-[20px] mb-6 flex items-center gap-2'>
+                  <Send size={18} className='text-[#3dba6f]' />
+                  Submit Your Application
+                </h3>
+
+                {success && (
+                  <div className='mb-6 flex items-center gap-2 bg-[#f0f9f4] border border-[#3dba6f]/40 text-[#1a4731] px-5 py-3 rounded-xl text-[14px] font-semibold'>
+                    <CheckCircle size={18} className='text-[#3dba6f]' />
+                    Application submitted! We'll be in touch soon.
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className='space-y-4'>
+                  {/* Full Name */}
+                  <div>
+                    <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>Full Name</label>
+                    <input
+                      type='text' name='name' value={formData.name} onChange={handleChange} required
+                      placeholder='Enter your full name'
+                      className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200'
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>Email Address</label>
+                    <input
+                      type='email' name='email' value={formData.email} onChange={handleChange} required
+                      placeholder='Enter your email'
+                      className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200'
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>Phone Number</label>
+                    <input
+                      type='tel' name='phone' value={formData.phone} onChange={handleChange} required
+                      placeholder='Enter your phone number'
+                      className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200'
+                    />
+                  </div>
+
+                  {/* Position */}
+                  <div>
+                    <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>Position Applying For</label>
+                    <select
+                      name='type' value={formData.type} onChange={handleChange} required
+                      className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200 bg-white'
+                    >
+                      <option value=''>Select a position</option>
+                      <option value='Loan Officers / Relationship Managers'>Loan Officers / Relationship Managers</option>
+                      <option value='Customer Support Representatives'>Customer Support Representatives</option>
+                      <option value='Operations & Compliance Specialists'>Operations & Compliance Specialists</option>
+                      <option value='Marketing & Business Development'>Marketing & Business Development</option>
+                    </select>
+                  </div>
+
+                  {/* Career Path */}
+                  <div>
+                    <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>Your Professional Background</label>
+                    <input
+                      type='text' name='career' value={formData.career} onChange={handleChange} required
+                      placeholder='e.g. Banking, Finance, Marketing...'
+                      className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200'
+                    />
+                  </div>
+
+                  {/* Why join */}
+                  <div>
+                    <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>Why Do You Want to Join Us?</label>
+                    <textarea
+                      name='message' value={formData.message} onChange={handleChange} required rows={4}
+                      className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200 resize-none'
+                    />
+                  </div>
+
+                  <button
+                    type='submit' disabled={loading}
+                    className='w-full bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[14px] py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:scale-[1.01]'
+                  >
+                    {loading ? 'Submitting...' : (
+                      <><Send size={16} /> Submit Application</>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }

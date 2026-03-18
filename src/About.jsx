@@ -5,111 +5,307 @@ import light from './assets/Light.jpg'
 import Footer from './footer'
 import biz from './assets/Biz.jpg'
 import core from './assets/Core.jpg'
+import { motion } from 'framer-motion'
+import { ShieldCheck, Zap, BadgeCheck, Target, Eye, ArrowRight } from 'lucide-react'
+
+const pillars = [
+  {
+    icon: <ShieldCheck size={26} />,
+    title: 'Integrity',
+    desc: 'We believe lending must be built on honesty, transparency, and fairness in every interaction.',
+  },
+  {
+    icon: <Zap size={26} />,
+    title: 'Boldness',
+    desc: 'We act decisively to provide financial solutions where others hesitate — when our clients need us most.',
+  },
+  {
+    icon: <BadgeCheck size={26} />,
+    title: 'Professionalism',
+    desc: 'Every client interaction reflects respect, clarity, and responsibility from first contact to final repayment.',
+  },
+]
+
+const moments = [
+  'A trader needs funds to restock urgently',
+  'A salary earner faces an unexpected responsibility',
+  'A small business needs a short financial lift to stay open',
+]
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+}
+
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.13 } },
+}
 
 const About = () => {
   return (
-    <div>
-     <Nav/>
-     <div className='items-center '>
-     <div className='flex  md:flex-row flex-col gap-2 items-center md:-mt-[80px] lg:mt-[0px] pb-[100px] lg:ml-[60px] xl:ml-[120px] md:ml-[50px] '>
-        <div className='md:pt-[30px] lg:pt-[20px] items-center justify-center '>
-        <h1 className='font-bold justify-center pt-[30px] lg:text-[40px]  md:text-[30px] pb-[10px] lg:pl-[40px] md:pl-[30px] text-center max-sm:text-center text-[25px]'>
-            About US
-        </h1>
-        <p className='text-center text-[12px] md:text-[15px]'>We Grow Grains. We Build Systems. We Create Value.</p>
-        <p className='lg:px-[50px] md:px-[20px] text-[12px] sm:text-[12px] px-[40px]  md:w-[500px] md:text-[14px] lg:text-[14px] lg:mb-[80px] xl:mb-[100px] lg:w-[700px] xl:w-[750px] 2xl:w-[950px] h-[50px] text-center'>
-          <br/>Welcome to COR'N ENTERPRISES, a proudly Nigerian agribusiness rooted in the fertile lands of Jalingo, Taraba State—Nature’s gift to the nation. We are a rising force in Nigeria’s agricultural and agro-financial space, committed to delivering excellence in grain production, processing, distribution, and capacity building.
-          <br/>Born out of the need to bridge the gap between food production and economic inclusion, COR'N ENTERPRISES is more than just a grain company—we are a solution-driven, impact-focused enterprise transforming how grains are grown, distributed, and monetized in Nigeria and beyond.
+    <div className='bg-white min-h-screen'>
+      <Nav />
 
-        </p>
+      {/* ── Hero ── */}
+      <section className='relative bg-[#1a4731] overflow-hidden'>
+        <div className='absolute inset-0 opacity-5'
+          style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+        <div className='absolute top-0 right-0 w-96 h-96 rounded-full bg-[#3dba6f]/15 blur-3xl pointer-events-none' />
+        <div className='absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#3dba6f]/10 blur-3xl pointer-events-none' />
+
+        <div className='relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-20 py-20 md:py-28 flex flex-col lg:flex-row items-center gap-12'>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}
+            className='flex-1 text-center lg:text-left'
+          >
+            <div className='flex items-center justify-center lg:justify-start gap-3 mb-4'>
+              <span className='h-px w-10 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.22em] uppercase'>About Us</span>
+              <span className='h-px w-10 bg-[#3dba6f]' />
+            </div>
+            <h1 className='text-white text-[34px] md:text-[52px] font-bold leading-tight'>
+              Every Thriving Community Deserves{' '}
+              <span className='text-[#3dba6f]'>Financial Support</span>{' '}
+              That Is Fair, Timely, and Respectful.
+            </h1>
+            <p className='text-green-200/70 text-[16px] mt-5 max-w-xl leading-relaxed'>
+              Founded in <span className='text-white font-semibold'>2023</span>, COR'N Enterprises Limited was
+              established with a clear purpose — to provide fast, flexible, and professional lending services
+              to individuals and businesses who often find it difficult to access traditional financial support.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+            className='flex-shrink-0'
+          >
+            <div className='relative'>
+              <div className='absolute -inset-3 rounded-full border-2 border-[#3dba6f]/20' />
+              <img src={Logo} alt="COR'N Enterprises" loading='lazy'
+                className='relative w-[160px] md:w-[200px] lg:w-[240px] p-4' />
+            </div>
+          </motion.div>
         </div>
-        <div className='md:pt-[30px] mt-[180px] pt-[40px] md:pt-[0px] lg:mt-[0px]'>
-        <img src={Logo} alt='form' loading='lazy' className='xl:w-[300px] w-[150px] lg:w-[250px] md:w-[150px] lg:mt-[50px] md:mt-[60px]  p-[30px] '/>
+      </section>
+
+      {/* ── The Gap We Fill ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-white'>
+        <div className='max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-14'>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='flex-1'
+          >
+            <div className='flex items-center gap-3 mb-4'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Our Purpose</span>
+            </div>
+            <h2 className='text-[#1a4731] text-[26px] md:text-[36px] font-bold leading-tight mb-5'>
+              We Stand in the Gap —<br />
+              <span className='text-[#3dba6f]'>When It Matters Most</span>
+            </h2>
+            <p className='text-gray-500 text-[15px] leading-relaxed mb-6'>
+              Across many communities, hardworking people face moments when opportunity appears before cash does.
+              In these moments, <span className='font-semibold text-[#1a4731]'>speed and trust matter.</span>
+            </p>
+
+            <div className='space-y-3 mb-7'>
+              {moments.map((m, i) => (
+                <div key={i} className='flex items-start gap-3 text-[14px] text-gray-600'>
+                  <span className='w-5 h-5 rounded-full bg-[#f0f9f4] border border-[#3dba6f]/40 flex items-center justify-center flex-shrink-0 mt-0.5'>
+                    <span className='w-2 h-2 rounded-full bg-[#3dba6f]' />
+                  </span>
+                  {m}
+                </div>
+              ))}
+            </div>
+
+            <p className='text-gray-500 text-[15px] leading-relaxed'>
+              COR'N Enterprises Limited was created to stand in that gap — offering simple, transparent,
+              and reliable lending solutions to{' '}
+              <span className='font-semibold text-[#1a4731]'>salary earners, civil servants, entrepreneurs,
+              and small business owners</span> across Taraba State and Abuja.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.15 }}
+            className='flex-shrink-0'
+          >
+            <div className='relative'>
+              <div className='absolute -inset-2 rounded-2xl border border-[#3dba6f]/20' />
+              <img src={light} alt="COR'N Enterprises" loading='lazy'
+                className='relative w-[260px] md:w-[320px] lg:w-[380px] h-[320px] md:h-[380px] object-cover rounded-2xl shadow-lg' />
+            </div>
+          </motion.div>
         </div>
-     </div>
-     <div className='pt-[80px] bg-[#F3FFF1]  text-[18px] pb-[50px] flex flex-col items-center md:flex-row 2xl:pl-[50px] md:gap-10 gap-5 '>
-     <img src={light} alt='form' loading='lazy' className='xl:w-[400px] w-[150px] ml-[15px] lg:w-[250px] md:w-[150px] lg:ml-[110px] xl:ml-[150px] md:ml-[50px] rounded-full'/>
-     <div className=' lg:ml-[20px] xl:-ml-[40px] 2xl:ml-[0px] items-center'>
-      <h2 className='xl:ml-[130px] lg:ml-[90px] text-center  lg:text-[40px] md:text-[30px] md:ml-[10px] lg:pt-[20px]   pb-[10px] text-[25px] font-bold'>
-        Our Vision
-      </h2>
-      <p className='xl:w-[500px] text-center w-[200px] text-[12px] lg:w-[450px] md:w-[400px]  text-center md:text-[14px] lg:text-[17px] lg:ml-[70px] xl:ml-[140px]  '>
-      To become the most excellent grain producing, 
-      processing and distribution company inculcating 
-      agro-financial services in the grain industry.</p>
-      </div>
-     </div>
-     <div className='flex md:flex-row flex-col gap-2 md:pt-[30px] pb-[100px] lg:ml-[120px] '>
-        <div className='pt-[150px] xl:-ml-[120px] 2xl:-ml-[0px] '>
-        
-        <h1 className='font-bold justify-center text-center text-[25px] lg:text-[40px] md:text-[30px] pb-[10px] md:pl-[30px] lg:pl-[120px] xl:pl-[30px]'>
-            Our Mission
-        </h1>
-        <p className='px-[50px] lg:w-[450px] xl:w-[700px] text-[14px] md:w-[500px]   h-[50px] md:text-[14px] lg:text-[17px]  text-center'>
-        To deliver quality grains and agro-based financial services to Nigerian people and the world at large🌍
-        </p>
+      </section>
+
+      {/* ── Three Pillars ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-[#f0f9f4]'>
+        <div className='max-w-5xl mx-auto'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='text-center mb-12'
+          >
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Our Approach</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[26px] md:text-[36px] font-bold'>
+              Guided by Three Enduring Pillars
+            </h2>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants} initial='hidden' whileInView='show' viewport={{ once: true }}
+            className='grid grid-cols-1 md:grid-cols-3 gap-6'
+          >
+            {pillars.map((p, i) => (
+              <motion.div key={i} variants={cardVariants}
+                className='group bg-white border border-green-100 rounded-2xl p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 text-center'
+              >
+                <div className='w-14 h-14 rounded-2xl bg-[#f0f9f4] text-[#1a4731] flex items-center justify-center mx-auto mb-5 group-hover:bg-[#1a4731] group-hover:text-white transition-colors duration-300'>
+                  {p.icon}
+                </div>
+                <h3 className='text-[#1a4731] font-bold text-[18px] mb-3'>{p.title}</h3>
+                <p className='text-gray-500 text-[14px] leading-relaxed'>{p.desc}</p>
+                <div className='mt-5 h-[2px] w-10 bg-[#3dba6f] mx-auto rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-        <img src={biz} alt='form' loading='lazy' className='xl:w-[450px] w-[350px]  place-self-center xl:ml-[40px]  lg:w-[350px]  md:w-[250px] lg:mt-[50px] md:mt-[80px] p-[30px] rounded-xl'/>
-     </div>
-     <div className='px-[60px] lg:px-[150px]  mb-[50px] bg-[#F3FFF1] xl:pt-[80px] pt-[50px] pb-[50px] xl:pb-[100px]'>
-        <h1 className=' font-bold xl:text-center text-[25px] lg:text-[40px] md:text-[30px] pb-[10px]'>
-          Who We <span className='text-green-500'>Are</span>
-        </h1>
-        <p className='text-[12px] md:text-[14px] xl:w-[750px] xl:ml-[150px] 2xl:ml-[250px]  '>
-        <span className='xl:w-[150px]'> We are a multi-service agro-enterprise focused on delivering quality grains—paddy rice, processed rice, maize, benne seed, groundnut, soya beans, and more—while integrating financial access, training, consulting, and innovation into our business model.</span>
-        <br/>Our work spans:<br/>
-         <span className='font-bold'>1. Direct Farming<br/></span>
-         <span  className='font-bold'>2. Processing & Value Addition<br/></span>
-         <span  className='font-bold'>3. Storage & Logistics<br/></span>
-         <span  className='font-bold'>4.Distribution (local and global)<br/></span>
-         <span  className='font-bold'>5.Agribusiness Training & Advisory Services<br/></span>
-        <span className='font-bold'>6.Agro-Financial Inclusion Solutions<br/></span>
-        </p>
-        <p className='mt-[10px] text-[12px] xl:w-[750px] xl:ml-[150px] 2xl:ml-[250px] md:text-[14px] ' >Our team is driven by a shared belief that food security, financial inclusion, and rural prosperity are interconnected—and agriculture must be approached as both a business and a movement.<br/>
-        </p>
-     </div>
-       <div className='grid grid-cols-1 p-10 md:grid-cols-2 gap-5 pt-[10px] md:pt-[40px] lg:pt-[50px] xl:pt-[70px] pb-[50px] lg:pb-[70px] px-[60px]'>
-         <div className=''>
-           <h1 className='font-bold xl:px-[80px] text-[25px] lg:text-[35px] md:text-[25px] pb-[10px]'>
-             Why We <span className='text-green-500'> Exist</span>
-           </h1>
-          <p className='xl:px-[80px] text-[12px] md:text-[14px] lg:text-[15px]'>
-            Nigeria and Africa at large has the land, the people, and the demand to become a global agricultural powerhouse. What we often lack is organization, access, and strategy.<br/>
-            At COR'N ENTERPRISES, we exist to change that narrative by:<br/>
-            Making grains accessible and affordable<br/>
-            Making farming more profitable and structured<br/>
-            Making agro-investments more rewarding<br/>
-            Making agriculture a national tool for prosperity<br/>
-           </p>
+      </section>
+
+      {/* ── Mission & Vision ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-white'>
+        <div className='max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-14'>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='flex-shrink-0'
+          >
+            <img src={biz} alt='Our Mission' loading='lazy'
+              className='w-[260px] md:w-[320px] lg:w-[380px] h-[280px] md:h-[340px] object-cover rounded-2xl shadow-lg' />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.15 }}
+            className='flex-1 space-y-8'
+          >
+            <div>
+              <div className='flex items-center gap-3 mb-3'>
+                <div className='w-9 h-9 rounded-xl bg-[#1a4731] text-[#3dba6f] flex items-center justify-center'>
+                  <Target size={18} />
+                </div>
+                <h3 className='text-[#1a4731] font-bold text-[22px]'>Our Mission</h3>
+              </div>
+              <p className='text-gray-500 text-[15px] leading-relaxed pl-12'>
+                To become the most flexible and professional lending company for the everyday individual —
+                providing simple, transparent, and swift financial solutions that empower salary earners,
+                civil servants, business owners, and SMEs to achieve their financial goals.
+              </p>
+            </div>
+
+            <div className='h-px bg-green-100' />
+
+            <div>
+              <div className='flex items-center gap-3 mb-3'>
+                <div className='w-9 h-9 rounded-xl bg-[#1a4731] text-[#3dba6f] flex items-center justify-center'>
+                  <Eye size={18} />
+                </div>
+                <h3 className='text-[#1a4731] font-bold text-[22px]'>Our Vision</h3>
+              </div>
+              <p className='text-gray-500 text-[15px] leading-relaxed pl-12'>
+                To grow steadily into a leading lending institution within the next decade — trusted by
+                individuals and businesses across Nigeria for fast, fair, and accessible financial services.
+              </p>
+            </div>
+          </motion.div>
         </div>
-        <div className='mt-[40px] md:mt-0'>
-          <h1 className='xl:px-[80px] font-bold text-[25px] lg:text-[35px] md:text-[25px] pb-[10px]  xl:pl-[70px]'>
-            Where We're <span className='text-green-500'>Headed</span> 
-          </h1>
-          <p className='xl:px-[80px] text-[12px] md:text-[14px] lg:text-[15px]'>
-            In the next 5 years, we aim to become Nigeria’s most trusted name in grain supply and agro-financial services—a household name for consumers, a trade partner for buyers, and a wealth builder for investors.
-            <br/>We are already on that journey—with bold ideas, strategic partnerships (like LBO Global Services), and expanding footprints across local, national, and international markets.
-          </p>
+      </section>
+
+      {/* ── Core Values ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-[#f0f9f4]'>
+        <div className='max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-14'>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='flex-1'
+          >
+            <div className='flex items-center gap-3 mb-4'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>What Drives Us</span>
+            </div>
+            <h2 className='text-[#1a4731] text-[26px] md:text-[36px] font-bold mb-8'>Our Core Values</h2>
+
+            <div className='space-y-5'>
+              {[
+                { label: 'Integrity', desc: 'If we say it, we will do it. Our word is our bond to every client.' },
+                { label: 'Excellence', desc: 'We are never short of standard. Every loan, every service, every interaction.' },
+                { label: 'Fruitfulness', desc: 'Our products and services are always available to those who need them most.' },
+                { label: 'Growth', desc: 'You never meet us at the same place twice. We constantly improve for our clients.' },
+              ].map((v, i) => (
+                <div key={i} className='flex items-start gap-4 bg-white border border-green-100 rounded-xl p-5 shadow-sm hover:border-[#3dba6f]/40 hover:shadow-md transition-all duration-200'>
+                  <div className='w-2 h-2 rounded-full bg-[#3dba6f] flex-shrink-0 mt-2' />
+                  <div>
+                    <span className='text-[#1a4731] font-bold text-[15px]'>{v.label}: </span>
+                    <span className='text-gray-500 text-[14px]'>{v.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.15 }}
+            className='flex-shrink-0'
+          >
+            <img src={core} alt='Core Values' loading='lazy'
+              className='w-[260px] md:w-[320px] lg:w-[380px] h-[320px] md:h-[400px] object-cover rounded-2xl shadow-lg' />
+          </motion.div>
         </div>
-       </div>
-     <div className='md:pt-[70px] z-20 pt-[10px] bg-[#F3FFF1] text-[18px] pb-[100px] flex md:flex-row flex-col gap-10'>
-     <img src={core} alt='form'  loading='lazy' className='xl:w-[400px]  lg:w-[300px] md:w-[250px] md:h-[250px]  md:ml-[30px] lg:ml-[150px] rounded-lg'/>
-     <div className='xl:pt-[60px]  xl:ml-[20px]'>
-      <h2 className='xl:ml-[20px] lg:ml-[30px] md:ml-[10px] pt-[10px] pb-[10px] lg:text-[40px] md:text-[30px] text-center text-[25px] font-bold'>
-        Our Core Values
-      </h2>
-      <p className='xl:w-[500px] ml-[60px] lg:w-[500px] w-[250px] text-start xl:ml-[140px]  lg:ml-[20px] md:text-[14px] lg:text-[17px] text-[15px]'>
-         <span className='text-green-500 font-bold text-[20px]'>Integrity:   </span>If we say it, we will do it.<br/>
-         <span className='text-green-500 font-bold text-[20px]'>Excellence:   </span>We are never short of standard and expectations.<br/>
-         <span className='text-green-500 font-bold text-[20px]'>Fruitfulness:   </span>Our products and services are always available 
-         .<br/>
-         <span className='text-green-500 font-bold text-[20px]'>Growth:   </span>
-         You never meet us at the same plan twice.<br/>
-     </p>
-        </div>
-     </div>
-     </div>
-     <Footer/>
+      </section>
+
+      {/* ── Closing commitment ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-[#1a4731] relative overflow-hidden'>
+        <div className='absolute inset-0 opacity-5'
+          style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+        <div className='absolute top-0 right-0 w-80 h-80 rounded-full bg-[#3dba6f]/15 blur-3xl pointer-events-none' />
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.9 }}
+          className='relative z-10 max-w-3xl mx-auto text-center'
+        >
+          <div className='flex items-center justify-center gap-3 mb-5'>
+            <span className='h-px w-10 bg-[#3dba6f]' />
+            <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.22em] uppercase'>Our Commitment</span>
+            <span className='h-px w-10 bg-[#3dba6f]' />
+          </div>
+
+          <blockquote className='text-white text-[20px] md:text-[26px] font-light leading-relaxed italic'>
+            "At COR'N Enterprises Limited, lending is not merely a transaction. It is a commitment —
+            to empower ambition, support responsibility, and strengthen the financial confidence of
+            the communities we serve."
+          </blockquote>
+
+          <div className='mt-8 h-px w-16 bg-[#3dba6f] mx-auto rounded-full' />
+          <p className='text-green-200/60 text-[14px] mt-4'>COR'N Enterprises Limited — Est. 2023</p>
+        </motion.div>
+      </section>
+
+      <Footer />
     </div>
   )
 }

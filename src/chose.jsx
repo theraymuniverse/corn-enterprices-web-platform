@@ -147,7 +147,7 @@ const Chose = () => {
             onClick={handleClick}
             className='mt-10 inline-flex items-center gap-2 bg-[#1a4731] hover:bg-[#2d7a4f] text-white font-bold text-sm tracking-wide px-8 py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-green-800/25 hover:scale-105'
           >
-            Learn More About Us
+            Learn More About us
             <ArrowRight size={16} />
           </button>
         </Link>

@@ -7,6 +7,7 @@ import Footer from './footer'
 import Contact from './contact_us'
 import Ceo from './Ceo'
 import Testimonials from './Testimonials'
+import FAQS from './faq'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Testimonials/>
       <Partners/>
       <Contact/>
+      <FAQS/>
       <Footer/>
    </div>
   )
