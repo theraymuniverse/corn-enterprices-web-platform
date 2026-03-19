@@ -81,7 +81,7 @@ const ContactPage = () => {
       }])
       if (error) throw error*/}
 
-      const response = await fetch('https://www.cornenterprise.com/api/send-loan-application', {
+      const response = await fetch('/api/send-loan-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

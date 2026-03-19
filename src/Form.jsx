@@ -40,7 +40,6 @@ const Form = () => {
 
       if (dbError) {
         console.error('Supabase error:', dbError);
-        // Don't block the email send if DB insert fails
       }
 
       // Send email via API
@@ -50,7 +49,6 @@ const Form = () => {
         body: JSON.stringify({ name, email, message }),
       });
 
-      // Safely parse response — avoid crash if server returns non-JSON
       const contentType = response.headers.get('content-type');
       const result = contentType && contentType.includes('application/json')
         ? await response.json()
