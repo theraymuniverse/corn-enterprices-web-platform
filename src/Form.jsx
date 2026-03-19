@@ -7,6 +7,7 @@ const Form = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState(null);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -25,30 +26,49 @@ const Form = () => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+
     setLoading(true);
+    setSubmitError(null);
 
     const { name, email, message } = formData;
-    try {
-      const { error } = await supabase.from('contacts').insert([{ name, email, message }]);
-      if (error) throw error;
 
+    try {
+      // Save to Supabase
+      const { error: dbError } = await supabase
+        .from('contacts')
+        .insert([{ name, email, message }]);
+
+      if (dbError) {
+        console.error('Supabase error:', dbError);
+        // Don't block the email send if DB insert fails
+      }
+
+      // Send email via API
       const response = await fetch('https://www.cornenterprise.com/api/send-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),
       });
-      const result = await response.json();
+
+      // Safely parse response — avoid crash if server returns non-JSON
+      const contentType = response.headers.get('content-type');
+      const result = contentType && contentType.includes('application/json')
+        ? await response.json()
+        : { message: await response.text() };
+
       if (response.ok) {
         setSuccess(true);
         setFormData({ name: "", email: "", message: "" });
         setTimeout(() => setSuccess(false), 6000);
       } else {
-        alert(result.message || 'Error sending message, please try again.');
+        setSubmitError(result.message || 'Error sending message. Please try again.');
       }
+
     } catch (err) {
-      console.error('Error:', err);
-      alert('Something went wrong. Please try again.');
+      console.error('Fetch error:', err);
+      setSubmitError('Unable to reach the server. Please check your connection or contact us via WhatsApp.');
     }
+
     setLoading(false);
   };
 
@@ -70,19 +90,19 @@ const Form = () => {
         </div>
       )}
 
+      {/* Error banner */}
+      {submitError && (
+        <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-[13px]">
+          <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+          {submitError}
+        </div>
+      )}
+
       {/* Name */}
       <div>
-        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">
-          Full Name
-        </label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Enter your full name"
-          className={inputClass('name')}
-        />
+        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">Full Name</label>
+        <input type="text" name="name" value={formData.name} onChange={handleChange}
+          placeholder="Enter your full name" className={inputClass('name')} />
         {errors.name && (
           <p className="flex items-center gap-1 text-red-500 text-[11px] mt-1">
             <AlertCircle size={11} />{errors.name}
@@ -92,17 +112,9 @@ const Form = () => {
 
       {/* Email */}
       <div>
-        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">
-          Email Address
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="your@email.com"
-          className={inputClass('email')}
-        />
+        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">Email Address</label>
+        <input type="email" name="email" value={formData.email} onChange={handleChange}
+          placeholder="your@email.com" className={inputClass('email')} />
         {errors.email && (
           <p className="flex items-center gap-1 text-red-500 text-[11px] mt-1">
             <AlertCircle size={11} />{errors.email}
@@ -112,17 +124,10 @@ const Form = () => {
 
       {/* Message */}
       <div>
-        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">
-          Message
-        </label>
-        <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          rows={5}
-          placeholder="Write your message or inquiry..."
-          className={`${inputClass('message')} resize-none`}
-        />
+        <label className="block text-[#1a4731] text-[13px] font-semibold mb-1.5">Message</label>
+        <textarea name="message" value={formData.message} onChange={handleChange}
+          rows={5} placeholder="Write your message or inquiry..."
+          className={`${inputClass('message')} resize-none`} />
         {errors.message && (
           <p className="flex items-center gap-1 text-red-500 text-[11px] mt-1">
             <AlertCircle size={11} />{errors.message}
@@ -131,21 +136,12 @@ const Form = () => {
       </div>
 
       {/* Submit */}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full inline-flex items-center justify-center gap-2 bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[14px] py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-sm"
-      >
+      <button type="submit" disabled={loading}
+        className="w-full inline-flex items-center justify-center gap-2 bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[14px] py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-sm">
         {loading ? (
-          <>
-            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            Sending...
-          </>
+          <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Sending...</>
         ) : (
-          <>
-            <Send size={15} />
-            Send Message
-          </>
+          <><Send size={15} />Send Message</>
         )}
       </button>
     </form>

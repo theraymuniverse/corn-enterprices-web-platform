@@ -155,7 +155,7 @@ const contact_us = () => {
             </div>
           </motion.div>
 
-          {/* Right — contact form */}
+         
           <motion.div
             initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.15 }}
@@ -173,7 +173,6 @@ const contact_us = () => {
         </div>
       </div>
 
-      {/* ── Apply CTA strip ── */}
       <div className='bg-white py-14 px-6 md:px-12 border-t border-green-100'>
         <div className='max-w-4xl mx-auto text-center'>
           <motion.div

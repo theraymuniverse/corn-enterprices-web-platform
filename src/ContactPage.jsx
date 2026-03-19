@@ -74,12 +74,12 @@ const ContactPage = () => {
     if (!validate()) return
     setLoading(true)
     try {
-      const { error } = await supabase.from('loan_applications').insert([{
+      {/*const { error } = await supabase.from('loan_applications').insert([{
         ...formData,
         declaration_confirm: declarations.confirm,
         declaration_understand: declarations.understand,
       }])
-      if (error) throw error
+      if (error) throw error*/}
 
       const response = await fetch('https://www.cornenterprise.com/api/send-loan-application', {
         method: 'POST',
