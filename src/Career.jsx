@@ -92,7 +92,7 @@ const Career = () => {
       const { error } = await supabase.from('careers').insert([{ name, career, message, role, type }])
       if (error) throw error
 
-      const response = await fetch('https://www.cornenterprise.com/api/send-career', {
+      const response = await fetch('/api/send-career', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, career, message, role, phone, email, type }),

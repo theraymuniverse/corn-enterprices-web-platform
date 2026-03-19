@@ -43,7 +43,7 @@ const Form = () => {
       }
 
       // Send email via API
-      const response = await fetch('https://www.cornenterprise.com/api/send-contact', {
+      const response = await fetch('/api/send-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),
