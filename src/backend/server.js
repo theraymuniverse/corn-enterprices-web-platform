@@ -10,11 +10,14 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
+// ── Middleware ──────────────────────────────────────────────
 app.use(helmet())
 
 app.use(cors({
   origin: [
     'https://www.cornenterprise.com',
+    'https://cornenterprise.com',
+    'http://localhost:5173',
     'http://localhost:3000',
   ],
   methods: ['GET', 'POST', 'OPTIONS'],
@@ -38,21 +41,26 @@ const createTransporter = (user, pass) => {
     port: 465,
     secure: true,
     auth: { user, pass },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
   })
 }
 
-
+// ── Health check ────────────────────────────────────────────
 app.get('/', (req, res) => {
   res.status(200).json({ message: "COR'N Enterprises server is running." })
 })
 
 
+// ── Newsletter ──────────────────────────────────────────────
 app.post('/api/send-newsletter', async (req, res) => {
   const { email } = req.body
   if (!email) return res.status(400).json({ message: 'Email is required' })
 
   try {
     const transporter = createTransporter('hello@cornenterprise.com', 'ydhlD7j!')
+    await transporter.verify()
 
     await transporter.sendMail({
       from: '"COR\'N Enterprises Newsletter" <hello@cornenterprise.com>',
@@ -61,7 +69,6 @@ app.post('/api/send-newsletter', async (req, res) => {
       html: `<h2>New Newsletter Subscriber</h2><p><strong>Email:</strong> ${email}</p>`,
     })
 
-    
     await transporter.sendMail({
       from: '"COR\'N Enterprises Limited" <hello@cornenterprise.com>',
       to: email,
@@ -86,12 +93,17 @@ app.post('/api/send-newsletter', async (req, res) => {
 
     res.status(200).json({ message: 'Subscribed successfully! Check your email for confirmation.' })
   } catch (error) {
-    console.error('Newsletter Error:', error.message)
-    res.status(500).json({ message: 'Failed to send email. Please try again.', error: error.message })
+    console.error('Newsletter Error:', error.code, error.message)
+    res.status(500).json({
+      message: 'Failed to send email. Please try again.',
+      // Send error code to frontend so you can see it in the browser console
+      errorCode: error.code,
+      errorDetail: error.message,
+    })
   }
 })
 
-
+// ── Contact Form ─────────────────────────────────────────────
 app.post('/api/send-contact', async (req, res) => {
   const { name, email, message } = req.body
   if (!name || !email || !message) {
@@ -100,6 +112,9 @@ app.post('/api/send-contact', async (req, res) => {
 
   try {
     const transporter = createTransporter('hello@cornenterprise.com', 'ydhlD7j!')
+
+    // Test connection before sending — gives a clear error if credentials are wrong
+    await transporter.verify()
 
     await transporter.sendMail({
       from: '"COR\'N Enterprises Contact" <hello@cornenterprise.com>',
@@ -139,8 +154,12 @@ app.post('/api/send-contact', async (req, res) => {
 
     res.status(200).json({ message: "Thank you for contacting us! We'll be in touch shortly." })
   } catch (error) {
-    console.error('Contact Error:', error.message)
-    res.status(500).json({ message: 'Failed to send email. Please try again.', error: error.message })
+    console.error('Contact Error:', error.code, error.message)
+    res.status(500).json({
+      message: 'Failed to send email. Please contact us via WhatsApp.',
+      errorCode: error.code,
+      errorDetail: error.message,
+    })
   }
 })
 
@@ -159,6 +178,7 @@ app.post('/api/send-loan-application', async (req, res) => {
 
   try {
     const transporter = createTransporter('hello@cornenterprise.com', 'ydhlD7j!')
+    await transporter.verify()
 
     await transporter.sendMail({
       from: '"COR\'N Loan Applications" <hello@cornenterprise.com>',
@@ -219,18 +239,23 @@ app.post('/api/send-loan-application', async (req, res) => {
 
     res.status(200).json({ message: 'Loan application submitted successfully!' })
   } catch (error) {
-    console.error('Loan Error:', error.message)
-    res.status(500).json({ message: 'Failed to submit application. Please try again.', error: error.message })
+    console.error('Loan Error:', error.code, error.message)
+    res.status(500).json({
+      message: 'Failed to submit application. Please try again.',
+      errorCode: error.code,
+      errorDetail: error.message,
+    })
   }
 })
 
-// ── Career ───────────────────────────────────────────────────
+
 app.post('/api/send-career', async (req, res) => {
   const { name, career, message, role, phone, email, type } = req.body
   if (!name || !email) return res.status(400).json({ message: 'Name and email are required' })
 
   try {
     const transporter = createTransporter('careers@cornenterprise.com', 'Ecobank@96')
+    await transporter.verify()
 
     await transporter.sendMail({
       from: '"COR\'N Careers" <careers@cornenterprise.com>',
@@ -250,11 +275,14 @@ app.post('/api/send-career', async (req, res) => {
 
     res.status(200).json({ message: 'Application submitted successfully!' })
   } catch (error) {
-    console.error('Career Error:', error.message)
-    res.status(500).json({ message: 'Failed to send application. Please try again.', error: error.message })
+    console.error('Career Error:', error.code, error.message)
+    res.status(500).json({
+      message: 'Failed to send application. Please try again.',
+      errorCode: error.code,
+      errorDetail: error.message,
+    })
   }
 })
-
 
 app.post('/api/send-partner', async (req, res) => {
   const { firstname, email, message, phone, surname, businessName, website, role, product } = req.body
@@ -262,6 +290,7 @@ app.post('/api/send-partner', async (req, res) => {
 
   try {
     const transporter = createTransporter('admin@cornenterprise.com', 'p_Cfp4pj')
+    await transporter.verify()
 
     await transporter.sendMail({
       from: '"COR\'N Partner Applications" <admin@cornenterprise.com>',
@@ -283,15 +312,20 @@ app.post('/api/send-partner', async (req, res) => {
 
     res.status(200).json({ message: 'Partner application submitted successfully!' })
   } catch (error) {
-    console.error('Partner Error:', error.message)
-    res.status(500).json({ message: 'Failed to send application. Please try again.', error: error.message })
+    console.error('Partner Error:', error.code, error.message)
+    res.status(500).json({
+      message: 'Failed to send application. Please try again.',
+      errorCode: error.code,
+      errorDetail: error.message,
+    })
   }
 })
 
-
+// ── Start server ──────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`)
-  console.log(`📬 Routes available:`)
+  console.log(`🔍 Test SMTP: GET https://www.cornenterprise.com/api/test-smtp`)
+  console.log(`📬 Routes:`)
   console.log(`   POST /api/send-newsletter`)
   console.log(`   POST /api/send-contact`)
   console.log(`   POST /api/send-loan-application`)

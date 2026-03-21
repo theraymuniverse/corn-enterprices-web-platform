@@ -1,4 +1,6 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.VITE_RESEND_API_KEY);
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,19 +20,9 @@ export default async function handler(req, res) {
     } = req.body;
 
     try {
-        const transporter = nodemailer.createTransport({
-            host: "smtp.zoho.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: 'sales@cornenterprise.com',
-                pass: 'ncf9A_xq',
-            },
-        });
-
-        await transporter.sendMail({
-            from: `"COR'N Enterprises Loan Applications" <sales@cornenterprise.com>`,
-            to: 'cornenterprises2709@gmail.com',
+        await resend.emails.send({
+            from: 'COR\'N Loan Applications <hello@cornenterprise.com>',
+            to: 'sales@cornenterprise.com',
             replyTo: email,
             subject: `New Loan Application — ${fullName} (${loanType})`,
             html: `
@@ -100,8 +92,8 @@ export default async function handler(req, res) {
         });
 
         // Send confirmation email to applicant
-        await transporter.sendMail({
-            from: `"COR'N Enterprises Limited" <sales@cornenterprise.com>`,
+        await resend.emails.send({
+            from: 'COR\'N Enterprises <hello@cornenterprise.com>',
             to: email,
             subject: `Loan Application Received — COR'N Enterprises Limited`,
             html: `
@@ -120,7 +112,7 @@ export default async function handler(req, res) {
                         </div>
                         <p style="color: #555; font-size: 14px; line-height: 1.7;">Qualified applicants may receive loan approval within minutes after document verification. If additional information is required, a member of our team will contact you shortly.</p>
                         <p style="color: #555; font-size: 14px; line-height: 1.7;">For urgent inquiries, you may reach us via:</p>
-                        <p style="color: #555; font-size: 14px;">📞 <strong>08023447314</strong><br/>📧 <strong>cornenterprises2709@gmail.com</strong></p>
+                        <p style="color: #555; font-size: 14px;">📞 <strong>08023447314</strong><br/>📧 <strong>info@cornenterprise.com</strong></p>
                         <p style="color: #1a4731; font-size: 14px; font-weight: bold; margin-top: 24px;">COR'N Enterprises Limited</p>
                         <p style="color: #999; font-size: 12px; margin: 0;">Integrity · Boldness · Professionalism</p>
                     </div>

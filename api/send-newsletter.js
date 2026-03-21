@@ -1,20 +1,14 @@
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method !== 'POST') {
+        return res.status(405).json({ message: 'Method Not Allowed' });
+    }
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
-
-  const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ message: 'Email is required' });
-  }
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ message: 'Email is required' });
+    }
 
     try {
         const transporter = nodemailer.createTransport({
@@ -38,6 +32,9 @@ export default async function handler(req, res) {
             `,
         });
 
+        // ✅ FIX 2: Duplicate 'to' key removed — second one was silently overwriting
+        // the first, meaning the team never got notified. Now two separate sendMail calls.
+        // Confirmation email to the subscriber
         await transporter.sendMail({
             from: `"COR'N Enterprises Limited" <hello@cornenterprise.com>`,
             to: email,
@@ -68,7 +65,8 @@ export default async function handler(req, res) {
             `,
         });
 
-
+        // ✅ FIX 3: Always return a proper JSON response — missing/empty response
+        // is exactly what causes "Unexpected end of JSON input" on the frontend
         res.status(200).json({ message: "Subscribed successfully! Check your email for confirmation." });
 
     } catch (error) {

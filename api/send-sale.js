@@ -1,4 +1,6 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.VITE_RESEND_API_KEY);
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -17,21 +19,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'sales@cornenterprise.com',
-        pass: 'ncf9A_xq',
-      },
-    });
-
-    await transporter.verify();
-
-    await transporter.sendMail({
-      from: '"COR\'N Enterprises Sale" <sales@cornenterprise.com>',
-      to: 'cornenterprises2709@gmail.com',
+    await resend.emails.send({
+      from: 'COR\'N Enterprises Sales <hello@cornenterprise.com>',
+      to: 'sales@cornenterprise.com',
       subject: 'New Sale/Order Inquiry',
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
@@ -48,7 +38,6 @@ export default async function handler(req, res) {
           </div>
           <div style="background:#f9f9f9;padding:14px 32px;border-top:1px solid #e0e0e0;text-align:center;">
             <p style="margin:0;color:#bbb;font-size:11px;">TBS Plaza, Jalingo, Taraba State, Nigeria</p>
-          </div>
         </div>
       `,
     });

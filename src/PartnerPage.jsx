@@ -318,8 +318,7 @@ const PartnerPage = () => {
                   <label className={labelClass}>Partnership Role</label>
                   <select name='role' value={formData.role} onChange={handleRoleChange} required className={inputClass}>
                     <option value=''>Select your role</option>
-                    <option value='Buyer'>Buyer</option>
-                    <option value='Seller'>Seller</option>
+                    <option value='Buyer'>Partners</option>
                     <option value='investor'>Investor</option>
                   </select>
                 </div>

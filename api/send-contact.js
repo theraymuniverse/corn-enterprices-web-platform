@@ -15,7 +15,6 @@ export default async function handler(req, res) {
   }
 
   try {
-
     const transporter = nodemailer.createTransport({
       host: 'smtp.zoho.com',
       port: 465,
@@ -25,8 +24,11 @@ export default async function handler(req, res) {
         pass: 'ncf9A_xq',
       },
     });
+
+    // ✅ Test the connection first — throws immediately if credentials are wrong
     await transporter.verify();
 
+    // Email 1 — Internal notification to COR'N team
     await transporter.sendMail({
       from: '"COR\'N Enterprises Contact Form" <sales@cornenterprise.com>',
       to: 'cornenterprises2709@gmail.com',
@@ -55,6 +57,7 @@ export default async function handler(req, res) {
       `,
     });
 
+    // Email 2 — Confirmation to the person who submitted
     await transporter.sendMail({
       from: '"COR\'N Enterprises Limited" <sales@cornenterprise.com>',
       to: email,

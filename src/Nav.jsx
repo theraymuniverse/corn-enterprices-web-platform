@@ -102,7 +102,7 @@ const Nav = () => {
           </ul>
 
           {/* Desktop auth */}
-          <div className='hidden lg:flex items-center gap-4'>
+         {/*} <div className='hidden lg:flex items-center gap-4'>
             {isLoggedIn ? (
               <div className='flex items-center gap-3'>
                 <span className='text-[#1a4731] text-[13px] font-semibold'>Hi, {profile?.firstname || 'Client'}</span>
@@ -115,7 +115,7 @@ const Nav = () => {
                 <LogIn size={15} /> Client Login
               </Link>
             )}
-          </div>
+          </div>/}
 
           {/* Mobile hamburger */}
           <button className='lg:hidden text-[#1a4731] p-2 rounded-md hover:bg-green-50 transition-colors' onClick={() => setIsOpen(!isOpen)} aria-label='Toggle menu'>
@@ -141,7 +141,7 @@ const Nav = () => {
                 </li>
               ))}
             </ul>
-            <div className='mt-5 pt-5 border-t border-green-100'>
+           {/* <div className='mt-5 pt-5 border-t border-green-100'>
               {isLoggedIn ? (
                 <Link to='/signout' className='flex items-center gap-2 text-gray-500 hover:text-[#1a4731] text-[14px] px-4 py-3'>
                   <User size={16} /> Hi, {profile?.firstname || 'Client'} — Sign Out
@@ -151,7 +151,7 @@ const Nav = () => {
                   <LogIn size={16} /> Client Login
                 </Link>
               )}
-            </div>
+            </div>*/}
           </div>
         </div>
       </nav>
