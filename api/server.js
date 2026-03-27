@@ -8,7 +8,6 @@ import rateLimit from 'express-rate-limit'
 dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT || 5000
 const resend = new Resend('re_KHFJ9vdH_HT12EFF38X4BQwUQbVn2g7p3')
 
 // ── Middleware ──────────────────────────────────────────────
