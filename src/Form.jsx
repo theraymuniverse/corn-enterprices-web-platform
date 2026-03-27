@@ -48,7 +48,6 @@ const Form = () => {
         body: JSON.stringify({ name, email, message }),
       });
 
-      // Safely parse response — guards against HTML error pages
       let result = {};
       const contentType = response.headers.get('content-type') || '';
       if (contentType.includes('application/json')) {

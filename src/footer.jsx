@@ -35,10 +35,10 @@ const Footer = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      {/*const { error } = await supabase.from('NewsLetter').insert([{ email }]);
-      if (error) throw error*/};
+      const { error } = await supabase.from('NewsLetter').insert([{ email }]);
+      if (error) throw error;
 
-      const response = await fetch('/api/send-newsletter', {
+      const response = await fetch('https://www.cornenterprise.com/api/send-newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),

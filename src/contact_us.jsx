@@ -143,8 +143,6 @@ const contact_us = () => {
                 </p>
               </div>
             </div>
-
-            {/* Pillars */}
             <div className='flex flex-wrap gap-3 mt-6'>
               {pillars.map((p, i) => (
                 <div key={i} className='flex items-center gap-2 bg-[#f0f9f4] border border-green-100 text-[#1a4731] text-[12px] font-semibold px-4 py-2 rounded-full'>

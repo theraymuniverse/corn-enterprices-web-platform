@@ -51,6 +51,44 @@ const PartnerPage = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const [guarantorData, setGuarantorData] = useState({
+    firstname: "", surname: "", email: "", phone: "", businessName: "", website: "",
+  });
+  const [guarantorLoading, setGuarantorLoading] = useState(false);
+  const [guarantorSuccess, setGuarantorSuccess] = useState(false);
+
+  const handleGuarantorChange = (e) => {
+    setGuarantorData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleGuarantorSubmit = async (e) => {
+    e.preventDefault();
+    setGuarantorLoading(true);
+    const { firstname, surname, email, phone, businessName, website } = guarantorData;
+    try {
+      const { error } = await supabase.from('Guarantors').insert([{ firstname, surname, email, phone, businessName, website }]);
+      if (error) throw error;
+
+      const response = await fetch('/api/send-guarantor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstname, surname, email, phone, businessName, website }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setGuarantorSuccess(true);
+        setGuarantorData({ firstname: "", surname: "", email: "", phone: "", businessName: "", website: "" });
+        setTimeout(() => setGuarantorSuccess(false), 6000);
+      } else {
+        alert(result.message || 'Error sending form, please try again.');
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Something went wrong. Please try again.');
+    }
+    setGuarantorLoading(false);
+  };
+
   const handleRoleChange = (e) => {
     const selected = e.target.value;
     setFormData(prev => ({ ...prev, role: selected }));
@@ -279,7 +317,6 @@ const PartnerPage = () => {
 
             <form onSubmit={handleSubmit} className='space-y-5'>
 
-              {/* Name row */}
               <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <div>
                   <label className={labelClass}>First Name</label>
@@ -320,20 +357,11 @@ const PartnerPage = () => {
                     <option value=''>Select your role</option>
                     <option value='Buyer'>Partners</option>
                     <option value='investor'>Investor</option>
+                    <option value='guarantor'>Guarantor</option>
                   </select>
                 </div>
               </div>
 
-              {/* Conditional: Buyer or Seller quantity */}
-              {(role === 'Buyer' || role === 'Seller') && (
-                <div>
-                  <label className={labelClass}>
-                    {role === 'Buyer' ? 'Quantity Needed' : 'Quantity Available'} (Bags / Kg / Tonnes)
-                  </label>
-                  <input type='text' name='product' value={formData.product} onChange={handleChange}
-                    placeholder='e.g. 500 bags of maize' required className={inputClass} />
-                </div>
-              )}
 
               {/* Website */}
               <div>
@@ -355,6 +383,92 @@ const PartnerPage = () => {
                 className='w-full bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[14px] py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:scale-[1.01] shadow-md'
               >
                 {loading ? 'Submitting...' : <><Send size={16} /> Submit Application</>}
+              </button>
+            </form>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Guarantors Form ── */}
+      <section id='guarantor-form' className='py-20 px-6 md:px-12 lg:px-20 bg-[#f0f9f4]'>
+        <div className='max-w-4xl mx-auto'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='text-center mb-12'
+          >
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Guarantors</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[28px] md:text-[38px] font-bold'>Guarantor Registration</h2>
+            <p className='text-gray-500 text-[15px] mt-3 max-w-xl mx-auto'>
+              Are you standing as a guarantor? Fill in your details below and our team will process your registration promptly.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='bg-white border border-green-100 rounded-2xl p-8 md:p-10 shadow-sm'
+          >
+            {guarantorSuccess && (
+              <div className='mb-6 flex items-center gap-2 bg-[#f0f9f4] border border-[#3dba6f]/40 text-[#1a4731] px-5 py-3 rounded-xl text-[14px] font-semibold'>
+                <CheckCircle size={18} className='text-[#3dba6f]' />
+                Thank you! Your guarantor details have been submitted. We'll be in touch soon.
+              </div>
+            )}
+
+            <form onSubmit={handleGuarantorSubmit} className='space-y-5'>
+
+              {/* Name row */}
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                <div>
+                  <label className={labelClass}>First Name</label>
+                  <input type='text' name='firstname' value={guarantorData.firstname} onChange={handleGuarantorChange}
+                    placeholder='Enter your first name' required className={inputClass} />
+                </div>
+                <div>
+                  <label className={labelClass}>Surname</label>
+                  <input type='text' name='surname' value={guarantorData.surname} onChange={handleGuarantorChange}
+                    placeholder='Enter your surname' required className={inputClass} />
+                </div>
+              </div>
+
+              {/* Contact row */}
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                <div>
+                  <label className={labelClass}>Email Address</label>
+                  <input type='email' name='email' value={guarantorData.email} onChange={handleGuarantorChange}
+                    placeholder='Your email address' required className={inputClass} />
+                </div>
+                <div>
+                  <label className={labelClass}>Phone Number</label>
+                  <input type='tel' name='phone' value={guarantorData.phone} onChange={handleGuarantorChange}
+                    placeholder='Your phone number' required className={inputClass} />
+                </div>
+              </div>
+
+              {/* Business row */}
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                <div>
+                  <label className={labelClass}>Business / Company Name</label>
+                  <input type='text' name='businessName' value={guarantorData.businessName} onChange={handleGuarantorChange}
+                    placeholder='Your business name' required className={inputClass} />
+                </div>
+                <div>
+                  <label className={labelClass}>Business Website <span className='text-gray-400 font-normal'>(Optional)</span></label>
+                  <input type='url' name='website' value={guarantorData.website} onChange={handleGuarantorChange}
+                    placeholder='https://yourwebsite.com' className={inputClass} />
+                </div>
+              </div>
+
+              <button
+                type='submit' disabled={guarantorLoading}
+                className='w-full bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[14px] py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:scale-[1.01] shadow-md'
+              >
+                {guarantorLoading ? 'Submitting...' : <><Send size={16} /> Submit Guarantor Form</>}
               </button>
             </form>
           </motion.div>

@@ -43,7 +43,7 @@ const ContactPage = () => {
     fullName: '', phone: '', email: '', address: '', cityState: '',
     employmentStatus: '', employerName: '', workAddress: '', monthlyIncome: '', yearsAtJob: '',
     loanType: '', loanAmount: '', loanPurpose: '', repaymentDuration: '',
-    guarantorName: '', guarantorPhone: '', guarantorRelationship: '', guarantorOccupation: '',
+    guarantorName: '', guarantorPhone: '', guarantorRelationship: '', guarantorOccupation: '', bvn: '',
   })
 
   const handleChange = (e) => {
@@ -61,7 +61,7 @@ const ContactPage = () => {
     const required = ['fullName', 'phone', 'email', 'address', 'cityState',
       'employmentStatus', 'employerName', 'workAddress', 'monthlyIncome', 'yearsAtJob',
       'loanType', 'loanAmount', 'loanPurpose', 'repaymentDuration',
-      'guarantorName', 'guarantorPhone', 'guarantorRelationship', 'guarantorOccupation']
+      'guarantorName', 'guarantorPhone', 'guarantorRelationship', 'guarantorOccupation', 'bvn']
     const newErrors = {}
     required.forEach(k => { if (!formData[k]) newErrors[k] = 'This field is required' })
     if (!declarations.confirm || !declarations.understand) newErrors.declaration = 'Please accept both declarations'
@@ -208,6 +208,12 @@ const ContactPage = () => {
                   <input type='email' name='email' value={formData.email} onChange={handleChange}
                     placeholder='your@email.com' className={inputClass} />
                   {errors.email && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.email}</p>}
+                </div>
+                <div className='md:col-span-2'>
+                  <label className={labelClass}>BVN</label>
+                  <input type='tel' name='bvn' maxLength={11} value={formData.bvn} onChange={handleChange}
+                    placeholder='Enter your BVN' className={inputClass} />
+                  {errors.bvn && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.bvn}</p>}
                 </div>
                 <div className='md:col-span-2'>
                   <label className={labelClass}>Residential Address</label>
