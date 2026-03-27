@@ -40,8 +40,6 @@ const FROM_ADMIN   = "COR'N Enterprises <admin@cornenterprise.com>"
 const FROM_CAREERS = "COR'N Enterprises Careers <hello@cornenterprise.com>"
 
 
-
-
 app.post('/api/send-newsletter', async (req, res) => {
   const { email } = req.body
   if (!email) return res.status(400).json({ message: 'Email is required' })
