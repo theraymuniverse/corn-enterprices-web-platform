@@ -55,6 +55,89 @@ const opportunities = [
   },
 ]
 
+const roleDetails = [
+  {
+    icon: <Briefcase size={20} />,
+    role: 'Loan Officers / Relationship Managers',
+    responsibilities: [
+      'Act as the primary point of contact for loan applicants throughout the lending process',
+      'Evaluate loan applications, verify client information, and assess creditworthiness',
+      'Explain loan products, terms, and repayment schedules clearly to clients',
+      'Build and maintain strong client relationships to encourage repeat business',
+      'Ensure all loan files are complete, accurate, and compliant with lending standards',
+      'Meet monthly disbursement and repayment collection targets',
+    ],
+    requirements: [
+      'OND / HND / B.Sc in Finance, Banking, Economics, or a related field',
+      'Minimum 1 year experience in lending, banking, or financial services (entry-level considered)',
+      'Strong numerical and analytical skills',
+      'Excellent communication and negotiation abilities',
+      'Proficiency in Microsoft Office or basic data entry tools',
+      'Honest, detail-oriented, and client-focused',
+    ],
+  },
+  {
+    icon: <HeadphonesIcon size={20} />,
+    role: 'Customer Support Representatives',
+    responsibilities: [
+      'Respond promptly to client inquiries via phone, WhatsApp, and in-person visits',
+      'Resolve client complaints professionally and escalate complex issues when necessary',
+      'Guide clients through loan application processes and documentation requirements',
+      'Maintain accurate records of client interactions and follow-up actions',
+      'Provide after-loan support to ensure client satisfaction and retention',
+      'Assist in onboarding new clients and explaining company policies',
+    ],
+    requirements: [
+      'OND / HND / B.Sc in any discipline',
+      'Excellent verbal and written communication skills in English (Hausa is an added advantage)',
+      'Patience, empathy, and a calm demeanour when handling difficult situations',
+      'Basic computer literacy and familiarity with messaging platforms',
+      'Prior customer service experience is an advantage but not mandatory',
+      'Ability to multitask and work under pressure',
+    ],
+  },
+  {
+    icon: <ClipboardCheck size={20} />,
+    role: 'Operations & Compliance Specialists',
+    responsibilities: [
+      'Oversee day-to-day operational workflows to ensure efficiency and accuracy',
+      'Conduct thorough verification of client documents, guarantors, and collateral',
+      'Monitor loan portfolios for risk exposure and flag delinquent accounts',
+      'Ensure adherence to internal policies, regulatory guidelines, and CBN directives',
+      'Prepare operational and compliance reports for management review',
+      'Identify process gaps and recommend improvements to mitigate risk',
+    ],
+    requirements: [
+      'B.Sc / HND in Finance, Accounting, Law, Business Administration, or related field',
+      'Minimum 2 years experience in operations, audit, risk, or compliance roles',
+      'Sound understanding of lending regulations and KYC/AML procedures',
+      'High attention to detail and strong organisational skills',
+      'Ability to handle sensitive information with confidentiality and integrity',
+      'Proficiency in spreadsheets and report writing',
+    ],
+  },
+  {
+    icon: <Megaphone size={20} />,
+    role: 'Marketing & Business Development',
+    responsibilities: [
+      'Develop and execute marketing strategies to grow COR\'N\'s client base',
+      'Identify and pursue new business opportunities within target communities',
+      'Build relationships with local businesses, market associations, and cooperatives',
+      'Manage social media presence and create engaging content to drive awareness',
+      'Represent the company at events, trade fairs, and community outreach programmes',
+      'Track campaign performance and report on lead generation and conversion metrics',
+    ],
+    requirements: [
+      'OND / HND / B.Sc in Marketing, Business Administration, Mass Communication, or related field',
+      'Proven ability to generate leads and close deals',
+      'Strong interpersonal skills and community networking ability',
+      'Creativity and familiarity with digital marketing tools and social media platforms',
+      'Self-motivated, target-driven, and able to work with minimal supervision',
+      'Knowledge of the local market in Taraba State or Abuja is a strong advantage',
+    ],
+  },
+]
+
 const qualities = [
   'Integrity and professionalism in all dealings',
   'Strong communication and interpersonal skills',
@@ -226,6 +309,81 @@ const Career = () => {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── Responsibilities & Requirements ── */}
+      <section className='py-20 px-6 md:px-12 lg:px-20 bg-white'>
+        <div className='max-w-6xl mx-auto'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+            className='text-center mb-14'
+          >
+            <div className='flex items-center justify-center gap-3 mb-3'>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+              <span className='text-[#3dba6f] text-xs font-semibold tracking-[0.2em] uppercase'>Role Details</span>
+              <span className='h-px w-8 bg-[#3dba6f]' />
+            </div>
+            <h2 className='text-[#1a4731] text-[28px] md:text-[38px] font-bold'>Responsibilities & Requirements</h2>
+            <p className='text-gray-500 text-[15px] mt-3 max-w-xl mx-auto'>
+              Here's what each role entails and what we expect from successful candidates.
+            </p>
+          </motion.div>
+
+          <div className='space-y-8'>
+            {roleDetails.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.6, delay: i * 0.1 }}
+                className='bg-white border border-green-100 rounded-2xl shadow-sm overflow-hidden'
+              >
+                {/* Role header */}
+                <div className='flex items-center gap-4 bg-[#1a4731] px-8 py-5'>
+                  <div className='w-10 h-10 rounded-xl bg-[#3dba6f]/20 text-[#3dba6f] flex items-center justify-center flex-shrink-0'>
+                    {item.icon}
+                  </div>
+                  <h3 className='text-white font-bold text-[17px]'>{item.role}</h3>
+                </div>
+
+                {/* Body */}
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x divide-green-100'>
+
+                  {/* Responsibilities */}
+                  <div className='p-7'>
+                    <h4 className='text-[#1a4731] font-bold text-[14px] uppercase tracking-widest mb-4 flex items-center gap-2'>
+                      <ClipboardCheck size={15} className='text-[#3dba6f]' /> Responsibilities
+                    </h4>
+                    <ul className='space-y-3'>
+                      {item.responsibilities.map((r, j) => (
+                        <li key={j} className='flex items-start gap-2.5 text-[13.5px] text-gray-600 leading-relaxed'>
+                          <span className='w-1.5 h-1.5 rounded-full bg-[#3dba6f] flex-shrink-0 mt-2' />
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Requirements */}
+                  <div className='p-7 bg-[#f9fefb]'>
+                    <h4 className='text-[#1a4731] font-bold text-[14px] uppercase tracking-widest mb-4 flex items-center gap-2'>
+                      <CheckCircle size={15} className='text-[#3dba6f]' /> Requirements
+                    </h4>
+                    <ul className='space-y-3'>
+                      {item.requirements.map((r, j) => (
+                        <li key={j} className='flex items-start gap-2.5 text-[13.5px] text-gray-600 leading-relaxed'>
+                          <CheckCircle size={14} className='text-[#3dba6f] flex-shrink-0 mt-0.5' />
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
