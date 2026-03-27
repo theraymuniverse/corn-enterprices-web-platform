@@ -40,10 +40,6 @@ const FROM_ADMIN   = "COR'N Enterprises <admin@cornenterprise.com>"
 const FROM_CAREERS = "COR'N Enterprises Careers <hello@cornenterprise.com>"
 
 
-app.get('/', (req, res) => {
-  res.status(200).json({ message: "COR'N Enterprises server is running." })
-})
-
 
 
 app.post('/api/send-newsletter', async (req, res) => {
