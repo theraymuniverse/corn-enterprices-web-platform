@@ -432,4 +432,4 @@ app.post('/api/send-guarantor', async (req, res) => {
 })
 
 
-module.exports = app;
+export default app;
