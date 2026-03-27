@@ -433,14 +433,4 @@ app.post('/api/send-guarantor', async (req, res) => {
 })
 
 
-// ── Start server ──────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`)
-  console.log(`📬 Routes:`)
-  console.log(`   POST /api/send-newsletter`)
-  console.log(`   POST /api/send-contact`)
-  console.log(`   POST /api/send-loan-application`)
-  console.log(`   POST /api/send-career`)
-  console.log(`   POST /api/send-partner`)
-  console.log(`   POST /api/send-guarantor`)
-})
+module.exports = app;
