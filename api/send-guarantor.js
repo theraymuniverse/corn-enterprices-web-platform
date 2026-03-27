@@ -17,7 +17,6 @@ export default async function handler(req, res) {
   const fullName = `${firstname} ${surname}`
 
   try {
-    // Notify admin
     await resend.emails.send({
       from: FROM_ADMIN,
       to: 'admin@cornenterprise.com',
