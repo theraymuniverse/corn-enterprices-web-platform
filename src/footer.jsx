@@ -38,7 +38,7 @@ const Footer = () => {
       const { error } = await supabase.from('NewsLetter').insert([{ email }]);
       if (error) throw error;
 
-      const response = await fetch('https://www.cornenterprise.com/api/send-newsletter', {
+      const response = await fetch('/api/send-newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -216,7 +216,9 @@ const Footer = () => {
       <div className='border-t border-white/10'>
         <div className='max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-[12px] text-green-200/40'>
           <p>© {new Date().getFullYear()} COR'N Enterprises Limited. All rights reserved.</p>
-          <p>Made with ❤️ by <span className='text-green-200/60'>Raym Universe</span></p>
+          <a href="https://www.theraymuniverse.com" target='_blank' rel='noopener noreferrer' className='text-green-200/60 hover:text-[#3dba6f] transition-colors duration-200'>
+            Made with ❤️ by <span className='text-green-200/60'>Raym Universe</span>
+          </a>
         </div>
       </div>
     </footer>

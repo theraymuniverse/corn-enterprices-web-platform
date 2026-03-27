@@ -69,22 +69,50 @@ const ContactPage = () => {
     return Object.keys(newErrors).length === 0
   }
 
+  const uploadFile = async (file, folder) => {
+    if (!file) return null
+    const ext = file.name.split('.').pop()
+    const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+    const { data, error } = await supabase.storage
+      .from('loan-documents')
+      .upload(fileName, file, { cacheControl: '3600', upsert: false })
+    if (error) throw new Error(`File upload failed: ${error.message}`)
+    const { data: urlData } = supabase.storage
+      .from('loan-documents')
+      .getPublicUrl(fileName)
+    return urlData.publicUrl
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
     setLoading(true)
     try {
-      {/*const { error } = await supabase.from('loan_applications').insert([{
+      // Upload both files in parallel
+      const [workIdUrl, salarySlipUrl] = await Promise.all([
+        uploadFile(idFile, 'work-ids'),
+        uploadFile(slipFile, 'salary-slips'),
+      ])
+
+      const { error } = await supabase.from('loan_applications').insert([{
         ...formData,
         declaration_confirm: declarations.confirm,
         declaration_understand: declarations.understand,
+        work_id_url: workIdUrl,
+        salary_slip_url: salarySlipUrl,
       }])
-      if (error) throw error*/}
+      if (error) throw error
 
       const response = await fetch('/api/send-loan-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          declaration_confirm: declarations.confirm,
+          declaration_understand: declarations.understand,
+          work_id_url: workIdUrl,
+          salary_slip_url: salarySlipUrl,
+        }),
       })
 
       setSuccess(true)
@@ -131,7 +159,6 @@ const ContactPage = () => {
     <div className='bg-white min-h-screen'>
       <Nav />
 
-      {/* ── Hero ── */}
       <section className='relative bg-[#1a4731] overflow-hidden'>
         <div className='absolute inset-0 opacity-5'
           style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />

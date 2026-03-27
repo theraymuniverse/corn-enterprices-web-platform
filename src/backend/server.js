@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 
@@ -9,6 +9,7 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
+const resend = new Resend('re_KHFJ9vdH_HT12EFF38X4BQwUQbVn2g7p3')
 
 // ── Middleware ──────────────────────────────────────────────
 app.use(helmet())
@@ -35,42 +36,31 @@ const limiter = rateLimit({
 app.use(limiter)
 
 
-const createTransporter = (user, pass) => {
-  return nodemailer.createTransport({
-    host: 'smtp.zoho.com',
-    port: 465,
-    secure: true,
-    auth: { user, pass },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 15000,
-  })
-}
+const FROM_DEFAULT = "COR'N Enterprises <hello@cornenterprise.com>"
+const FROM_ADMIN   = "COR'N Enterprises <admin@cornenterprise.com>"
+const FROM_CAREERS = "COR'N Enterprises Careers <hello@cornenterprise.com>"
 
-// ── Health check ────────────────────────────────────────────
+
 app.get('/', (req, res) => {
   res.status(200).json({ message: "COR'N Enterprises server is running." })
 })
 
 
-// ── Newsletter ──────────────────────────────────────────────
+
 app.post('/api/send-newsletter', async (req, res) => {
   const { email } = req.body
   if (!email) return res.status(400).json({ message: 'Email is required' })
 
   try {
-    const transporter = createTransporter('hello@cornenterprise.com', 'ydhlD7j!')
-    await transporter.verify()
-
-    await transporter.sendMail({
-      from: '"COR\'N Enterprises Newsletter" <hello@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_DEFAULT,
       to: 'hello@cornenterprise.com',
       subject: `New Newsletter Subscriber — ${email}`,
       html: `<h2>New Newsletter Subscriber</h2><p><strong>Email:</strong> ${email}</p>`,
     })
 
-    await transporter.sendMail({
-      from: '"COR\'N Enterprises Limited" <hello@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_DEFAULT,
       to: email,
       subject: "Welcome to COR'N Enterprises Newsletter",
       html: `
@@ -93,15 +83,11 @@ app.post('/api/send-newsletter', async (req, res) => {
 
     res.status(200).json({ message: 'Subscribed successfully! Check your email for confirmation.' })
   } catch (error) {
-    console.error('Newsletter Error:', error.code, error.message)
-    res.status(500).json({
-      message: 'Failed to send email. Please try again.',
-      // Send error code to frontend so you can see it in the browser console
-      errorCode: error.code,
-      errorDetail: error.message,
-    })
+    console.error('Newsletter Error:', error.message)
+    res.status(500).json({ message: 'Failed to send email. Please try again.', errorDetail: error.message })
   }
 })
+
 
 // ── Contact Form ─────────────────────────────────────────────
 app.post('/api/send-contact', async (req, res) => {
@@ -111,13 +97,8 @@ app.post('/api/send-contact', async (req, res) => {
   }
 
   try {
-    const transporter = createTransporter('hello@cornenterprise.com', 'ydhlD7j!')
-
-    // Test connection before sending — gives a clear error if credentials are wrong
-    await transporter.verify()
-
-    await transporter.sendMail({
-      from: '"COR\'N Enterprises Contact" <hello@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_DEFAULT,
       to: 'cornenterprises2709@gmail.com',
       replyTo: email,
       subject: `New Contact Message from ${name}`,
@@ -130,8 +111,8 @@ app.post('/api/send-contact', async (req, res) => {
       `,
     })
 
-    await transporter.sendMail({
-      from: '"COR\'N Enterprises Limited" <hello@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_DEFAULT,
       to: email,
       subject: "We received your message — COR'N Enterprises Limited",
       html: `
@@ -154,14 +135,11 @@ app.post('/api/send-contact', async (req, res) => {
 
     res.status(200).json({ message: "Thank you for contacting us! We'll be in touch shortly." })
   } catch (error) {
-    console.error('Contact Error:', error.code, error.message)
-    res.status(500).json({
-      message: 'Failed to send email. Please contact us via WhatsApp.',
-      errorCode: error.code,
-      errorDetail: error.message,
-    })
+    console.error('Contact Error:', error.message)
+    res.status(500).json({ message: 'Failed to send email. Please contact us via WhatsApp.', errorDetail: error.message })
   }
 })
+
 
 
 app.post('/api/send-loan-application', async (req, res) => {
@@ -170,6 +148,7 @@ app.post('/api/send-loan-application', async (req, res) => {
     employmentStatus, employerName, workAddress, monthlyIncome, yearsAtJob,
     loanType, loanAmount, loanPurpose, repaymentDuration,
     guarantorName, guarantorPhone, guarantorRelationship, guarantorOccupation,
+    work_id_url, salary_slip_url,
   } = req.body
 
   if (!fullName || !email || !loanType) {
@@ -177,48 +156,63 @@ app.post('/api/send-loan-application', async (req, res) => {
   }
 
   try {
-    const transporter = createTransporter('hello@cornenterprise.com', 'ydhlD7j!')
-    await transporter.verify()
-
-    await transporter.sendMail({
-      from: '"COR\'N Loan Applications" <hello@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_DEFAULT,
       to: 'cornenterprises2709@gmail.com',
       replyTo: email,
       subject: `New Loan Application — ${fullName} (${loanType})`,
       html: `
-        <h2>New Loan Application</h2>
-        <h3 style="color:#1a4731;">Personal Information</h3>
-        <p><strong>Name:</strong> ${fullName}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Address:</strong> ${address}, ${cityState}</p>
-        <h3 style="color:#1a4731;">Employment</h3>
-        <p><strong>Status:</strong> ${employmentStatus}</p>
-        <p><strong>Employer:</strong> ${employerName}</p>
-        <p><strong>Work Address:</strong> ${workAddress}</p>
-        <p><strong>Income:</strong> ₦${monthlyIncome}</p>
-        <p><strong>Years at Job:</strong> ${yearsAtJob}</p>
-        <h3 style="color:#1a4731;">Loan Details</h3>
-        <p><strong>Type:</strong> ${loanType}</p>
-        <p><strong>Amount:</strong> ${loanAmount}</p>
-        <p><strong>Purpose:</strong> ${loanPurpose}</p>
-        <p><strong>Repayment:</strong> ${repaymentDuration}</p>
-        <h3 style="color:#1a4731;">Guarantor</h3>
-        <p><strong>Name:</strong> ${guarantorName}</p>
-        <p><strong>Phone:</strong> ${guarantorPhone}</p>
-        <p><strong>Relationship:</strong> ${guarantorRelationship}</p>
-        <p><strong>Occupation:</strong> ${guarantorOccupation}</p>
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+          <div style="background:#1a4731;padding:24px 32px;">
+            <h1 style="color:#fff;margin:0;font-size:20px;">New Loan Application</h1>
+            <p style="color:#3dba6f;margin:6px 0 0;font-size:14px;">COR'N Enterprises Limited</p>
+          </div>
+          <div style="padding:32px;background:#fff;">
+            <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;">Personal Information</h3>
+            <p><strong>Name:</strong> ${fullName}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Address:</strong> ${address}, ${cityState}</p>
+
+            <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;margin-top:24px;">Employment</h3>
+            <p><strong>Status:</strong> ${employmentStatus}</p>
+            <p><strong>Employer:</strong> ${employerName}</p>
+            <p><strong>Work Address:</strong> ${workAddress}</p>
+            <p><strong>Monthly Income:</strong> ₦${monthlyIncome}</p>
+            <p><strong>Years at Job:</strong> ${yearsAtJob}</p>
+
+            <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;margin-top:24px;">Loan Details</h3>
+            <p><strong>Type:</strong> ${loanType}</p>
+            <p><strong>Amount:</strong> ${loanAmount}</p>
+            <p><strong>Purpose:</strong> ${loanPurpose}</p>
+            <p><strong>Repayment Duration:</strong> ${repaymentDuration}</p>
+
+            <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;margin-top:24px;">Guarantor</h3>
+            <p><strong>Name:</strong> ${guarantorName}</p>
+            <p><strong>Phone:</strong> ${guarantorPhone}</p>
+            <p><strong>Relationship:</strong> ${guarantorRelationship}</p>
+            <p><strong>Occupation:</strong> ${guarantorOccupation}</p>
+
+            <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;margin-top:24px;">Documents</h3>
+            <p><strong>Work ID:</strong> ${work_id_url ? `<a href="${work_id_url}" style="color:#3dba6f;">View Document</a>` : 'Not uploaded'}</p>
+            <p><strong>Salary Slip:</strong> ${salary_slip_url ? `<a href="${salary_slip_url}" style="color:#3dba6f;">View Document</a>` : 'Not uploaded'}</p>
+          </div>
+          <div style="background:#f9f9f9;padding:14px 32px;border-top:1px solid #e0e0e0;text-align:center;">
+            <p style="margin:0;color:#bbb;font-size:11px;">TBS Plaza, Jalingo, Taraba State, Nigeria</p>
+          </div>
+        </div>
       `,
     })
 
-    await transporter.sendMail({
-      from: '"COR\'N Enterprises Limited" <hello@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_DEFAULT,
       to: email,
       subject: "Loan Application Received — COR'N Enterprises Limited",
       html: `
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
           <div style="background:#1a4731;padding:24px 32px;">
             <h1 style="color:#fff;margin:0;font-size:20px;">Application Received</h1>
+            <p style="color:#3dba6f;margin:6px 0 0;font-size:14px;">COR'N Enterprises Limited</p>
           </div>
           <div style="padding:28px 32px;background:#fff;border:1px solid #e0e0e0;">
             <p>Dear <strong>${fullName}</strong>,</p>
@@ -239,96 +233,214 @@ app.post('/api/send-loan-application', async (req, res) => {
 
     res.status(200).json({ message: 'Loan application submitted successfully!' })
   } catch (error) {
-    console.error('Loan Error:', error.code, error.message)
-    res.status(500).json({
-      message: 'Failed to submit application. Please try again.',
-      errorCode: error.code,
-      errorDetail: error.message,
-    })
+    console.error('Loan Error:', error.message)
+    res.status(500).json({ message: 'Failed to submit application. Please try again.', errorDetail: error.message })
   }
 })
 
 
+// ── Career Application ────────────────────────────────────────
 app.post('/api/send-career', async (req, res) => {
-  const { name, career, message, role, phone, email, type } = req.body
+  const { name, background, message, role, phone, email, type } = req.body
   if (!name || !email) return res.status(400).json({ message: 'Name and email are required' })
 
   try {
-    const transporter = createTransporter('careers@cornenterprise.com', 'Ecobank@96')
-    await transporter.verify()
-
-    await transporter.sendMail({
-      from: '"COR\'N Careers" <careers@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_CAREERS,
       to: 'careers@cornenterprise.com',
       replyTo: email,
       subject: `New Career Application — ${name} (${type || role})`,
       html: `
-        <h2>New Career Application</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Position:</strong> ${type || 'N/A'}</p>
-        <p><strong>Background:</strong> ${career}</p>
-        <p><strong>Why joining:</strong> ${message}</p>
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+          <div style="background:#1a4731;padding:24px 32px;">
+            <h1 style="color:#fff;margin:0;font-size:20px;">New Career Application</h1>
+            <p style="color:#3dba6f;margin:6px 0 0;font-size:14px;">COR'N Enterprises Limited</p>
+          </div>
+          <div style="padding:32px;background:#fff;">
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Position Applying For:</strong> ${type}</p>
+            <p><strong>Background of Study:</strong> ${background}</p>
+            <p><strong>Why joining:</strong> ${message}</p>
+          </div>
+          <div style="background:#f9f9f9;padding:14px 32px;border-top:1px solid #e0e0e0;text-align:center;">
+            <p style="margin:0;color:#bbb;font-size:11px;">TBS Plaza, Jalingo, Taraba State, Nigeria</p>
+          </div>
+        </div>
       `,
     })
 
     res.status(200).json({ message: 'Application submitted successfully!' })
   } catch (error) {
-    console.error('Career Error:', error.code, error.message)
-    res.status(500).json({
-      message: 'Failed to send application. Please try again.',
-      errorCode: error.code,
-      errorDetail: error.message,
-    })
+    console.error('Career Error:', error.message)
+    res.status(500).json({ message: 'Failed to send application. Please try again.', errorDetail: error.message })
   }
 })
 
+
+// ── Partner / Investor ────────────────────────────────────────
 app.post('/api/send-partner', async (req, res) => {
-  const { firstname, email, message, phone, surname, businessName, website, role, product } = req.body
+  const { firstname, email, message, phone, surname, businessName, website, role} = req.body
   if (!firstname || !email) return res.status(400).json({ message: 'Name and email are required' })
 
   try {
-    const transporter = createTransporter('admin@cornenterprise.com', 'p_Cfp4pj')
-    await transporter.verify()
-
-    await transporter.sendMail({
-      from: '"COR\'N Partner Applications" <admin@cornenterprise.com>',
+    await resend.emails.send({
+      from: FROM_ADMIN,
       to: 'admin@cornenterprise.com',
       replyTo: email,
       subject: `New Partner/Investor — ${firstname} ${surname} (${role})`,
       html: `
-        <h2>New Partner / Investor Application</h2>
-        <p><strong>Name:</strong> ${firstname} ${surname}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Business:</strong> ${businessName}</p>
-        <p><strong>Website:</strong> ${website || 'N/A'}</p>
-        <p><strong>Role:</strong> ${role}</p>
-        <p><strong>Product/Quantity:</strong> ${product || 'N/A'}</p>
-        <p><strong>Message:</strong> ${message}</p>
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+          <div style="background:#1a4731;padding:24px 32px;">
+            <h1 style="color:#fff;margin:0;font-size:20px;">New Partner / Investor Application</h1>
+            <p style="color:#3dba6f;margin:6px 0 0;font-size:14px;">COR'N Enterprises Limited</p>
+          </div>
+          <div style="padding:32px;background:#fff;">
+            <p><strong>Name:</strong> ${firstname} ${surname}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Business:</strong> ${businessName}</p>
+            <p><strong>Website:</strong> ${website || 'N/A'}</p>
+            <p><strong>Role:</strong> ${role}</p>
+            <p><strong>Message:</strong> ${message}</p>
+          </div>
+          <div style="background:#f9f9f9;padding:14px 32px;border-top:1px solid #e0e0e0;text-align:center;">
+            <p style="margin:0;color:#bbb;font-size:11px;">TBS Plaza, Jalingo, Taraba State, Nigeria</p>
+          </div>
+        </div>
       `,
     })
 
     res.status(200).json({ message: 'Partner application submitted successfully!' })
   } catch (error) {
-    console.error('Partner Error:', error.code, error.message)
-    res.status(500).json({
-      message: 'Failed to send application. Please try again.',
-      errorCode: error.code,
-      errorDetail: error.message,
-    })
+    console.error('Partner Error:', error.message)
+    res.status(500).json({ message: 'Failed to send application. Please try again.', errorDetail: error.message })
   }
 })
+
+
+app.post('/api/send-guarantor', async (req, res) => {
+  const { firstname, surname, email, phone, businessName, website } = req.body
+  if (!firstname || !surname || !email || !phone || !businessName) {
+    return res.status(400).json({ message: 'Required fields are missing' })
+  }
+
+  const fullName = `${firstname} ${surname}`
+
+  try {
+    // Notify admin
+    await resend.emails.send({
+      from: FROM_ADMIN,
+      to: 'admin@cornenterprise.com',
+      replyTo: email,
+      subject: `New Guarantor Registration — ${fullName}`,
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+          <div style="background:#1a4731;padding:24px 32px;">
+            <h1 style="color:#fff;margin:0;font-size:20px;">New Guarantor Registration</h1>
+            <p style="color:#3dba6f;margin:6px 0 0;font-size:14px;">COR'N Enterprises Limited</p>
+          </div>
+          <div style="padding:32px;background:#fff;">
+            <p style="color:#555;font-size:14px;margin:0 0 20px;">A new guarantor has submitted their details via the website.</p>
+            <div style="background:#f0f9f4;border-radius:8px;padding:20px 24px;">
+              <table style="width:100%;border-collapse:collapse;font-size:14px;color:#333;">
+                <tr style="border-bottom:1px solid #e0f0e8;">
+                  <td style="padding:10px 0;font-weight:bold;color:#1a4731;width:40%;">Full Name</td>
+                  <td style="padding:10px 0;">${fullName}</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0f0e8;">
+                  <td style="padding:10px 0;font-weight:bold;color:#1a4731;">Email</td>
+                  <td style="padding:10px 0;">${email}</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0f0e8;">
+                  <td style="padding:10px 0;font-weight:bold;color:#1a4731;">Phone</td>
+                  <td style="padding:10px 0;">${phone}</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0f0e8;">
+                  <td style="padding:10px 0;font-weight:bold;color:#1a4731;">Business Name</td>
+                  <td style="padding:10px 0;">${businessName}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;font-weight:bold;color:#1a4731;">Website</td>
+                  <td style="padding:10px 0;">${website || 'Not provided'}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div style="background:#f9f9f9;padding:14px 32px;border-top:1px solid #e0e0e0;text-align:center;">
+            <p style="margin:0;color:#bbb;font-size:11px;">TBS Plaza, Jalingo, Taraba State, Nigeria</p>
+          </div>
+        </div>
+      `,
+    })
+
+
+    await resend.emails.send({
+      from: FROM_ADMIN,
+      to: email,
+      subject: "Guarantor Registration Received — COR'N Enterprises Limited",
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+          <div style="background:#1a4731;padding:24px 32px;">
+            <h1 style="color:#fff;margin:0;font-size:20px;">Registration Received</h1>
+            <p style="color:#3dba6f;margin:6px 0 0;font-size:14px;">COR'N Enterprises Limited</p>
+          </div>
+          <div style="padding:32px;background:#fff;">
+            <p style="color:#333;font-size:15px;margin:0 0 12px;">Dear <strong>${fullName}</strong>,</p>
+            <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 20px;">
+              Thank you for registering as a guarantor with COR'N Enterprises Limited.
+              We have received your details and our team will be in touch with you shortly.
+            </p>
+            <div style="background:#f0f9f4;border-radius:8px;padding:20px 24px;margin-bottom:20px;">
+              <table style="width:100%;border-collapse:collapse;font-size:14px;color:#333;">
+                <tr style="border-bottom:1px solid #e0f0e8;">
+                  <td style="padding:8px 0;font-weight:bold;color:#1a4731;width:40%;">Full Name</td>
+                  <td style="padding:8px 0;">${fullName}</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0f0e8;">
+                  <td style="padding:8px 0;font-weight:bold;color:#1a4731;">Phone</td>
+                  <td style="padding:8px 0;">${phone}</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e0f0e8;">
+                  <td style="padding:8px 0;font-weight:bold;color:#1a4731;">Business Name</td>
+                  <td style="padding:8px 0;">${businessName}</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 0;font-weight:bold;color:#1a4731;">Website</td>
+                  <td style="padding:8px 0;">${website || 'Not provided'}</td>
+                </tr>
+              </table>
+            </div>
+            <p style="color:#555;font-size:13px;">Questions? Email us at
+              <a href="mailto:admin@cornenterprise.com" style="color:#1a4731;font-weight:bold;">admin@cornenterprise.com</a>
+            </p>
+            <p style="color:#1a4731;font-size:14px;font-weight:bold;margin-top:24px;">COR'N Enterprises Limited</p>
+            <p style="color:#999;font-size:12px;margin:0;">Integrity · Boldness · Professionalism</p>
+          </div>
+          <div style="background:#f9f9f9;padding:14px 32px;border-top:1px solid #e0e0e0;text-align:center;">
+            <p style="margin:0;color:#bbb;font-size:11px;">TBS Plaza, Jalingo, Taraba State, Nigeria</p>
+          </div>
+        </div>
+      `,
+    })
+
+    res.status(200).json({ message: 'Guarantor registration submitted successfully!' })
+  } catch (error) {
+    console.error('Guarantor Email Error:', error.message)
+    res.status(500).json({ message: 'Failed to send email. Please try contacting us via WhatsApp.', errorDetail: error.message })
+  }
+})
+
 
 // ── Start server ──────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`)
-  console.log(`🔍 Test SMTP: GET https://www.cornenterprise.com/api/test-smtp`)
   console.log(`📬 Routes:`)
   console.log(`   POST /api/send-newsletter`)
   console.log(`   POST /api/send-contact`)
   console.log(`   POST /api/send-loan-application`)
   console.log(`   POST /api/send-career`)
   console.log(`   POST /api/send-partner`)
+  console.log(`   POST /api/send-guarantor`)
 })
