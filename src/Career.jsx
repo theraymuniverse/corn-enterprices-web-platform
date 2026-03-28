@@ -170,7 +170,7 @@ const Career = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    const { name, career, message, role, email, phone, type } = formData
+    const { name, background, message, role, email, phone, type } = formData
     try {
       const { error } = await supabase.from('careers').insert([{ name, background, message, role, type }])
       if (error) throw error
