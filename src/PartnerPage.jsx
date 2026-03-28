@@ -110,12 +110,12 @@ const PartnerPage = () => {
       const response = await fetch('/api/send-partner', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstname, email, message, phone, surname, businessName, website, role, product }),
+        body: JSON.stringify({ firstname, email, message, phone, surname, businessName, website, role}),
       });
       const result = await response.json();
       if (response.ok) {
         setSuccess(true);
-        setFormData({ firstname: "", surname: "", email: "", phone: "", businessName: "", website: "", message: "", role: "", product: "" });
+        setFormData({ firstname: "", surname: "", email: "", phone: "", businessName: "", website: "", message: "", role: "",});
         setRole("");
         setTimeout(() => setSuccess(false), 6000);
       } else {

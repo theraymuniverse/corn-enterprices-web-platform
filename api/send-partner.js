@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 
-const resend = new Resend('re_KHFJ9vdH_HT12EFF38X4BQwUQbVn2g7p3')
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const FROM_ADMIN = "COR'N Enterprises <Management@cornenterprise.com>"
 
