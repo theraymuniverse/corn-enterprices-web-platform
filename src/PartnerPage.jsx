@@ -102,9 +102,9 @@ const PartnerPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const { firstname, email, message, phone, surname, businessName, website, role, product } = formData;
+    const { firstname, email, message, phone, surname, businessName, website, role } = formData;
     try {
-      const { error } = await supabase.from('Partner_Investor').insert([{ firstname, email, message, phone, surname, businessName, website, role, product }]);
+      const { error } = await supabase.from('Partner_Investor').insert([{ firstname, email, message, phone, surname, businessName, website, role}]);
       if (error) throw error;
 
       const response = await fetch('/api/send-partner', {
