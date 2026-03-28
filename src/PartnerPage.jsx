@@ -217,19 +217,19 @@ const PartnerPage = () => {
         </div>
       </section>
 
-      {/* ── Vision & Mission ── */}
+     
       <section className='py-20 px-6 md:px-12 lg:px-20 bg-[#f0f9f4]'>
         <div className='max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8'>
           {[
             {
               icon: <Eye size={28} />,
               title: 'Our Vision',
-              text: 'To become the most trusted and accessible financial services company, pioneering fast and responsible lending for individuals and businesses across Nigeria.',
+              text: 'To grow steadily into a leading lending institution within the next decade — trusted by individuals and businesses across Nigeria for fast, fair, and accessible financial services.',
             },
             {
               icon: <Flag size={28} />,
               title: 'Our Mission',
-              text: 'To provide simple, transparent, and swift financial solutions that empower salary earners, civil servants, business owners, and SMEs to achieve their financial goals.',
+              text: 'To become the most flexible and professional lending company for the everyday individual — providing simple, transparent, and swift financial solutions that empower salary earners, civil servants, business owners, and SMEs to achieve their financial goals.',
             },
           ].map((item, i) => (
             <motion.div key={i}
@@ -278,7 +278,7 @@ const PartnerPage = () => {
             </div>
             <div className='flex items-center gap-2'>
               <Mail size={16} className='text-[#3dba6f]' />
-              <a href='mailto:admin@cornenterprise.com' className='hover:text-[#1a4731] transition-colors'>admin@cornenterprise.com</a>
+              <a href='mailto:Management@cornenterprise.com' className='hover:text-[#1a4731] transition-colors'>Management@cornenterprise.com</a>
             </div>
           </div>
         </div>
@@ -357,7 +357,6 @@ const PartnerPage = () => {
                     <option value=''>Select your role</option>
                     <option value='Buyer'>Partners</option>
                     <option value='investor'>Investor</option>
-                    <option value='guarantor'>Guarantor</option>
                   </select>
                 </div>
               </div>
