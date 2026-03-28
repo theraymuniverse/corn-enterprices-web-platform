@@ -4,8 +4,7 @@ import Footer from './footer'
 import { supabase } from './Authenticcation/supabaseClient'
 import { motion } from 'framer-motion'
 import {
-  User, Phone, Mail, MapPin, Briefcase, Building2,
-  DollarSign, Clock, Shield, Upload, CheckCircle,
+  User, Briefcase, DollarSign, Shield, Upload, CheckCircle,
   AlertCircle, ArrowRight, FileText, MessageCircle
 } from 'lucide-react'
 
@@ -27,31 +26,31 @@ const steps = [
   { num: '06', label: 'Declaration' },
 ]
 
-const inputClass = 'w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200 bg-white'
+// Dynamically adds red border when the field has an error
+const fieldClass = (err) =>
+  `w-full border ${err ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20 bg-red-50' : 'border-gray-200 focus:border-[#3dba6f] focus:ring-[#3dba6f]/20 bg-white'} focus:ring-2 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200`
+
 const labelClass = 'block text-[#1a4731] text-[13px] font-semibold mb-1.5'
 const sectionHeadClass = 'flex items-center gap-3 mb-6 pb-3 border-b border-green-100'
 
-// ── Helper: upload a single file to Supabase Storage ──────────────────────────
-// bucket:  the Storage bucket name (must exist in your Supabase project)
-// folder:  sub-folder inside the bucket  e.g. "work-ids" | "salary-slips"
-// file:    the File object from the input
-// returns: the public URL of the uploaded file
+// Inline error message
+const ErrMsg = ({ msg }) => msg
+  ? <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{msg}</p>
+  : null
+
+// Red asterisk for required labels
+const Req = () => <span className='text-red-500 ml-0.5'>*</span>
+
+// Upload a file to Supabase Storage, return public URL
 const uploadFile = async (bucket, folder, file) => {
   if (!file) return null
-
-  // Build a unique path so files never overwrite each other
-  const ext = file.name.split('.').pop()
   const timestamp = Date.now()
   const safeName = file.name.replace(/[^a-z0-9.]/gi, '_')
   const path = `${folder}/${timestamp}_${safeName}`
-
   const { data, error } = await supabase.storage
     .from(bucket)
     .upload(path, file, { cacheControl: '3600', upsert: false })
-
   if (error) throw new Error(`File upload failed (${folder}): ${error.message}`)
-
-  // Get the public URL
   const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path)
   return urlData.publicUrl
 }
@@ -78,66 +77,61 @@ const ContactPage = () => {
 
   const handleFileChange = (e, type) => {
     const file = e.target.files[0]
-    if (type === 'id') setIdFile(file)
-    else setSlipFile(file)
+    if (!file) return
+    if (type === 'id') { setIdFile(file); setErrors(prev => ({ ...prev, idFile: null })) }
+    else { setSlipFile(file); setErrors(prev => ({ ...prev, slipFile: null })) }
   }
 
   const validate = () => {
-    const required = ['fullName', 'phone', 'email', 'address', 'cityState',
+    const required = [
+      'fullName', 'phone', 'email', 'address', 'cityState', 'bvn',
       'employmentStatus', 'employerName', 'workAddress', 'monthlyIncome', 'yearsAtJob',
       'loanType', 'loanAmount', 'loanPurpose', 'repaymentDuration',
-      'guarantorName', 'guarantorPhone', 'guarantorRelationship', 'guarantorOccupation', 'bvn', 'guarantorID',]
+      'guarantorName', 'guarantorPhone', 'guarantorRelationship', 'guarantorOccupation', 'guarantorID',
+    ]
     const newErrors = {}
     required.forEach(k => { if (!formData[k]) newErrors[k] = 'This field is required' })
-    if (!declarations.confirm || !declarations.understand) newErrors.declaration = 'Please accept both declarations'
     if (!idFile) newErrors.idFile = 'Please upload your Work ID Card'
     if (!slipFile) newErrors.slipFile = 'Please upload your Salary Slip / Proof of Income'
+    if (!declarations.confirm || !declarations.understand) newErrors.declaration = 'Please accept both declarations'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!validate()) return
+    if (!validate()) {
+      setTimeout(() => {
+        const el = document.querySelector('.text-red-500')
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 50)
+      return
+    }
     setLoading(true)
-
     try {
-      // ── 1. Upload files to Supabase Storage ───────────────────────────────
-      // Make sure you have a bucket named "loan-documents" in your Supabase
-      // Storage dashboard with public access (or use signed URLs if private).
       const [idFileUrl, slipFileUrl] = await Promise.all([
         uploadFile('loan-documents', 'work-ids', idFile),
         uploadFile('loan-documents', 'salary-slips', slipFile),
       ])
-
-      // ── 2. Insert form data + file URLs into the database ─────────────────
       const { error } = await supabase.from('loan_applications').insert([{
         ...formData,
         declaration_confirm: declarations.confirm,
         declaration_understand: declarations.understand,
-        id_card_url: idFileUrl,        // URL stored in the DB row
-        salary_slip_url: slipFileUrl,  // URL stored in the DB row
+        id_card_url: idFileUrl,
+        salary_slip_url: slipFileUrl,
       }])
       if (error) throw error
-
-      // ── 3. Optional: notify via API route ─────────────────────────────────
       await fetch('/api/send-loan-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          id_card_url: idFileUrl,
-          salary_slip_url: slipFileUrl,
-        }),
+        body: JSON.stringify({ ...formData, id_card_url: idFileUrl, salary_slip_url: slipFileUrl }),
       })
-
       setSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
       console.error(err)
       alert(`Something went wrong: ${err.message ?? 'Please try again.'}`)
     }
-
     setLoading(false)
   }
 
@@ -156,8 +150,7 @@ const ContactPage = () => {
               Qualified applicants may receive loan approval within minutes.
             </p>
             <div className='flex flex-wrap items-center justify-center gap-4'>
-              <a href='/'
-                className='inline-flex items-center gap-2 bg-[#1a4731] hover:bg-[#2d7a4f] text-white font-bold text-sm px-7 py-3.5 rounded-full transition-all duration-300'>
+              <a href='/' className='inline-flex items-center gap-2 bg-[#1a4731] hover:bg-[#2d7a4f] text-white font-bold text-sm px-7 py-3.5 rounded-full transition-all duration-300'>
                 Back to Home <ArrowRight size={16} />
               </a>
               <a href='https://wa.me/2348131906385' target='_blank' rel='noreferrer'
@@ -181,7 +174,6 @@ const ContactPage = () => {
         <div className='absolute inset-0 opacity-5'
           style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />
         <div className='absolute top-0 right-0 w-96 h-96 rounded-full bg-[#3dba6f]/15 blur-3xl pointer-events-none' />
-
         <div className='relative z-10 max-w-4xl mx-auto px-6 md:px-12 py-16 md:py-24 text-center'>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className='flex items-center justify-center gap-3 mb-4'>
@@ -190,8 +182,7 @@ const ContactPage = () => {
               <span className='h-px w-10 bg-[#3dba6f]' />
             </div>
             <h1 className='text-white text-[30px] md:text-[48px] font-bold leading-tight'>
-              Apply for a Loan{' '}
-              <span className='text-[#3dba6f]'>in Minutes</span>
+              Apply for a Loan <span className='text-[#3dba6f]'>in Minutes</span>
             </h1>
             <p className='text-green-200/70 text-[15px] md:text-[17px] mt-4 max-w-2xl mx-auto leading-relaxed'>
               Complete the form below to begin your loan application.{' '}
@@ -219,6 +210,7 @@ const ContactPage = () => {
       {/* ── Form ── */}
       <section className='py-16 px-6 md:px-12 lg:px-20 bg-white'>
         <div className='max-w-3xl mx-auto'>
+          <p className='text-gray-400 text-[12px] mb-6'>Fields marked <span className='text-red-500'>*</span> are required.</p>
           <form onSubmit={handleSubmit} className='space-y-10'>
 
             {/* ── 1. Personal Information ── */}
@@ -237,42 +229,42 @@ const ContactPage = () => {
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <div className='md:col-span-2'>
-                  <label className={labelClass}>Full Name</label>
+                  <label className={labelClass}>Full Name <Req /></label>
                   <input type='text' name='fullName' value={formData.fullName} onChange={handleChange}
-                    placeholder='Enter your full name' className={inputClass} />
-                  {errors.fullName && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.fullName}</p>}
+                    placeholder='Enter your full name' className={fieldClass(errors.fullName)} />
+                  <ErrMsg msg={errors.fullName} />
                 </div>
                 <div>
-                  <label className={labelClass}>Phone Number</label>
+                  <label className={labelClass}>Phone Number <Req /></label>
                   <input type='tel' name='phone' value={formData.phone} onChange={handleChange}
-                    placeholder='e.g. 08012345678' className={inputClass} />
-                  {errors.phone && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.phone}</p>}
+                    placeholder='e.g. 08012345678' className={fieldClass(errors.phone)} />
+                  <ErrMsg msg={errors.phone} />
                 </div>
                 <div>
-                  <label className={labelClass}>Email Address</label>
+                  <label className={labelClass}>Email Address <Req /></label>
                   <input type='email' name='email' value={formData.email} onChange={handleChange}
-                    placeholder='your@email.com' className={inputClass} />
-                  {errors.email && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.email}</p>}
+                    placeholder='your@email.com' className={fieldClass(errors.email)} />
+                  <ErrMsg msg={errors.email} />
                 </div>
                 <div className='md:col-span-2'>
-                  <label className={labelClass}>BVN</label>
+                  <label className={labelClass}>BVN <Req /></label>
                   <input type='tel' name='bvn' maxLength={11} value={formData.bvn} onChange={handleChange}
-                    placeholder='Enter your BVN' className={inputClass} />
-                  {errors.bvn && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.bvn}</p>}
+                    placeholder='Enter your BVN' className={fieldClass(errors.bvn)} />
+                  <ErrMsg msg={errors.bvn} />
                 </div>
                 <div className='md:col-span-2'>
-                  <label className={labelClass}>Residential Address</label>
+                  <label className={labelClass}>Residential Address <Req /></label>
                   <input type='text' name='address' value={formData.address} onChange={handleChange}
-                    placeholder='Enter your home address' className={inputClass} />
-                  {errors.address && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.address}</p>}
+                    placeholder='Enter your home address' className={fieldClass(errors.address)} />
+                  <ErrMsg msg={errors.address} />
                 </div>
                 <div>
-                  <label className={labelClass}>City / State</label>
-                  <select name='cityState' value={formData.cityState} onChange={handleChange} className={inputClass}>
+                  <label className={labelClass}>City / State <Req /></label>
+                  <select name='cityState' value={formData.cityState} onChange={handleChange} className={fieldClass(errors.cityState)}>
                     <option value=''>Select your state</option>
                     {nigeriaStates.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
-                  {errors.cityState && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.cityState}</p>}
+                  <ErrMsg msg={errors.cityState} />
                 </div>
               </div>
             </motion.div>
@@ -293,10 +285,15 @@ const ContactPage = () => {
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <div className='md:col-span-2'>
-                  <label className={labelClass}>Employment Status</label>
+                  <label className={labelClass}>Employment Status <Req /></label>
                   <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
                     {['Salary Earner', 'Civil Servant', 'Business Owner', 'SME Operator'].map(opt => (
-                      <label key={opt} className={`flex items-center gap-2 border rounded-xl px-4 py-3 cursor-pointer transition-all duration-200 text-[13px] ${formData.employmentStatus === opt ? 'border-[#3dba6f] bg-[#f0f9f4] text-[#1a4731] font-semibold' : 'border-gray-200 text-gray-600 hover:border-green-200'}`}>
+                      <label key={opt} className={`flex items-center gap-2 border rounded-xl px-4 py-3 cursor-pointer transition-all duration-200 text-[13px]
+                        ${formData.employmentStatus === opt
+                          ? 'border-[#3dba6f] bg-[#f0f9f4] text-[#1a4731] font-semibold'
+                          : errors.employmentStatus
+                            ? 'border-red-300 bg-red-50 text-gray-600'
+                            : 'border-gray-200 text-gray-600 hover:border-green-200'}`}>
                         <input type='radio' name='employmentStatus' value={opt}
                           checked={formData.employmentStatus === opt}
                           onChange={handleChange} className='accent-[#3dba6f]' />
@@ -304,36 +301,36 @@ const ContactPage = () => {
                       </label>
                     ))}
                   </div>
-                  {errors.employmentStatus && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.employmentStatus}</p>}
+                  <ErrMsg msg={errors.employmentStatus} />
                 </div>
                 <div>
-                  <label className={labelClass}>Name of Employer / Business</label>
+                  <label className={labelClass}>Name of Employer / Business <Req /></label>
                   <input type='text' name='employerName' value={formData.employerName} onChange={handleChange}
-                    placeholder='Employer or business name' className={inputClass} />
-                  {errors.employerName && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.employerName}</p>}
+                    placeholder='Employer or business name' className={fieldClass(errors.employerName)} />
+                  <ErrMsg msg={errors.employerName} />
                 </div>
                 <div>
-                  <label className={labelClass}>Work Address</label>
+                  <label className={labelClass}>Work Address <Req /></label>
                   <input type='text' name='workAddress' value={formData.workAddress} onChange={handleChange}
-                    placeholder='Office or business address' className={inputClass} />
-                  {errors.workAddress && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.workAddress}</p>}
+                    placeholder='Office or business address' className={fieldClass(errors.workAddress)} />
+                  <ErrMsg msg={errors.workAddress} />
                 </div>
                 <div>
-                  <label className={labelClass}>Monthly Income (₦)</label>
+                  <label className={labelClass}>Monthly Income (₦) <Req /></label>
                   <input type='text' name='monthlyIncome' value={formData.monthlyIncome} onChange={handleChange}
-                    placeholder='e.g. 80,000' className={inputClass} />
-                  {errors.monthlyIncome && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.monthlyIncome}</p>}
+                    placeholder='e.g. 80,000' className={fieldClass(errors.monthlyIncome)} />
+                  <ErrMsg msg={errors.monthlyIncome} />
                 </div>
                 <div>
-                  <label className={labelClass}>Years at Current Job / Business</label>
-                  <select name='yearsAtJob' value={formData.yearsAtJob} onChange={handleChange} className={inputClass}>
+                  <label className={labelClass}>Years at Current Job / Business <Req /></label>
+                  <select name='yearsAtJob' value={formData.yearsAtJob} onChange={handleChange} className={fieldClass(errors.yearsAtJob)}>
                     <option value=''>Select duration</option>
                     <option value='Less than 1 year'>Less than 1 year</option>
                     <option value='1–3 years'>1–3 years</option>
                     <option value='3–5 years'>3–5 years</option>
                     <option value='Over 5 years'>Over 5 years</option>
                   </select>
-                  {errors.yearsAtJob && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.yearsAtJob}</p>}
+                  <ErrMsg msg={errors.yearsAtJob} />
                 </div>
               </div>
             </motion.div>
@@ -354,10 +351,15 @@ const ContactPage = () => {
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <div className='md:col-span-2'>
-                  <label className={labelClass}>Type of Loan Required</label>
+                  <label className={labelClass}>Type of Loan Required <Req /></label>
                   <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
                     {['Personal Soft Loan', 'Salary Advance', 'SME Business Loan'].map(opt => (
-                      <label key={opt} className={`flex items-center gap-2 border rounded-xl px-4 py-3 cursor-pointer transition-all duration-200 text-[13px] ${formData.loanType === opt ? 'border-[#3dba6f] bg-[#f0f9f4] text-[#1a4731] font-semibold' : 'border-gray-200 text-gray-600 hover:border-green-200'}`}>
+                      <label key={opt} className={`flex items-center gap-2 border rounded-xl px-4 py-3 cursor-pointer transition-all duration-200 text-[13px]
+                        ${formData.loanType === opt
+                          ? 'border-[#3dba6f] bg-[#f0f9f4] text-[#1a4731] font-semibold'
+                          : errors.loanType
+                            ? 'border-red-300 bg-red-50 text-gray-600'
+                            : 'border-gray-200 text-gray-600 hover:border-green-200'}`}>
                         <input type='radio' name='loanType' value={opt}
                           checked={formData.loanType === opt}
                           onChange={handleChange} className='accent-[#3dba6f]' />
@@ -365,29 +367,29 @@ const ContactPage = () => {
                       </label>
                     ))}
                   </div>
-                  {errors.loanType && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.loanType}</p>}
+                  <ErrMsg msg={errors.loanType} />
                 </div>
                 <div>
-                  <label className={labelClass}>Loan Amount Needed</label>
+                  <label className={labelClass}>Loan Amount Needed <Req /></label>
                   <input type='text' name='loanAmount' value={formData.loanAmount} onChange={handleChange}
-                    placeholder='What amount of loan do you need' className={inputClass} />
-                  {errors.loanAmount && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.loanAmount}</p>}
+                    placeholder='What amount of loan do you need' className={fieldClass(errors.loanAmount)} />
+                  <ErrMsg msg={errors.loanAmount} />
                 </div>
                 <div>
-                  <label className={labelClass}>Preferred Repayment Duration</label>
-                  <select name='repaymentDuration' value={formData.repaymentDuration} onChange={handleChange} className={inputClass}>
+                  <label className={labelClass}>Preferred Repayment Duration <Req /></label>
+                  <select name='repaymentDuration' value={formData.repaymentDuration} onChange={handleChange} className={fieldClass(errors.repaymentDuration)}>
                     <option value=''>Select duration</option>
                     {['1 Month', '2 Months', '3 Months', '4 Months', '5 Months'].map(d => (
                       <option key={d} value={d}>{d}</option>
                     ))}
                   </select>
-                  {errors.repaymentDuration && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.repaymentDuration}</p>}
+                  <ErrMsg msg={errors.repaymentDuration} />
                 </div>
                 <div className='md:col-span-2'>
-                  <label className={labelClass}>Purpose of Loan</label>
+                  <label className={labelClass}>Purpose of Loan <Req /></label>
                   <input type='text' name='loanPurpose' value={formData.loanPurpose} onChange={handleChange}
-                    placeholder='Briefly describe why you need this loan' className={inputClass} />
-                  {errors.loanPurpose && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.loanPurpose}</p>}
+                    placeholder='Briefly describe why you need this loan' className={fieldClass(errors.loanPurpose)} />
+                  <ErrMsg msg={errors.loanPurpose} />
                 </div>
               </div>
             </motion.div>
@@ -408,34 +410,34 @@ const ContactPage = () => {
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <div>
-                  <label className={labelClass}>Guarantor Full Name</label>
+                  <label className={labelClass}>Guarantor Full Name <Req /></label>
                   <input type='text' name='guarantorName' value={formData.guarantorName} onChange={handleChange}
-                    placeholder="Guarantor's full name" className={inputClass} />
-                  {errors.guarantorName && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorName}</p>}
+                    placeholder="Guarantor's full name" className={fieldClass(errors.guarantorName)} />
+                  <ErrMsg msg={errors.guarantorName} />
                 </div>
                 <div>
-                  <label className={labelClass}>Guarantor Phone Number</label>
+                  <label className={labelClass}>Guarantor Phone Number <Req /></label>
                   <input type='tel' name='guarantorPhone' value={formData.guarantorPhone} onChange={handleChange}
-                    placeholder="Guarantor's phone" className={inputClass} />
-                  {errors.guarantorPhone && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorPhone}</p>}
+                    placeholder="Guarantor's phone" className={fieldClass(errors.guarantorPhone)} />
+                  <ErrMsg msg={errors.guarantorPhone} />
                 </div>
                 <div>
-                  <label className={labelClass}>Guarantor's Unique ID</label>
+                  <label className={labelClass}>Guarantor's Unique ID <Req /></label>
                   <input type='text' name='guarantorID' value={formData.guarantorID} onChange={handleChange}
-                    placeholder='Enter ID here' className={inputClass} />
-                  {errors.guarantorID && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorID}</p>}
+                    placeholder='Enter ID here' className={fieldClass(errors.guarantorID)} />
+                  <ErrMsg msg={errors.guarantorID} />
                 </div>
                 <div>
-                  <label className={labelClass}>Relationship to Applicant</label>
+                  <label className={labelClass}>Relationship to Applicant <Req /></label>
                   <input type='text' name='guarantorRelationship' value={formData.guarantorRelationship} onChange={handleChange}
-                    placeholder='e.g. Colleague, Friend, Relative' className={inputClass} />
-                  {errors.guarantorRelationship && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorRelationship}</p>}
+                    placeholder='e.g. Colleague, Friend, Relative' className={fieldClass(errors.guarantorRelationship)} />
+                  <ErrMsg msg={errors.guarantorRelationship} />
                 </div>
                 <div>
-                  <label className={labelClass}>Guarantor Occupation</label>
+                  <label className={labelClass}>Guarantor Occupation <Req /></label>
                   <input type='text' name='guarantorOccupation' value={formData.guarantorOccupation} onChange={handleChange}
-                    placeholder="Guarantor's occupation" className={inputClass} />
-                  {errors.guarantorOccupation && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorOccupation}</p>}
+                    placeholder="Guarantor's occupation" className={fieldClass(errors.guarantorOccupation)} />
+                  <ErrMsg msg={errors.guarantorOccupation} />
                 </div>
               </div>
             </motion.div>
@@ -460,18 +462,20 @@ const ContactPage = () => {
                   { label: 'Salary Slip / Proof of Income', key: 'slip', state: slipFile, hint: 'JPG, PNG or PDF — max 5MB', errorKey: 'slipFile' },
                 ].map(({ label, key, state, hint, errorKey }) => (
                   <div key={key}>
-                    <label className={labelClass}>{label} <span className='text-red-500'>*</span></label>
-                    <label className={`flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-xl px-4 py-6 cursor-pointer transition-all duration-200 text-center ${state ? 'border-[#3dba6f] bg-[#f0f9f4]' : errors[errorKey] ? 'border-red-400 bg-red-50' : 'border-gray-200 hover:border-[#3dba6f]/50 hover:bg-[#f0f9f4]/50'}`}>
+                    <label className={labelClass}>{label} <Req /></label>
+                    <label className={`flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-xl px-4 py-6 cursor-pointer transition-all duration-200 text-center
+                      ${state ? 'border-[#3dba6f] bg-[#f0f9f4]' : errors[errorKey] ? 'border-red-400 bg-red-50' : 'border-gray-200 hover:border-[#3dba6f]/50 hover:bg-[#f0f9f4]/50'}`}>
                       {state
                         ? <><CheckCircle size={22} className='text-[#3dba6f]' /><span className='text-[#1a4731] text-[13px] font-medium'>{state.name}</span></>
-                        : <><Upload size={22} className={errors[errorKey] ? 'text-red-400' : 'text-gray-400'} /><span className={`text-[13px] ${errors[errorKey] ? 'text-red-400' : 'text-gray-400'}`}>Click to upload</span><span className='text-gray-300 text-[11px]'>{hint}</span></>
+                        : <>
+                            <Upload size={22} className={errors[errorKey] ? 'text-red-400' : 'text-gray-400'} />
+                            <span className={`text-[13px] ${errors[errorKey] ? 'text-red-400' : 'text-gray-400'}`}>Click to upload</span>
+                            <span className='text-gray-300 text-[11px]'>{hint}</span>
+                          </>
                       }
-                      <input type='file' accept='.jpg,.jpeg,.png,.pdf' onChange={(e) => {
-                        handleFileChange(e, key)
-                        if (errors[errorKey]) setErrors(prev => ({ ...prev, [errorKey]: null }))
-                      }} className='hidden' />
+                      <input type='file' accept='.jpg,.jpeg,.png,.pdf' onChange={(e) => handleFileChange(e, key)} className='hidden' />
                     </label>
-                    {errors[errorKey] && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors[errorKey]}</p>}
+                    <ErrMsg msg={errors[errorKey]} />
                   </div>
                 ))}
               </div>
@@ -480,13 +484,13 @@ const ContactPage = () => {
             {/* ── 6. Declaration ── */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.7 }}
-              className='bg-[#f0f9f4] border border-green-100 rounded-2xl p-7'>
+              className={`border rounded-2xl p-7 transition-colors duration-200 ${errors.declaration ? 'bg-red-50 border-red-200' : 'bg-[#f0f9f4] border-green-100'}`}>
               <div className={sectionHeadClass}>
                 <div className='w-9 h-9 rounded-xl bg-[#1a4731] text-[#3dba6f] flex items-center justify-center flex-shrink-0'>
                   <FileText size={17} />
                 </div>
                 <div>
-                  <h3 className='text-[#1a4731] font-bold text-[16px]'>Declaration</h3>
+                  <h3 className='text-[#1a4731] font-bold text-[16px]'>Declaration <Req /></h3>
                   <p className='text-gray-400 text-[12px]'>Please read and confirm the statements below</p>
                 </div>
               </div>
@@ -494,31 +498,35 @@ const ContactPage = () => {
               <div className='space-y-4'>
                 {[
                   { key: 'confirm', text: 'I confirm that all information provided in this application is true and accurate.' },
-                  { key: 'understand', text: 'I understand that COR\'N Enterprises Limited may verify the information submitted for loan assessment purposes.' },
+                  { key: 'understand', text: "I understand that COR'N Enterprises Limited may verify the information submitted for loan assessment purposes." },
                 ].map(({ key, text }) => (
-                  <label key={key} className={`flex items-start gap-3 cursor-pointer p-4 rounded-xl border transition-all duration-200 ${declarations[key] ? 'border-[#3dba6f]/50 bg-white' : 'border-transparent bg-white/60 hover:bg-white'}`}>
-                    <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5 border-2 transition-colors duration-200 ${declarations[key] ? 'bg-[#1a4731] border-[#1a4731]' : 'border-gray-300'}`}>
+                  <label key={key} className={`flex items-start gap-3 cursor-pointer p-4 rounded-xl border transition-all duration-200
+                    ${declarations[key]
+                      ? 'border-[#3dba6f]/50 bg-white'
+                      : errors.declaration
+                        ? 'border-red-300 bg-white/80 hover:bg-white'
+                        : 'border-transparent bg-white/60 hover:bg-white'}`}>
+                    <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5 border-2 transition-colors duration-200
+                      ${declarations[key] ? 'bg-[#1a4731] border-[#1a4731]' : errors.declaration ? 'border-red-400' : 'border-gray-300'}`}>
                       {declarations[key] && <CheckCircle size={13} className='text-white' />}
                     </div>
                     <input type='checkbox' checked={declarations[key]}
-                      onChange={() => setDeclarations(prev => ({ ...prev, [key]: !prev[key] }))}
+                      onChange={() => {
+                        setDeclarations(prev => ({ ...prev, [key]: !prev[key] }))
+                        setErrors(prev => ({ ...prev, declaration: null }))
+                      }}
                       className='hidden' />
                     <span className='text-gray-600 text-[13px] leading-relaxed'>{text}</span>
                   </label>
                 ))}
-                {errors.declaration && (
-                  <p className='text-red-500 text-[12px] flex items-center gap-1 mt-1'>
-                    <AlertCircle size={12} />{errors.declaration}
-                  </p>
-                )}
+                <ErrMsg msg={errors.declaration} />
               </div>
             </motion.div>
 
             {/* ── Submit ── */}
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.6 }}
-              className='text-center'
-            >
+              className='text-center'>
               <button type='submit' disabled={loading}
                 className='w-full md:w-auto inline-flex items-center justify-center gap-3 bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[15px] px-12 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-green-800/25 hover:scale-105'>
                 {loading
@@ -531,6 +539,7 @@ const ContactPage = () => {
                 <span className='text-[#1a4731] font-medium'>Qualified applicants may receive approval within minutes.</span>
               </p>
             </motion.div>
+
           </form>
         </div>
       </section>

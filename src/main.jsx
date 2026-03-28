@@ -18,6 +18,7 @@ import Chose from './chose.jsx'
 import Password from './Authenticcation/password.jsx'
 import Career from './Career.jsx'
 import SignOut from './Authenticcation/signout.jsx'
+import Admin from './Admin.jsx'
 
 // A tiny wrapper that injects <ScrollRestoration /> into every route
 const withScroll = (element) => (
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
   {
     path: 'signout',
     element: withScroll(<SignOut />),
+  },
+    {
+    path: 'admin',
+    element: withScroll(<Admin />),
   },
 ])
 
