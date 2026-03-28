@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 
             <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;margin-top:24px;">Loan Details</h3>
             <p><strong>Type:</strong> ${loanType}</p>
-            <p><strong>Amount:</strong> ${loanAmount}</p>
+            <p><strong>Amount:</strong> ₦${loanAmount}</p>
             <p><strong>Purpose:</strong> ${loanPurpose}</p>
             <p><strong>Repayment Duration:</strong> ${repaymentDuration}</p>
 
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
             <p style="color:#555;">Your loan application has been received. Our team will review it shortly.</p>
             <div style="background:#f0f9f4;padding:14px;border-radius:6px;margin:16px 0;">
               <p style="margin:0;color:#1a4731;font-size:13px;"><strong>Type:</strong> ${loanType}</p>
-              <p style="margin:6px 0 0;color:#1a4731;font-size:13px;"><strong>Amount:</strong> ${loanAmount}</p>
+              <p style="margin:6px 0 0;color:#1a4731;font-size:13px;"><strong>Amount:</strong> ₦${loanAmount}</p>
               <p style="margin:6px 0 0;color:#1a4731;font-size:13px;"><strong>Repayment:</strong> ${repaymentDuration}</p>
             </div>
             <p style="color:#555;">📞 <strong>08023447314</strong><br/>
