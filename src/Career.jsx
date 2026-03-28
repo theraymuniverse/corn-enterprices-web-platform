@@ -6,7 +6,8 @@ import { motion } from 'framer-motion'
 import {
   ArrowRight, TrendingUp, Heart, ShieldCheck, Zap,
   Briefcase, HeadphonesIcon, ClipboardCheck, Megaphone,
-  CheckCircle, Send, Users, Star
+  CheckCircle, Send, Users, Star,
+  Phone
 } from 'lucide-react'
 
 const whyWork = [
@@ -172,7 +173,7 @@ const Career = () => {
     setLoading(true)
     const { name, background, message, role, email, phone, type } = formData
     try {
-      const { error } = await supabase.from('careers').insert([{ name, background, message, role, type }])
+      const { error } = await supabase.from('careers').insert([{ name, background, message, email, phone, type }])
       if (error) throw error
 
       const response = await fetch('/api/send-career', {
