@@ -36,9 +36,9 @@ const limiter = rateLimit({
 app.use(limiter)
 
 
-const FROM_DEFAULT = "COR'N Enterprises <hello@cornenterprise.com>"
-const FROM_ADMIN   = "COR'N Enterprises <admin@cornenterprise.com>"
-const FROM_CAREERS = "COR'N Enterprises Careers <hello@cornenterprise.com>"
+const FROM_DEFAULT = "COR'N Enterprises <danzid2003@gmail.com>"
+const FROM_ADMIN   = "COR'N Enterprises <danzid2003@gmail.com>"
+const FROM_CAREERS = "COR'N Enterprises Careers <danzid2003@gmail.com>"
 
 
 app.get('/', (req, res) => {
