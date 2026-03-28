@@ -90,6 +90,8 @@ const ContactPage = () => {
     const newErrors = {}
     required.forEach(k => { if (!formData[k]) newErrors[k] = 'This field is required' })
     if (!declarations.confirm || !declarations.understand) newErrors.declaration = 'Please accept both declarations'
+    if (!idFile) newErrors.idFile = 'Please upload your Work ID Card'
+    if (!slipFile) newErrors.slipFile = 'Please upload your Salary Slip / Proof of Income'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -454,18 +456,22 @@ const ContactPage = () => {
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 {[
-                  { label: 'Work ID Card', key: 'id', state: idFile, hint: 'JPG, PNG or PDF — max 5MB' },
-                  { label: 'Salary Slip / Proof of Income', key: 'slip', state: slipFile, hint: 'JPG, PNG or PDF — max 5MB' },
-                ].map(({ label, key, state, hint }) => (
+                  { label: 'Work ID Card', key: 'id', state: idFile, hint: 'JPG, PNG or PDF — max 5MB', errorKey: 'idFile' },
+                  { label: 'Salary Slip / Proof of Income', key: 'slip', state: slipFile, hint: 'JPG, PNG or PDF — max 5MB', errorKey: 'slipFile' },
+                ].map(({ label, key, state, hint, errorKey }) => (
                   <div key={key}>
-                    <label className={labelClass}>{label}</label>
-                    <label className={`flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-xl px-4 py-6 cursor-pointer transition-all duration-200 text-center ${state ? 'border-[#3dba6f] bg-[#f0f9f4]' : 'border-gray-200 hover:border-[#3dba6f]/50 hover:bg-[#f0f9f4]/50'}`}>
+                    <label className={labelClass}>{label} <span className='text-red-500'>*</span></label>
+                    <label className={`flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-xl px-4 py-6 cursor-pointer transition-all duration-200 text-center ${state ? 'border-[#3dba6f] bg-[#f0f9f4]' : errors[errorKey] ? 'border-red-400 bg-red-50' : 'border-gray-200 hover:border-[#3dba6f]/50 hover:bg-[#f0f9f4]/50'}`}>
                       {state
                         ? <><CheckCircle size={22} className='text-[#3dba6f]' /><span className='text-[#1a4731] text-[13px] font-medium'>{state.name}</span></>
-                        : <><Upload size={22} className='text-gray-400' /><span className='text-gray-400 text-[13px]'>Click to upload</span><span className='text-gray-300 text-[11px]'>{hint}</span></>
+                        : <><Upload size={22} className={errors[errorKey] ? 'text-red-400' : 'text-gray-400'} /><span className={`text-[13px] ${errors[errorKey] ? 'text-red-400' : 'text-gray-400'}`}>Click to upload</span><span className='text-gray-300 text-[11px]'>{hint}</span></>
                       }
-                      <input type='file' accept='.jpg,.jpeg,.png,.pdf' onChange={(e) => handleFileChange(e, key)} className='hidden' />
+                      <input type='file' accept='.jpg,.jpeg,.png,.pdf' onChange={(e) => {
+                        handleFileChange(e, key)
+                        if (errors[errorKey]) setErrors(prev => ({ ...prev, [errorKey]: null }))
+                      }} className='hidden' />
                     </label>
+                    {errors[errorKey] && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors[errorKey]}</p>}
                   </div>
                 ))}
               </div>

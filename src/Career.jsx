@@ -118,7 +118,7 @@ const roleDetails = [
   },
   {
     icon: <Megaphone size={20} />,
-    role: 'Marketing & Business Development',
+    role: 'Digital Marketing & Business Development',
     responsibilities: [
       'Develop and execute marketing strategies to grow COR\'N\'s client base',
       'Identify and pursue new business opportunities within target communities',
