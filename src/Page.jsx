@@ -523,10 +523,10 @@ const Page = () => {
               For questions or concerns about your data or these terms, contact us at:
             </p>
             <div className='flex flex-col sm:flex-row gap-4 text-[14px]'>
-              <a href='mailto:cornenterprises2709@gmail.com'
+              <a href='mailto:Management@cornenterprise.com'
                 className='flex items-center gap-2 text-gray-600 hover:text-[#1a4731] transition-colors'>
                 <Mail size={15} className='text-[#3dba6f]' />
-                cornenterprises2709@gmail.com
+                 Management@cornenterprise.com
               </a>
               <a href='tel:08023447314'
                 className='flex items-center gap-2 text-gray-600 hover:text-[#1a4731] transition-colors'>

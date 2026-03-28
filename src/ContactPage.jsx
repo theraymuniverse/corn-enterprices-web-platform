@@ -43,7 +43,7 @@ const ContactPage = () => {
     fullName: '', phone: '', email: '', address: '', cityState: '',
     employmentStatus: '', employerName: '', workAddress: '', monthlyIncome: '', yearsAtJob: '',
     loanType: '', loanAmount: '', loanPurpose: '', repaymentDuration: '',
-    guarantorName: '', guarantorPhone: '', guarantorRelationship: '', guarantorOccupation: '', bvn: '',
+    guarantorName: '', guarantorPhone: '', guarantorRelationship: '', guarantorOccupation: '', bvn: '', guarantorID: '',
   })
 
   const handleChange = (e) => {
@@ -61,7 +61,7 @@ const ContactPage = () => {
     const required = ['fullName', 'phone', 'email', 'address', 'cityState',
       'employmentStatus', 'employerName', 'workAddress', 'monthlyIncome', 'yearsAtJob',
       'loanType', 'loanAmount', 'loanPurpose', 'repaymentDuration',
-      'guarantorName', 'guarantorPhone', 'guarantorRelationship', 'guarantorOccupation', 'bvn']
+      'guarantorName', 'guarantorPhone', 'guarantorRelationship', 'guarantorOccupation', 'bvn', 'guarantorID',]
     const newErrors = {}
     required.forEach(k => { if (!formData[k]) newErrors[k] = 'This field is required' })
     if (!declarations.confirm || !declarations.understand) newErrors.declaration = 'Please accept both declarations'
@@ -74,12 +74,12 @@ const ContactPage = () => {
     if (!validate()) return
     setLoading(true)
     try {
-      {/*const { error } = await supabase.from('loan_applications').insert([{
+      const { error } = await supabase.from('loan_applications').insert([{
         ...formData,
         declaration_confirm: declarations.confirm,
         declaration_understand: declarations.understand,
       }])
-      if (error) throw error*/}
+      if (error) throw error
 
       const response = await fetch('/api/send-loan-application', {
         method: 'POST',
@@ -324,12 +324,8 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <label className={labelClass}>Loan Amount Needed</label>
-                  <select name='loanAmount' value={formData.loanAmount} onChange={handleChange} className={inputClass}>
-                    <option value=''>Select amount</option>
-                    {['₦100,000', '₦150,000', '₦200,000', '₦250,000', '₦300,000'].map(a => (
-                      <option key={a} value={a}>{a}</option>
-                    ))}
-                  </select>
+                  <input type='text' name='loanAmount' value={formData.loanAmount} onChange={handleChange}
+                    placeholder='What amount of loan do you need' className={inputClass} />
                   {errors.loanAmount && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.loanAmount}</p>}
                 </div>
                 <div>
@@ -377,6 +373,12 @@ const ContactPage = () => {
                   <input type='tel' name='guarantorPhone' value={formData.guarantorPhone} onChange={handleChange}
                     placeholder="Guarantor's phone" className={inputClass} />
                   {errors.guarantorPhone && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorPhone}</p>}
+                </div>
+                  <div>
+                  <label className={labelClass}>Guarantor's Unique ID</label>
+                  <input type='text' name='guarantorID' value={formData.guarantorID} onChange={handleChange}
+                    placeholder='Enter ID here' className={inputClass} />
+                  {errors.guarantorID && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorID}</p>}
                 </div>
                 <div>
                   <label className={labelClass}>Relationship to Applicant</label>

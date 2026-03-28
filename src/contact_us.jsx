@@ -16,8 +16,8 @@ const contactDetails = [
   {
     icon: <Mail size={20} />,
     label: 'Email',
-    value: 'cornenterprises2709@gmail.com',
-    href: 'mailto:cornenterprises2709@gmail.com',
+    value: 'hello@cornenterprise.com',
+    href: 'mailto:hello@cornenterprise.com',
   },
   {
     icon: <MapPin size={20} />,
