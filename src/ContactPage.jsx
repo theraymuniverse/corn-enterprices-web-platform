@@ -31,6 +31,31 @@ const inputClass = 'w-full border border-gray-200 focus:border-[#3dba6f] focus:r
 const labelClass = 'block text-[#1a4731] text-[13px] font-semibold mb-1.5'
 const sectionHeadClass = 'flex items-center gap-3 mb-6 pb-3 border-b border-green-100'
 
+// ── Helper: upload a single file to Supabase Storage ──────────────────────────
+// bucket:  the Storage bucket name (must exist in your Supabase project)
+// folder:  sub-folder inside the bucket  e.g. "work-ids" | "salary-slips"
+// file:    the File object from the input
+// returns: the public URL of the uploaded file
+const uploadFile = async (bucket, folder, file) => {
+  if (!file) return null
+
+  // Build a unique path so files never overwrite each other
+  const ext = file.name.split('.').pop()
+  const timestamp = Date.now()
+  const safeName = file.name.replace(/[^a-z0-9.]/gi, '_')
+  const path = `${folder}/${timestamp}_${safeName}`
+
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(path, file, { cacheControl: '3600', upsert: false })
+
+  if (error) throw new Error(`File upload failed (${folder}): ${error.message}`)
+
+  // Get the public URL
+  const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path)
+  return urlData.publicUrl
+}
+
 const ContactPage = () => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -73,26 +98,44 @@ const ContactPage = () => {
     e.preventDefault()
     if (!validate()) return
     setLoading(true)
+
     try {
+      // ── 1. Upload files to Supabase Storage ───────────────────────────────
+      // Make sure you have a bucket named "loan-documents" in your Supabase
+      // Storage dashboard with public access (or use signed URLs if private).
+      const [idFileUrl, slipFileUrl] = await Promise.all([
+        uploadFile('loan-documents', 'work-ids', idFile),
+        uploadFile('loan-documents', 'salary-slips', slipFile),
+      ])
+
+      // ── 2. Insert form data + file URLs into the database ─────────────────
       const { error } = await supabase.from('loan_applications').insert([{
         ...formData,
         declaration_confirm: declarations.confirm,
         declaration_understand: declarations.understand,
+        id_card_url: idFileUrl,        // URL stored in the DB row
+        salary_slip_url: slipFileUrl,  // URL stored in the DB row
       }])
       if (error) throw error
 
-      const response = await fetch('/api/send-loan-application', {
+      // ── 3. Optional: notify via API route ─────────────────────────────────
+      await fetch('/api/send-loan-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          id_card_url: idFileUrl,
+          salary_slip_url: slipFileUrl,
+        }),
       })
 
       setSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
       console.error(err)
-      alert('Something went wrong. Please try again.')
+      alert(`Something went wrong: ${err.message ?? 'Please try again.'}`)
     }
+
     setLoading(false)
   }
 
@@ -374,7 +417,7 @@ const ContactPage = () => {
                     placeholder="Guarantor's phone" className={inputClass} />
                   {errors.guarantorPhone && <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'><AlertCircle size={11} />{errors.guarantorPhone}</p>}
                 </div>
-                  <div>
+                <div>
                   <label className={labelClass}>Guarantor's Unique ID</label>
                   <input type='text' name='guarantorID' value={formData.guarantorID} onChange={handleChange}
                     placeholder='Enter ID here' className={inputClass} />
