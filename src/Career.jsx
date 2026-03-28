@@ -158,7 +158,7 @@ const containerVariants = {
 
 const Career = () => {
   const [formData, setFormData] = useState({
-    name: '', career: '', message: '', role: '', email: '', phone: '', type: '',
+    name: '', background: '' , message: '', role: '', email: '', phone: '', type: '',
   })
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -172,18 +172,18 @@ const Career = () => {
     setLoading(true)
     const { name, career, message, role, email, phone, type } = formData
     try {
-      const { error } = await supabase.from('careers').insert([{ name, career, message, role, type }])
+      const { error } = await supabase.from('careers').insert([{ name, background, message, role, type }])
       if (error) throw error
 
       const response = await fetch('/api/send-career', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, career, message, role, phone, email, type }),
+        body: JSON.stringify({ name, background, message, role, phone, email, type }),
       })
       const result = await response.json()
       if (response.ok) {
         setSuccess(true)
-        setFormData({ name: '', career: '', message: '', role: '', phone: '', email: '', type: '' })
+        setFormData({ name: '', message: '', role: '', phone: '', email: '', type: '' , background: '',})
         setTimeout(() => setSuccess(false), 6000)
       } else {
         alert(result.message || 'Error sending, please try again.')
@@ -436,8 +436,8 @@ const Career = () => {
             <h2 className='text-[#1a4731] text-[28px] md:text-[38px] font-bold'>Ready to Make a Difference?</h2>
             <p className='text-gray-500 text-[15px] mt-3 max-w-2xl mx-auto leading-relaxed'>
               Submit your application by sending your CV and cover letter to{' '}
-              <a href='mailto:cornenterprises2709@gmail.com' className='text-[#1a4731] font-semibold underline underline-offset-2 hover:text-[#3dba6f] transition-colors'>
-                cornenterprises2709@gmail.com
+              <a href='mailto:Careers@cornenterprise.com' className='text-[#1a4731] font-semibold underline underline-offset-2 hover:text-[#3dba6f] transition-colors'>
+                Careers@cornenterprise.com
               </a>
               {' '}with the position you are applying for in the subject line.
               All qualified candidates will be reviewed and contacted for an interview.
@@ -545,7 +545,7 @@ const Career = () => {
                       <option value='Loan Officers / Relationship Managers'>Loan Officers / Relationship Managers</option>
                       <option value='Customer Support Representatives'>Customer Support Representatives</option>
                       <option value='Operations & Compliance Specialists'>Operations & Compliance Specialists</option>
-                      <option value='Marketing & Business Development'>Marketing & Business Development</option>
+                      <option value='Digital Marketing & Business Development'>Digital Marketing & Business Development</option>
                     </select>
                   </div>
 
@@ -553,7 +553,7 @@ const Career = () => {
                   <div>
                     <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>Your Professional Background</label>
                     <input
-                      type='text' name='career' value={formData.career} onChange={handleChange} required
+                      type='text' name='background' value={formData.background} onChange={handleChange} required
                       placeholder='e.g. Banking, Finance, Marketing...'
                       className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200'
                     />

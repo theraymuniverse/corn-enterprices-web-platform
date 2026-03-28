@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 
 const resend = new Resend('re_KHFJ9vdH_HT12EFF38X4BQwUQbVn2g7p3')
 
-const FROM_CAREERS = "COR'N Enterprises Careers <hello@cornenterprise.com>"
+const FROM_CAREERS = "COR'N Enterprises Careers <Careers@cornenterprise.com>"
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -15,9 +15,9 @@ export default async function handler(req, res) {
   try {
     await resend.emails.send({
       from: FROM_CAREERS,
-      to: 'careers@cornenterprise.com',
+      to: 'Careers@cornenterprise.com',
       replyTo: email,
-      subject: `New Career Application — ${name} (${type || role})`,
+      subject: `New Career Application — ${name} (${type})`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
           <div style="background:#1a4731;padding:24px 32px;">
