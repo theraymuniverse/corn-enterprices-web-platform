@@ -8,7 +8,7 @@ import {
   RefreshCw, LogOut, TrendingUp, AlertCircle, Eye, X
 } from 'lucide-react'
 
-// ── Stat card ────────────────────────────────────────────────────────────────
+
 const StatCard = ({ icon: Icon, label, value, color }) => (
   <div className={`bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center gap-4`}>
     <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
@@ -21,7 +21,7 @@ const StatCard = ({ icon: Icon, label, value, color }) => (
   </div>
 )
 
-// ── Badge ─────────────────────────────────────────────────────────────────────
+
 const Badge = ({ status }) => {
   const map = {
     pending:    'bg-amber-100 text-amber-700 border-amber-200',
@@ -270,7 +270,7 @@ const AdminPage = () => {
     setSaving(false)
   }
 
-  // Filtering
+
   const filtered = applications.filter(a => {
     const matchesTab =
       tab === 'all' ? true :
