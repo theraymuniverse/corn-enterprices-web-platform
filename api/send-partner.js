@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 
 const resend = new Resend('re_KHFJ9vdH_HT12EFF38X4BQwUQbVn2g7p3')
 
-const FROM_ADMIN = "COR'N Enterprises <admin@cornenterprise.com>"
+const FROM_ADMIN = "COR'N Enterprises <Management@cornenterprise.com>"
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   try {
     await resend.emails.send({
       from: FROM_ADMIN,
-      to: 'admin@cornenterprise.com',
+      to: 'Management@cornenterprise.com',
       replyTo: email,
       subject: `New Partner/Investor — ${firstname} ${surname} (${role})`,
       html: `
