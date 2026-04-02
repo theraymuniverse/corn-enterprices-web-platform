@@ -190,7 +190,6 @@ const Modal = ({ app, onClose, onStatusChange, saving }) => {
   )
 }
 
-// ── Row ───────────────────────────────────────────────────────────────────────
 const AppRow = ({ app, onView }) => (
   <motion.tr
     initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
@@ -225,7 +224,7 @@ const AppRow = ({ app, onView }) => (
   </motion.tr>
 )
 
-// ── Main Admin Page ───────────────────────────────────────────────────────────
+
 const AdminPage = () => {
   const [applications, setApplications] = useState([])
   const [loading, setLoading] = useState(true)

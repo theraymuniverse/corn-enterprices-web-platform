@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     employmentStatus, employerName, workAddress, monthlyIncome, yearsAtJob,
     loanType, loanAmount, loanPurpose, repaymentDuration,
     guarantorName, guarantorPhone, guarantorRelationship, guarantorOccupation, guarantorID,
-    work_id_url, salary_slip_url,
+    work_id_url, salary_slip_url, bvn,
   } = req.body
 
   if (!fullName || !email || !loanType) {
@@ -39,6 +39,7 @@ export default async function handler(req, res) {
             <p><strong>Phone:</strong> ${phone}</p>
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Address:</strong> ${address}, ${cityState}</p>
+            <p><strong>BVN:</strong> ${bvn}</p>
 
             <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;margin-top:24px;">Employment</h3>
             <p><strong>Status:</strong> ${employmentStatus}</p>
@@ -59,6 +60,7 @@ export default async function handler(req, res) {
             <p><strong>Relationship:</strong> ${guarantorRelationship}</p>
             <p><strong>Occupation:</strong> ${guarantorOccupation}</p>
             <p><strong>UniqueID:</strong> ${guarantorID}</p>
+
 
             <h3 style="color:#1a4731;border-bottom:1px solid #e0f0e8;padding-bottom:8px;margin-top:24px;">Documents</h3>
             <p><strong>Work ID:</strong> ${work_id_url ? `<a href="${work_id_url}" style="color:#3dba6f;">View Document</a>` : 'Not uploaded'}</p>
