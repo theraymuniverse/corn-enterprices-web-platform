@@ -108,7 +108,6 @@ const Modal = ({ app, onClose, onStatusChange, saving }) => {
               </div>
             </section>
 
-            {/* Loan */}
             <section>
               <h3 className='text-[#1a4731] font-bold text-[13px] uppercase tracking-widest mb-3 flex items-center gap-2'>
                 <DollarSign size={13} /> Loan Details
@@ -158,7 +157,6 @@ const Modal = ({ app, onClose, onStatusChange, saving }) => {
               </section>
             )}
 
-            {/* Actions */}
             <div className='flex flex-wrap gap-3 pt-2 border-t border-gray-100'>
               <button
                 onClick={() => onStatusChange(app.id, 'disbursed')}

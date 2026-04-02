@@ -124,7 +124,7 @@ const ContactPage = () => {
       await fetch('/api/send-loan-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, id_card_url: idFileUrl, salary_slip_url: slipFileUrl }),
+        body: JSON.stringify({ ...formData, work_id_url: idFileUrl, salary_slip_url: slipFileUrl }),
       })
       setSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })

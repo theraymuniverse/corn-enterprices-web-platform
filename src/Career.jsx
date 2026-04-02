@@ -7,7 +7,7 @@ import {
   ArrowRight, TrendingUp, Heart, ShieldCheck, Zap,
   Briefcase, HeadphonesIcon, ClipboardCheck, Megaphone,
   CheckCircle, Send, Users, Star,
-  Phone
+  Phone, Upload, FileText
 } from 'lucide-react'
 
 const whyWork = [
@@ -157,12 +157,28 @@ const containerVariants = {
   show: { transition: { staggerChildren: 0.1 } },
 }
 
+
+const uploadFile = async (bucket, folder, file) => {
+  if (!file) return null
+  const timestamp = Date.now()
+  const safeName = file.name.replace(/[^a-z0-9.]/gi, '_')
+  const path = `${folder}/${timestamp}_${safeName}`
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(path, file, { cacheControl: '3600', upsert: false })
+  if (error) throw new Error(`File upload failed: ${error.message}`)
+  const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path)
+  return urlData.publicUrl
+}
+
 const Career = () => {
   const [formData, setFormData] = useState({
     name: '', background: '' , message: '', role: '', email: '', phone: '', type: '',
   })
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [cvFile, setCvFile] = useState(null)
+  const [cvError, setCvError] = useState(null)
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -170,21 +186,26 @@ const Career = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!cvFile) { setCvError('Please upload your CV'); return }
+    setCvError(null)
     setLoading(true)
     const { name, background, message, role, email, phone, type } = formData
     try {
-      const { error } = await supabase.from('careers').insert([{ name, background, message, email, phone, type }])
+      const cvUrl = await uploadFile('career-documents', 'cvs', cvFile)
+
+      const { error } = await supabase.from('careers').insert([{ name, background, message, email, phone, type, cv_url: cvUrl }])
       if (error) throw error
 
       const response = await fetch('/api/send-career', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, background, message, role, phone, email, type }),
+        body: JSON.stringify({ name, background, message, role, phone, email, type, cv_url: cvUrl }),
       })
       const result = await response.json()
       if (response.ok) {
         setSuccess(true)
         setFormData({ name: '', message: '', role: '', phone: '', email: '', type: '' , background: '',})
+        setCvFile(null)
         setTimeout(() => setSuccess(false), 6000)
       } else {
         alert(result.message || 'Error sending, please try again.')
@@ -567,6 +588,40 @@ const Career = () => {
                       name='message' value={formData.message} onChange={handleChange} required rows={4}
                       className='w-full border border-gray-200 focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 rounded-xl px-4 py-3 text-[14px] text-gray-700 outline-none transition-all duration-200 resize-none'
                     />
+                  </div>
+
+                  {/* CV Upload */}
+                  <div>
+                    <label className='block text-[#1a4731] text-[13px] font-semibold mb-1.5'>
+                      Upload CV / Resume <span className='text-red-500'>*</span>
+                    </label>
+                    <label className={`flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-xl px-4 py-5 cursor-pointer transition-all duration-200 text-center
+                      ${cvFile ? 'border-[#3dba6f] bg-[#f0f9f4]' : cvError ? 'border-red-400 bg-red-50' : 'border-gray-200 hover:border-[#3dba6f]/50 hover:bg-[#f0f9f4]/50'}`}>
+                      {cvFile ? (
+                        <>
+                          <CheckCircle size={22} className='text-[#3dba6f]' />
+                          <span className='text-[#1a4731] text-[13px] font-medium'>{cvFile.name}</span>
+                          <span className='text-gray-400 text-[11px]'>Click to change file</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload size={22} className={cvError ? 'text-red-400' : 'text-gray-400'} />
+                          <span className={`text-[13px] font-medium ${cvError ? 'text-red-400' : 'text-gray-500'}`}>Click to upload your CV</span>
+                          <span className='text-gray-300 text-[11px]'>PDF, DOC or DOCX — max 5MB</span>
+                        </>
+                      )}
+                      <input
+                        type='file'
+                        accept='.pdf,.doc,.docx'
+                        onChange={e => { const f = e.target.files[0]; if (f) { setCvFile(f); setCvError(null) } }}
+                        className='hidden'
+                      />
+                    </label>
+                    {cvError && (
+                      <p className='text-red-500 text-[11px] mt-1 flex items-center gap-1'>
+                        <FileText size={11} />{cvError}
+                      </p>
+                    )}
                   </div>
 
                   <button

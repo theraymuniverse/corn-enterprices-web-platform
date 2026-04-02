@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  const { name, background, message, role, phone, email, type } = req.body
+  const { name, background, message, role, phone, email, type, cv_url } = req.body
   if (!name || !email) return res.status(400).json({ message: 'Name and email are required' })
 
   try {
@@ -31,6 +31,7 @@ export default async function handler(req, res) {
             <p><strong>Position Applying For:</strong> ${type}</p>
             <p><strong>Background of Study:</strong> ${background}</p>
             <p><strong>Why joining:</strong> ${message}</p>
+            <p><strong>CV / Resume:</strong> ${cv_url ? `<a href="${cv_url}" style="color:#3dba6f;">View CV</a>` : 'Not uploaded'}</p>
           </div>
           <div style="background:#f9f9f9;padding:14px 32px;border-top:1px solid #e0e0e0;text-align:center;">
             <p style="margin:0;color:#bbb;font-size:11px;">TBS Plaza, Jalingo, Taraba State, Nigeria</p>
