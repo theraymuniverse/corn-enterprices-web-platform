@@ -12,16 +12,17 @@ import FAQS from './faq'
 const App = () => {
   return (
    <div>
-      <Nav />
+   <h1 className='text-center text-bold text-[50px] pt-[50px]'>
+   404 Not Found
+   </h1>
+     {/* <Nav />
       <Home/>
       <Chose/>
-      {/* <Product/> */}
-      {/* <Ceo/> */}
       <Testimonials/>
       <Partners/>
       <Contact/>
       <FAQS/>
-      <Footer/>
+      <Footer/>*/}
    </div>
   )
 }

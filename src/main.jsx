@@ -34,7 +34,7 @@ const router = createBrowserRouter([
     element: withScroll(<App />),
     errorElement: <App />,
   },
-  {
+  {/*{
     path: 'products',
     element: withScroll(<Page />),
   },
@@ -89,7 +89,7 @@ const router = createBrowserRouter([
     {
     path: 'admin',
     element: withScroll(<Admin />),
-  },
+  },*/}
 ])
 
 createRoot(document.getElementById('root')).render(
