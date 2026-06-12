@@ -3,14 +3,16 @@ import { supabase } from './Authenticcation/supabaseClient'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Clock, CheckCircle2, XCircle, Search,
-  ChevronDown, ChevronUp, User, Phone, Mail, MapPin,
-  Briefcase, DollarSign, Shield, FileText, ExternalLink,
-  RefreshCw, LogOut, TrendingUp, AlertCircle, Eye, X
+  ChevronDown, ChevronUp, User, Briefcase, DollarSign,
+  Shield, FileText, ExternalLink, RefreshCw, LogOut,
+  TrendingUp, AlertCircle, Eye, X
 } from 'lucide-react'
+import LoginPage from './Authenticcation/Login'
+
 
 
 const StatCard = ({ icon: Icon, label, value, color }) => (
-  <div className={`bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center gap-4`}>
+  <div className='bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center gap-4'>
     <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
       <Icon size={22} className='text-white' />
     </div>
@@ -21,12 +23,11 @@ const StatCard = ({ icon: Icon, label, value, color }) => (
   </div>
 )
 
-
 const Badge = ({ status }) => {
   const map = {
-    pending:    'bg-amber-100 text-amber-700 border-amber-200',
-    disbursed:  'bg-emerald-100 text-emerald-700 border-emerald-200',
-    rejected:   'bg-red-100 text-red-600 border-red-200',
+    pending:   'bg-amber-100 text-amber-700 border-amber-200',
+    disbursed: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+    rejected:  'bg-red-100 text-red-600 border-red-200',
   }
   const icons = {
     pending:   <Clock size={11} />,
@@ -41,7 +42,6 @@ const Badge = ({ status }) => {
   )
 }
 
-
 const DR = ({ label, value }) => value ? (
   <div className='flex flex-col gap-0.5'>
     <span className='text-gray-400 text-[11px] font-medium uppercase tracking-wide'>{label}</span>
@@ -52,6 +52,7 @@ const DR = ({ label, value }) => value ? (
 
 const Modal = ({ app, onClose, onStatusChange, saving }) => {
   if (!app) return null
+
   return (
     <AnimatePresence>
       <motion.div
@@ -80,6 +81,7 @@ const Modal = ({ app, onClose, onStatusChange, saving }) => {
           </div>
 
           <div className='p-7 space-y-6'>
+
             {/* Personal */}
             <section>
               <h3 className='text-[#1a4731] font-bold text-[13px] uppercase tracking-widest mb-3 flex items-center gap-2'>
@@ -108,6 +110,7 @@ const Modal = ({ app, onClose, onStatusChange, saving }) => {
               </div>
             </section>
 
+            {/* Loan Details */}
             <section>
               <h3 className='text-[#1a4731] font-bold text-[13px] uppercase tracking-widest mb-3 flex items-center gap-2'>
                 <DollarSign size={13} /> Loan Details
@@ -157,6 +160,33 @@ const Modal = ({ app, onClose, onStatusChange, saving }) => {
               </section>
             )}
 
+            {/* Status History */}
+            <section>
+              <h3 className='text-[#1a4731] font-bold text-[13px] uppercase tracking-widest mb-3 flex items-center gap-2'>
+                <Clock size={13} /> Status History
+              </h3>
+              <div className='space-y-2 bg-gray-50 rounded-2xl p-4'>
+                {Array.isArray(app.status_history) && app.status_history.length > 0 ? (
+                  app.status_history.slice().reverse().map((h, i) => (
+                    <div key={i} className='flex items-center justify-between gap-3'>
+                      <div className='flex items-center gap-3'>
+                        <Badge status={h.to} />
+                        <div className='text-gray-600 text-[13px]'>
+                          <div className='font-medium'>{h.from} → {h.to}</div>
+                          <div className='text-gray-400 text-[12px]'>
+                            {new Date(h.at).toLocaleString('en-NG', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className='text-gray-500 text-[13px]'>No status changes recorded.</div>
+                )}
+              </div>
+            </section>
+
+            {/* Actions */}
             <div className='flex flex-wrap gap-3 pt-2 border-t border-gray-100'>
               <button
                 onClick={() => onStatusChange(app.id, 'disbursed')}
@@ -188,6 +218,7 @@ const Modal = ({ app, onClose, onStatusChange, saving }) => {
   )
 }
 
+
 const AppRow = ({ app, onView }) => (
   <motion.tr
     initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
@@ -211,7 +242,9 @@ const AppRow = ({ app, onView }) => (
       <Badge status={app.status ?? 'pending'} />
     </td>
     <td className='px-5 py-4 hidden sm:table-cell'>
-      <p className='text-gray-400 text-[11px]'>{new Date(app.created_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+      <p className='text-gray-400 text-[11px]'>
+        {new Date(app.created_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })}
+      </p>
     </td>
     <td className='px-5 py-4'>
       <button onClick={() => onView(app)}
@@ -222,17 +255,26 @@ const AppRow = ({ app, onView }) => (
   </motion.tr>
 )
 
-
 const AdminPage = () => {
+  // ── All hooks first — no early returns before this block ──
+  const [session, setSession]         = useState(undefined)
   const [applications, setApplications] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError]   = useState(null)
-  const [tab, setTab]       = useState('all')       // all | pending | disbursed | rejected
-  const [search, setSearch] = useState('')
-  const [selected, setSelected] = useState(null)
-  const [saving, setSaving] = useState(false)
-  const [sortDir, setSortDir] = useState('desc')
+  const [loading, setLoading]         = useState(true)
+  const [error, setError]             = useState(null)
+  const [tab, setTab]                 = useState('all')
+  const [search, setSearch]           = useState('')
+  const [selected, setSelected]       = useState(null)
+  const [saving, setSaving]           = useState(false)
+  const [sortDir, setSortDir]         = useState('desc')
 
+  // ── Auth ──
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session ?? null))
+    const { data: listener } = supabase.auth.onAuthStateChange((_e, s) => setSession(s ?? null))
+    return () => listener.subscription.unsubscribe()
+  }, [])
+
+  // ── Data fetch — runs only when logged in ──
   const fetchApplications = async () => {
     setLoading(true)
     setError(null)
@@ -249,24 +291,36 @@ const AdminPage = () => {
     setLoading(false)
   }
 
-  useEffect(() => { fetchApplications() }, [sortDir])
+  useEffect(() => {
+    if (session) fetchApplications()
+  }, [sortDir, session])
+
+  // ── Handlers ──
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    setSession(null)
+    setApplications([])
+  }
 
   const handleStatusChange = async (id, newStatus) => {
     setSaving(true)
     try {
+      const app = applications.find(a => a.id === id)
+      const oldStatus = app?.status ?? 'pending'
+      const entry = { from: oldStatus, to: newStatus, at: new Date().toISOString() }
+      const newHistory = Array.isArray(app?.status_history) ? [...app.status_history, entry] : [entry]
       const { error } = await supabase
         .from('loan_applications')
-        .update({ status: newStatus })
+        .update({ status: newStatus, status_history: newHistory })
         .eq('id', id)
       if (error) throw error
-      setApplications(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a))
-      if (selected?.id === id) setSelected(prev => ({ ...prev, status: newStatus }))
+      setApplications(prev => prev.map(a => a.id === id ? { ...a, status: newStatus, status_history: newHistory } : a))
+      if (selected?.id === id) setSelected(prev => ({ ...prev, status: newStatus, status_history: newHistory }))
     } catch (err) {
       alert(`Failed to update: ${err.message}`)
     }
     setSaving(false)
   }
-
 
   const filtered = applications.filter(a => {
     const matchesTab =
@@ -296,10 +350,14 @@ const AdminPage = () => {
     { key: 'rejected',  label: 'Rejected',  color: 'bg-red-500' },
   ]
 
+  // ── Conditional renders AFTER all hooks ──
+  if (session === undefined) return null
+  if (!session) return <LoginPage onLogin={setSession} />
+
   return (
     <div className='min-h-screen bg-[#f4f7f5] font-sans'>
 
-      {/* ── Sidebar / Topbar ── */}
+      {/* ── Header ── */}
       <header className='bg-[#1a4731] shadow-lg'>
         <div className='max-w-7xl mx-auto px-6 py-4 flex items-center justify-between'>
           <div className='flex items-center gap-3'>
@@ -311,10 +369,14 @@ const AdminPage = () => {
               <p className='text-[#3dba6f] text-[11px]'>Loan Management</p>
             </div>
           </div>
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-2'>
             <button onClick={fetchApplications}
               className='inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-[12px] font-medium px-3 py-2 rounded-lg transition-colors'>
               <RefreshCw size={13} className={loading ? 'animate-spin' : ''} /> Refresh
+            </button>
+            <button onClick={handleLogout}
+              className='inline-flex items-center gap-1.5 bg-white/10 hover:bg-red-500 text-white text-[12px] font-medium px-3 py-2 rounded-lg transition-colors'>
+              <LogOut size={13} /> Sign out
             </button>
           </div>
         </div>
@@ -324,18 +386,17 @@ const AdminPage = () => {
 
         {/* ── Stats ── */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
-          <StatCard icon={TrendingUp}    label='Total Applications' value={counts.all}       color='bg-[#1a4731]' />
-          <StatCard icon={Clock}         label='Pending'            value={counts.pending}   color='bg-amber-500' />
-          <StatCard icon={CheckCircle2}  label='Disbursed'          value={counts.disbursed} color='bg-emerald-600' />
-          <StatCard icon={XCircle}       label='Rejected'           value={counts.rejected}  color='bg-red-500' />
+          <StatCard icon={TrendingUp}   label='Total Applications' value={counts.all}       color='bg-[#1a4731]' />
+          <StatCard icon={Clock}        label='Pending'            value={counts.pending}   color='bg-amber-500' />
+          <StatCard icon={CheckCircle2} label='Disbursed'          value={counts.disbursed} color='bg-emerald-600' />
+          <StatCard icon={XCircle}      label='Rejected'           value={counts.rejected}  color='bg-red-500' />
         </div>
 
-        {/* ── Table card ── */}
+        {/* ── Table ── */}
         <div className='bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden'>
 
           {/* Toolbar */}
           <div className='px-6 pt-5 pb-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-4'>
-            {/* Tabs */}
             <div className='flex items-center gap-1 bg-gray-100 rounded-xl p-1 flex-wrap'>
               {tabs.map(t => (
                 <button key={t.key} onClick={() => setTab(t.key)}
@@ -345,8 +406,6 @@ const AdminPage = () => {
                 </button>
               ))}
             </div>
-
-            {/* Search */}
             <div className='relative flex-1 max-w-xs ml-auto'>
               <Search size={14} className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
               <input
@@ -356,14 +415,12 @@ const AdminPage = () => {
             </div>
           </div>
 
-          {/* Error */}
           {error && (
             <div className='mx-6 mt-4 p-3 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2 text-red-600 text-[13px]'>
               <AlertCircle size={14} /> {error}
             </div>
           )}
 
-          {/* Table */}
           <div className='overflow-x-auto'>
             <table className='w-full'>
               <thead>
@@ -414,16 +471,17 @@ const AdminPage = () => {
             </table>
           </div>
 
-          {/* Footer */}
           {!loading && filtered.length > 0 && (
-            <div className='px-6 py-3 border-t border-gray-100 flex items-center justify-between'>
-              <p className='text-gray-400 text-[12px]'>Showing <span className='font-semibold text-gray-600'>{filtered.length}</span> of <span className='font-semibold text-gray-600'>{applications.length}</span> applications</p>
+            <div className='px-6 py-3 border-t border-gray-100'>
+              <p className='text-gray-400 text-[12px]'>
+                Showing <span className='font-semibold text-gray-600'>{filtered.length}</span> of{' '}
+                <span className='font-semibold text-gray-600'>{applications.length}</span> applications
+              </p>
             </div>
           )}
         </div>
       </main>
 
-      {/* ── Detail Modal ── */}
       {selected && (
         <Modal
           app={selected}

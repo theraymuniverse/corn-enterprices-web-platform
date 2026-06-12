@@ -1,140 +1,118 @@
-import React, {useState} from 'react'
-import Logo from '../assets/Logo2.png'
-import Nav from '../Nav'
-import { UserAuth } from './AuthContext';
-import { Navigate, useNavigate } from 'react-router-dom';
-import {Link} from 'react-router-dom'
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState } from 'react'
+import { supabase } from './supabaseClient'
+import { Shield, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react'
 
+const LoginPage = ({ onLogin }) => {
+  const [email, setEmail]       = useState('')
+  const [password, setPassword] = useState('')
+  const [showPw, setShowPw]     = useState(false)
+  const [loading, setLoading]   = useState(false)
+  const [error, setError]       = useState(null)
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+    const { data, error: authError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    })
 
-  const { session, signUpNewuser ,signInUser} = UserAuth();
-  const navigate = useNavigate()
-  console.log(session)
-   
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const result = await signInUser(email, password)
-
-
-      if (result.success) {
-        navigate("/products")
-        } else {
-          setError('Email or Password Incorrect')
-        }
-    } catch (err) {
-      setError('an error occurred: ${err.message || err}')
-    } finally {
-      setLoading(false);
+    if (authError) {
+      setError('Invalid email or password. Please try again.')
+      setLoading(false)
+      return
     }
+
+    onLogin(data.session)
   }
 
-  const handleToggle = () => {
-    if (type==='password'){
-       setIcon(Eye);
-       setType('text')
-    } else {
-       setIcon(EyeyeOff)
-       setType('password')
-    }
- }
   return (
-    <div>
-    <Nav/>
-      <div className="flex min-h-full flex-1 pb-[120px] flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            alt="Your Company"
-            src={Logo} 
-            className="mx-auto h-30 w-auto"
-          />
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign in
-          </h2>
+    <div className='min-h-screen bg-[#f4f7f5] flex items-center justify-center p-4'>
+      <div className='w-full max-w-sm'>
+
+        <div className='flex flex-col items-center mb-8'>
+          <div className='w-14 h-14 rounded-2xl bg-[#1a4731] flex items-center justify-center shadow-lg mb-4'>
+            <Shield size={26} className='text-[#3dba6f]' />
+          </div>
+          <h1 className='text-[#1a4731] text-[22px] font-bold tracking-tight'>COR'N Admin</h1>
+          <p className='text-gray-400 text-[13px] mt-1'>Sign in to manage loan applications</p>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleSignIn} method="GET" className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+        {/* Card */}
+        <div className='bg-white rounded-3xl shadow-sm border border-gray-100 p-8'>
+          <form onSubmit={handleSubmit} className='space-y-5'>
+
+            {/* Email */}
+            <div className='space-y-1.5'>
+              <label className='block text-[12px] font-semibold text-gray-500 uppercase tracking-wide'>
                 Email address
               </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
-                />
-              </div>
+              <input
+                type='email'
+                required
+                autoComplete='email'
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder='admin@example.com'
+                className='w-full px-4 py-3 text-[14px] border border-gray-200 rounded-xl focus:outline-none focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 transition-all placeholder-gray-300'
+              />
             </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                  Password
-                </label>
-                <div className="text-sm">
-                  <Link to="/password" className="font-semibold text-green-600 hover:text-green-500">
-                    Forgot password?
-                  </Link>
-                </div>
-              </div>
-              <div className="mt-2 flex gap-2">
+            {/* Password */}
+            <div className='space-y-1.5'>
+              <label className='block text-[12px] font-semibold text-gray-500 uppercase tracking-wide'>
+                Password
+              </label>
+              <div className='relative'>
                 <input
-                onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPw ? 'text' : 'password'}
                   required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
+                  autoComplete='current-password'
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder='••••••••'
+                  className='w-full px-4 py-3 pr-11 text-[14px] border border-gray-200 rounded-xl focus:outline-none focus:border-[#3dba6f] focus:ring-2 focus:ring-[#3dba6f]/20 transition-all placeholder-gray-300'
                 />
                 <button
-                   type="button"
-                     onClick={() => setShowPassword((prev) => !prev)}
-                     className="text-gray-600"
-                     aria-label={showPassword ? 'Hide password' : 'Show password'}
-                   >
-                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                   </button>
+                  type='button'
+                  onClick={() => setShowPw(v => !v)}
+                  className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors'
+                  aria-label={showPw ? 'Hide password' : 'Show password'}
+                >
+                  {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
             </div>
-            {error && <p className="text-red-500 text-center">{error}</p>}
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                  {loading ?  "Logging In.." : 'Login'}
-              </button>
-            </div>
-          </form>
 
-          <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Not a member?{' '}
-            <Link to="/register" className="font-semibold text-green-600 hover:text-green-900">
-              Register Now.
-            </Link>
-          </p>
+            {/* Error */}
+            {error && (
+              <div className='flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 text-[13px] px-4 py-3 rounded-xl'>
+                <AlertCircle size={14} className='flex-shrink-0' />
+                {error}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type='submit'
+              disabled={loading}
+              className='w-full flex items-center justify-center gap-2 bg-[#1a4731] hover:bg-[#2d7a4f] disabled:opacity-60 text-white font-bold text-[14px] py-3.5 rounded-xl transition-all mt-2'
+            >
+              {loading
+                ? <><Loader2 size={16} className='animate-spin' /> Signing in…</>
+                : 'Sign in'}
+            </button>
+          </form>
         </div>
+
+        <p className='text-center text-gray-300 text-[12px] mt-6'>
+          Restricted access — authorised personnel only
+        </p>
       </div>
- </div>
+    </div>
   )
 }
 
-export default Login
+export default LoginPage
